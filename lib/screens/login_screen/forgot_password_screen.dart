@@ -51,12 +51,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Text("pass_reset".tr, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16, color: ColorStyles.textGreen),),
                 SizedBox(height: 20,),
 
-
-                ResueableTextEditableWidget(
-                    lableText: "Email",
-                    controllerText: sendEmailController,
-                    prefixIcon: Icons.email_outlined,
-                    keybordType: TextInputType.emailAddress),
+                ResueableEmailTextFieldWidget(
+                  emailController: sendEmailController,
+                  hintText: "email_hint".tr,
+                ),
 
                 SizedBox(height: 30,),
                 

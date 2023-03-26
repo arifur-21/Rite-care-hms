@@ -8,9 +8,10 @@ class RoundedButton extends StatelessWidget {
   final String title;
   final Color color;
   final VoidCallback onTap;
+  final bool loading;
 
 
-  RoundedButton({required this.title, required this.color, required this.onTap});
+  RoundedButton({required this.title, required this.color, required this.onTap, this.loading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +20,14 @@ class RoundedButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 150,
-        height: 60,
+        height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: color,
         ),
         child: Center(
-            child: Text(title,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white))),
+            child: loading? Center(child: CircularProgressIndicator(),) :
+            Text(title,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white))),
       ),
     );
   }

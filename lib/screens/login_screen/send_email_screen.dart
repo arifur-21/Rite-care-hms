@@ -47,17 +47,14 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
                       LanguageToggleBtnWidget()
                     ],),
                     SizedBox(height: 30,),
-                    Text("Sign in to continue ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey),),
+                    Text("continue".tr, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey),),
 
             SizedBox(height: 20,),
-
-                    ResueableTextEditableWidget(
-                      lableText: "Mobileapp.rite-hms.com*",
-                      controllerText: sendEmailController,
-                      prefixIcon: Icons.alternate_email_outlined,
-                      keybordType: TextInputType.emailAddress,
-
+                    ResueableEmailTextFieldWidget(
+                      emailController: sendEmailController,
+                      hintText: "Mobileapp.rite-hms.com*",
                     ),
+
 
                   ],
                 ),

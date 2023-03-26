@@ -9,9 +9,12 @@ import 'package:ritecare_hms/screens/login_screen/widgets/resueable_text_editabl
 import 'package:ritecare_hms/screens/login_screen/widgets/resueable_text_field_password_widget.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
+import 'package:ritecare_hms/view_model/login_view_model/login_view_model.dart';
 import 'package:ritecare_hms/widgets/rounded_button.dart';
 
+import '../../services/splash_services.dart';
 import '../../utils/app_layout.dart';
+import '../../utils/utils.dart';
 import '../../widgets/rite_image_container_widget.dart';
 import 'forgot_password_screen.dart';
 
@@ -25,12 +28,19 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
 
+  final loginVm = Get.put(LoginViewModel());
+  final _formKey = GlobalKey<FormState>();
+
   bool isClick = true;
+  SplashServices splashServices = SplashServices();
+
+
 
   @override
   void initState() {
     setState(() {
       isClick = !isClick;
+      splashServices.isLogin();
     });
     super.initState();
   }
@@ -69,31 +79,40 @@ class _SignInScreenState extends State<SignInScreen> {
                       SizedBox(height: 30,),
                       Text("continue".tr, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey),),
 
-                      SizedBox(height: 20,),
 
-                      ResueableTextEditableWidget(
-                          lableText: "Email",
-                          controllerText: emailController,
-                          prefixIcon: Icons.email_outlined,
-                        keybordType: TextInputType.emailAddress,),
-                      SizedBox(height: 20,),
+                    SizedBox(height: 20,),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
 
-                      ResueableTextFieldPasswordWidget(
-                        lableText: 'Password',
-                        controllerText: passwordController,
-                        prefixIcon: Icons.lock_outline,
-                        keybordType: TextInputType.text,)
+                            ResueableEmailTextFieldWidget(
+                              emailController: loginVm.emailController.value,
+                              hintText: "email_hint".tr,),
 
+                            SizedBox(height: 25,),
+                            ResueableTextFieldPasswordWidget(
+                              controllerText: loginVm.passwordController.value,)
+                          ],
+                        ),
+                      ),
                     ],
                   ),
 
                   SizedBox(height: 20,),
-                  RoundedButton(
-                      title: "submit_btn".tr,
-                      color: ColorStyles.textGreen,
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomeScreen()));
-                      },),
+                  Obx(() =>RoundedButton(
+                    title: "submit_btn".tr,
+                    color: ColorStyles.textGreen,
+                    loading: loginVm.loading.value ,
+                    onTap: (){
+                      if(_formKey.currentState!.validate()){
+                        loginVm.loginApi();
+                      }
+
+                     //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomeScreen()));
+                    },),
+                  ),
+
                   SizedBox(height: 20,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
