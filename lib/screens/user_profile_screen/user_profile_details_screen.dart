@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
 
 import '../../utils/color_styles.dart';
@@ -27,13 +28,9 @@ class _UserProfileDetailsScreenState extends State<UserProfileDetailsScreen> {
       ),
 
       appBar: AppBar(
-        backgroundColor: ColorStyles.primaryColor,
+        backgroundColor: Styles.primaryColor,
         actions: [
           AppBarWidget(),
-
-          ///popup menu item
-          PopUpButtonWidget()
-
         ],
       ),
       body: SingleChildScrollView(
@@ -47,7 +44,7 @@ class _UserProfileDetailsScreenState extends State<UserProfileDetailsScreen> {
                leadingText: 'User Details',
                tralingIcon: "assets/icons/cancel.png",
                onTap: (){
-                 /////////route
+                 Get.back();
                },
 
              ),

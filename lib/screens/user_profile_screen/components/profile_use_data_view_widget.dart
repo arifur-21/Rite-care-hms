@@ -23,10 +23,10 @@ class ProfileUserDataViewWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                   child: Row(
-                children: [Text(title, style: TextStyle(fontWeight: FontWeight.w500, color: ColorStyles.textGreen, fontSize: 14),),],)),
+                children: [Text(title, style: TextStyle(fontWeight: FontWeight.w500, color: Styles.textGreen, fontSize: 14),),],)),
               Expanded(flex: 1, child: Row(
                 children: [
-                      Text(":",style: TextStyle( color: ColorStyles.textGreen,fontSize: 14, fontWeight: FontWeight.bold),),
+                      Text(":",style: TextStyle( color: Styles.textGreen,fontSize: 14, fontWeight: FontWeight.bold),),
                 ],
                   )),
               Expanded(

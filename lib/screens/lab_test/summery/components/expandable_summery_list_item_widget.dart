@@ -28,124 +28,132 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
           itemCount: 4,
           itemBuilder: (context, index){
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Column(
-                children: [
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  border: Border.all(width: 2, color: Styles.primaryColor),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     children: [
-                      Text(widget.title.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text(widget.category.toString(),style: TextStyle(fontSize: 16,)),
-                      Text(widget.name.toString(),style: TextStyle(fontSize: 16, ))
-                    ],),
-                  SizedBox(height: 20,),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      Container(
-                          height: 30,
-                          width: 140,
-                          decoration: BoxDecoration(
-                              color: ColorStyles.primaryColor,
-                              border: Border(),
-                              borderRadius: BorderRadius.circular(50)
-                          ),
-                          child: Center(child: Text("Complete", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),))
-
-                      ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(widget.title.toString(), style: Styles.poppinsFontBlack12_500),
+                          Text(widget.category.toString(),style: Styles.poppinsFontBlack12_300),
+                          Text(widget.name.toString(),style: Styles.poppinsFontBlack12_300)
+                        ],),
+                      SizedBox(height: 20,),
 
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
 
-                          InkWell(
-                            onTap: (){
-
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
+                          Container(
+                              height: 24,
+                              width: 100,
                               decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage('assets/icons/edit.png')
+                                  color: Styles.primaryColor,
+                                  border: Border(),
+                                  borderRadius: BorderRadius.circular(50),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 3,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Center(child: Text("Complete", style: Styles.poppinsFont12_600))
+
+                          ),
+                          Row(
+
+                            children: [
+
+                              InkWell(
+                                onTap: (){
+
+                                },
+                                child: Container(
+                                  height: 25,
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage('assets/icons/edit.png')
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(width: 12,),
+                              SizedBox(width: 12,),
 
-                          InkWell(
-                            onTap: (){
-                              Navigator.pop(context);
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Lab12Screen()));
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage('assets/icons/file.png')
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Lab12Screen()));
+                                },
+                                child: Container(
+                                  height: 25,
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage('assets/icons/file.png')
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
 
-                          SizedBox(width: 12,),
-                          InkWell(
-                            onTap: (){
+                              SizedBox(width: 12,),
+                              InkWell(
+                                onTap: (){
 
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage('assets/icons/check.png')
+                                },
+                                child: Container(
+                                  height: 25,
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage('assets/icons/check.png')
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
 
-                          SizedBox(width: 12,),
-                          InkWell(
-                            onTap: (){
+                              SizedBox(width: 12,),
+                              InkWell(
+                                onTap: (){
 
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage('assets/icons/printer.png')
+                                },
+                                child: Container(
+                                  height: 25,
+                                  width: 25,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage('assets/icons/printer.png')
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
 
+                            ],
+                          )
 
-                          /*ResuableIconContainer(image: 'assets/icons/resume.png'),
-                          SizedBox(width: 10,),
-                          ResuableIconContainer(image: 'assets/icons/file.png'),
-                          SizedBox(width: 10,),
-                          ResuableIconContainer(image: 'assets/icons/check.png'),
-                          SizedBox(width: 10,),
-                          ResuableIconContainer(image: 'assets/icons/printer.png'),*/
                         ],
                       )
-
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             );
           }, separatorBuilder: (BuildContext context, int index) {
-            return Divider( thickness: 2,);
+            return Container();
       },),
     );
   }

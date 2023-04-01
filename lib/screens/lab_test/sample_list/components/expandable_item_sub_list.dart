@@ -35,9 +35,9 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(widget.title.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text(widget.category.toString(),style: TextStyle(fontSize: 16,)),
-                      Text(widget.name.toString(),style: TextStyle(fontSize: 16, ))
+                      Text(widget.title.toString(), style: Styles.poppinsFontBlack12_500),
+                      Text(widget.category.toString(),style: Styles.poppinsFontBlack12_300),
+                      Text(widget.name.toString(),style: Styles.poppinsFontBlack12_300)
                     ],),
                   SizedBox(height: 20,),
 
@@ -45,17 +45,26 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
 
-                      Text("3588005-33", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                      Text("3588005-33", style: Styles.poppinsFontBlack12_600),
 
                       Container(
-                          height: 30,
-                          width: 140,
+                          height: 25,
+                          width: 100,
                           decoration: BoxDecoration(
-                              color: ColorStyles.primaryColor,
-                              border: Border(),
-                              borderRadius: BorderRadius.circular(50)
+                            color: Styles.primaryColor,
+                            border: Border(),
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 3,
+                                blurRadius: 7,
+                                offset: Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
                           ),
-                          child: Center(child: Text("Complete", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),))
+                          child: Center(
+                              child: Text("Complete", style: Styles.poppinsFont12_600))
 
                       ),
                       Row(
@@ -67,8 +76,8 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
 
                             },
                             child: Container(
-                              height: 30,
-                              width: 30,
+                              height: 25,
+                              width: 25,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
@@ -84,8 +93,8 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
 
                             },
                             child: Container(
-                              height: 30,
-                              width: 30,
+                              height: 25,
+                              width: 25,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                     fit: BoxFit.cover,

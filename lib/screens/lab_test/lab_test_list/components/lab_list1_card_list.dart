@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ritecare_hms/utils/color_styles.dart';
 
 import '../lab_test_list_details.dart';
 
@@ -17,24 +18,34 @@ class LabList1CardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+
       child: Card(
         elevation: 6,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)
-        ),
         child: Padding(
-
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            margin: EdgeInsets.all(12),
+            margin: EdgeInsets.all(6),
+
             child: Column(
               children: [
+
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title.toString(),style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),),
-                    Text(code.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black)),
-                    Text(category.toString(),style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black))
+                    Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Text(title.toString(),style: Styles.poppinsFontBlack12_400)),
+                            Expanded(
+                                flex: 1,
+                                child: Text(code.toString(), style: Styles.poppinsFontBlack12_400)),
+                            Text(category.toString(),style: Styles.poppinsFontBlack12_400)
+                    ],))
+
                   ],
                 ),
 
@@ -45,16 +56,16 @@ class LabList1CardList extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text("Price",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green)),
+                        Text("Price",style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.green)),
                         SizedBox(width: 10,),
-                        Text(price.toString(),style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black)),
+                        Text(price.toString(),style: Styles.poppinsFontBlack12_400),
                       ],
                     ),
                     InkWell(
                         onTap: (){
                           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LabTestListDetailsScreen() ));
                         },
-                        child: Icon(Icons.note_outlined))
+                        child: Icon(Icons.note_outlined,size: 25,color: Styles.primaryColor,))
                   ],
                 )
               ],

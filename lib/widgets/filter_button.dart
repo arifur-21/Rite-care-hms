@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ritecare_hms/utils/color_styles.dart';
 
 class FilterContainerBtn extends StatefulWidget {
   const FilterContainerBtn({Key? key}) : super(key: key);
@@ -57,8 +58,8 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  height: 50,
-                  width: 120,
+                  height: 42,
+                  width: 100,
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
                       border: Border.all(),
@@ -66,12 +67,12 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
                   ),
                   child: Text(
                     "INV NO",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: Styles.poppinsFont14_600,
                   ),
                 ),
 
                 Container(
-                  height: 50,
+                  height: 42,
                   width: 40,
 
                   decoration: BoxDecoration(
@@ -79,8 +80,8 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
                       borderRadius: BorderRadius.only(topRight: Radius.circular(6), bottomRight: Radius.circular(6))
                   ),
                   child: Container(
-                    height: 30,
-                    width: 30,
+                    height: 22,
+                    width: 22,
                     decoration: BoxDecoration(
 
                       image: DecorationImage(
@@ -108,8 +109,8 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
                       _showMultiSelect();
                     },
                     child: Container(
-                        height: 50,
-                        width: 150,
+                        height: 42,
+                        width: 140,
                         padding: const EdgeInsets.all(12.0),
                         decoration: BoxDecoration(
                             border: Border.all(),
@@ -118,8 +119,8 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
                         child: Row(
                           children: [
                             Container(
-                              height: 30,
-                              width: 30,
+                              height: 26,
+                              width: 26,
                               decoration: BoxDecoration(
 
                                 image: DecorationImage(
@@ -128,7 +129,7 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
                               ),
                             ),
                             SizedBox(width: 20,),
-                            Text("Filter",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                            Text("Filter",style: Styles.poppinsFont14_600),
 
                           ],
                         )
@@ -190,7 +191,14 @@ class _MultiSelectState extends State<MultiSelect> {
     String startDate ='';
     String endDate = '';
     return AlertDialog(
-      title: const Text('Select Topics'),
+      title:  Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          InkWell(
+              onTap: _cancel,
+              child: Icon(Icons.cancel_presentation, size: 30,color: Colors.red,)),
+        ],
+      ),
       content: SingleChildScrollView(
         child: Column(
 
@@ -198,7 +206,7 @@ class _MultiSelectState extends State<MultiSelect> {
           children: [
 
              ExpansionTile(
-               leading: Text("Status", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+               leading: Text("Status", style: Styles.poppinsFontBlack12_400),
                title: Text(""),
 
                children: [
@@ -234,17 +242,17 @@ class _MultiSelectState extends State<MultiSelect> {
             SizedBox(height: 20,),
 
             Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12)
+                borderRadius: BorderRadius.circular(6)
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
 
 
-                  Text('Start Date ${startDate.toString()}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                  Text('Start Date ${startDate.toString()}', style: Styles.poppinsFontBlack12_400),
                   InkWell(
                     onTap: () async{
                       DateTime? pickedDate = await showDatePicker(
@@ -274,15 +282,15 @@ class _MultiSelectState extends State<MultiSelect> {
             ),
             SizedBox(height: 10,),
             Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(6),
               decoration: BoxDecoration(
                   color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(12)
+                  borderRadius: BorderRadius.circular(6)
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Start Date', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                  Text('End Date', style: Styles.poppinsFontBlack12_400),
                   Icon(Icons.calendar_month_outlined, size: 30,),
                 ],
               ),
@@ -294,10 +302,6 @@ class _MultiSelectState extends State<MultiSelect> {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: _cancel,
-          child: const Text('Cancel'),
-        ),
 
         Padding(
           padding: const EdgeInsets.only(right: 10, bottom:10),
@@ -306,14 +310,14 @@ class _MultiSelectState extends State<MultiSelect> {
               Navigator.pop(context, _selectedItems);
             },
             child: Container(
-              width: 40,
-              height: 40,
+              width: 30,
+              height: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(color: Colors.red, width: 2)
 
               ),
-              child: Center(child: Text("Go", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red),)),
+              child: Center(child: Text("Go", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.red),)),
             ),
           ),
         ),

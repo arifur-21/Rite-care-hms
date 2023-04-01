@@ -61,7 +61,7 @@ class _LabTestListDetailsScreenState extends State<LabTestListDetailsScreen> {
       ),
 
       appBar: AppBar(
-        backgroundColor: ColorStyles.primaryColor,
+        backgroundColor: Styles.primaryColor,
         actions: [
           AppBarWidget(),
 
@@ -77,7 +77,7 @@ class _LabTestListDetailsScreenState extends State<LabTestListDetailsScreen> {
             child: Container(
               height: 60,
               decoration: BoxDecoration(
-                  color: ColorStyles.primaryColor,
+                  color: Styles.primaryColor,
                   borderRadius: BorderRadius.circular(2)
               ),
               width: double.infinity,

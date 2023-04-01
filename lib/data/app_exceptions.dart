@@ -24,7 +24,7 @@ class ServerException extends AppExceptions{
 }
 
 class InvalidUrlException extends AppExceptions{
-  InvalidUrlException([String? messaage]) : super (messaage, "Invalid Url");
+  InvalidUrlException([String? messaage]) : super (messaage, "UnAuthorize User");
 }
 
 class featchDataException extends AppExceptions{

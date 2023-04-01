@@ -9,7 +9,43 @@ class RiteImageContainerWidet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          height: 100,
+          width: 200,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/icons/rite.png')
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/icons/mobile.png')
+                  ),
+                ),
+              ),
+              SizedBox(height: 10,),
+              Text("app_conf".tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Styles.textGreen),)
+            ],
+          ),
+        )
+      ],
+    );
+
+    /*Container(
         width: double.infinity,
         height: 150,
         decoration: BoxDecoration(
@@ -30,28 +66,7 @@ class RiteImageContainerWidet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20,),
-                  Row(
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/icons/rite.png')
-                          ),
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.mobile_friendly, size: 40,),
-                          SizedBox(height: 10,),
-                          Text("app_conf".tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: ColorStyles.textGreen),)
-                        ],
-                      )
-                    ],
-                  )
+
 
                 ],
               ),
@@ -59,6 +74,6 @@ class RiteImageContainerWidet extends StatelessWidget {
 
           ],
         )
-    );
+    );*/
   }
 }

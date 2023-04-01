@@ -7,6 +7,7 @@ import 'package:ritecare_hms/screens/home_screen.dart';
 import 'package:ritecare_hms/shere_preference/login_preference.dart';
 
 import '../../repository/login_repository/login_repository.dart';
+import '../../resources/routes/routes.dart';
 import '../../utils/utils.dart';
 
 class LoginViewModel extends GetxController{
@@ -22,16 +23,18 @@ class LoginViewModel extends GetxController{
   final passwordFocusNode = FocusNode().obs;
 
   RxBool loading = false.obs;
- Object apiError = ''.obs;
+
 
 
   void loginApi(){
     loading.value = true;
 
     Map data ={
+      'grant_type' : 'password',
+      'scope' : 'all',
       'username' : emailController.value.text,
       'password' : passwordController.value.text,
-      'grant_type' : 'password'
+
     };
 
     _api.loginApi(data).then((value){
@@ -39,21 +42,19 @@ class LoginViewModel extends GetxController{
 
       LoginTokenModel loginTokenModel = LoginTokenModel(
         accessToken: value['access_token'],
+        refreshToken: value['refresh_token'],
+        expiresIn: value['expires_in'],
+        tokenType: value['token_type']
       );
 
       loginPreference.saveToken(loginTokenModel).then((value){
-
-        print("lovin  view model ${loginTokenModel.accessToken}");
-
-       Get.to(HomeScreen());
-        ////route
+        Get.toNamed(RoutesName.homeScreen);
 
       }).onError((error, stackTrace){
 
       });
       Utils.snakBar("Login", 'Login successfully');
     }).onError((error, stackTrace) {
-      apiError = error!;
       loading.value = false;
       Utils.snakBar("Error", error.toString());
     });

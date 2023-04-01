@@ -24,16 +24,6 @@ class SplashServices{
       }else{
         Get.to(HomeScreen());
       }
-
-      /*if(value.isLogin == false || value.isLogin.toString() == 'null'){
-        //Timer(const Duration(seconds: 3), ()=> Get.toNamed(RoutesName.loginView));
-        Get.to(SliderScreen());
-
-      }else{
-       // Timer(const Duration(seconds: 3), ()=> Get.toNamed(RoutesName.homeScreen));
-        Get.to(HomeScreen());
-
-      }*/
     });
 
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ritecare_hms/screens/home_screen.dart';
-import 'package:ritecare_hms/screens/patient/patient_info/patient_details_screen.dart';
+import 'package:ritecare_hms/screens/patient/patient_info/patien_info_screen.dart';
 import 'package:ritecare_hms/screens/user_profile_screen/components/profile_image_container_widget.dart';
 import 'package:ritecare_hms/widgets/reuseable_text_filed.dart';
 import 'package:ritecare_hms/widgets/rounded_button.dart';
@@ -31,14 +31,10 @@ class _PatientDetailsUpdateScreenState extends State<PatientDetailsUpdateScreen>
         ),
 
         appBar: AppBar(
-          backgroundColor: ColorStyles.primaryColor,
+          backgroundColor: Styles.primaryColor,
           actions: [
             AppBarWidget(),
-
-            ///popup menu item
-            PopUpButtonWidget()
-
-          ],
+         ],
         ),
 
         body: Stack(
@@ -52,13 +48,13 @@ class _PatientDetailsUpdateScreenState extends State<PatientDetailsUpdateScreen>
 
                     Container(
                       height: 60,
-                      color: ColorStyles.primaryColor,
+                      color: Styles.primaryColor,
                       child: ListTile(
                         title:Text("Patient Update",style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20)),
                         trailing: InkWell(
                             onTap: (){
                               Navigator.pop(context);
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PatientProfileDetailsScreen()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PatientInfoScreen()));
                             },
                             child: Icon(Icons.cancel_presentation,size: 30, color: Colors.white,)),
                       ),
@@ -153,7 +149,7 @@ class _PatientDetailsUpdateScreenState extends State<PatientDetailsUpdateScreen>
                     SizedBox(height: 20,),
 
                     RoundedButton(
-                        title: "Update", color: ColorStyles.primaryColor,
+                        title: "Update", color: Styles.primaryColor,
                         onTap: (){
 
                     })

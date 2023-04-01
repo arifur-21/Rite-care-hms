@@ -5,7 +5,7 @@ import 'package:ritecare_hms/screens/navigation/pageOne.dart';
 import 'package:ritecare_hms/screens/navigation/pageThree.dart';
 import 'package:ritecare_hms/screens/navigation/pageTwo.dart';
 import 'package:ritecare_hms/screens/navigation/pageFour.dart';
-import 'package:ritecare_hms/screens/patient/patient_info/patient_details_screen.dart';
+import 'package:ritecare_hms/screens/patient/patient_info/patien_info_screen.dart';
 import 'package:ritecare_hms/screens/patient/patient_list/patient_list_screen.dart';
 import 'package:ritecare_hms/screens/user_profile_screen/user_profile_details_screen.dart';
 import 'package:ritecare_hms/screens/lab_test/summery/summery_screen.dart';
@@ -39,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,12 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child:DrawerWidget(),
         ),
         appBar: AppBar(
-          backgroundColor: ColorStyles.primaryColor,
+          backgroundColor: Styles.primaryColor,
           actions: [
             AppBarWidget(),
 
-         ///popup menu item
-            PopUpButtonWidget()
 
           ],
         ),

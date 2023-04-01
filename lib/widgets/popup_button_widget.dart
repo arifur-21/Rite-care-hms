@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ritecare_hms/screens/login_screen/sign_in_screen.dart';
 import 'package:ritecare_hms/shere_preference/login_preference.dart';
 
+import '../resources/routes/routes.dart';
 import '../screens/lab_test/summery/components/lab12_screen.dart';
 import '../screens/user_profile_screen/user_profile_details_screen.dart';
 import '../utils/color_styles.dart';
@@ -31,18 +32,22 @@ PopUpButtonWidget({Key? key}) : super(key: key);
                     InkWell(
                       onTap: (){
                         Navigator.pop(context);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> UserProfileDetailsScreen()));
+                        Get.toNamed(RoutesName.userProfileScreen);
                       },
                       child: Row(
                         children: [
                           Container(
                               width: 25,
                               height: 25,
-                              color: ColorStyles.primaryColor,
+
+                              decoration: BoxDecoration(
+                                  color: Styles.primaryColor,
+                                  borderRadius: BorderRadius.circular(3)
+                              ),
                               child: Icon(Icons.person, color: Colors.white,size: 25,)
                           ),
                           SizedBox(width: 10,),
-                          Text("Profile",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: ColorStyles.primaryColor))
+                          Text("Profile",style: Styles.poppinsFontGreen12_400)
                         ],
                       ),
                     ),
@@ -60,11 +65,13 @@ PopUpButtonWidget({Key? key}) : super(key: key);
                           Container(
                               width: 25,
                               height: 25,
-                              color: ColorStyles.primaryColor,
-
+                              decoration: BoxDecoration(
+                                  color: Styles.primaryColor,
+                                  borderRadius: BorderRadius.circular(3)
+                              ),
                           child: Icon(Icons.login_outlined, color: Colors.white,size: 20,)),
                           SizedBox(width: 10,),
-                          Text("Logout", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: ColorStyles.primaryColor),)
+                          Text("Logout", style: Styles.poppinsFontGreen12_400)
                         ],
                       ),
                     ),

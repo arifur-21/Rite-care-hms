@@ -12,6 +12,7 @@ import 'package:ritecare_hms/utils/screen_main_padding.dart';
 import 'package:ritecare_hms/view_model/login_view_model/login_view_model.dart';
 import 'package:ritecare_hms/widgets/rounded_button.dart';
 
+import '../../resources/routes/routes.dart';
 import '../../services/splash_services.dart';
 import '../../utils/app_layout.dart';
 import '../../utils/utils.dart';
@@ -48,101 +49,116 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
 
-    final size = AppLayout.getSize(context);
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: ColorStyles.primaryColor,
-        ),
+    return SafeArea(
+      child: Scaffold(
+           appBar: AppBar(
+             automaticallyImplyLeading: false,
+             actions: [
+               Icon(Icons.more_vert_outlined, size: 30,)
+             ],
+             backgroundColor: Styles.primaryColor,
+           ),
 
-        body: Container(
-          child: Padding(
-            padding:  EdgeInsets.all(ScreenMainPadding.screenPadding),
-            child: SingleChildScrollView(
-              child: Column(
-
-                children: [
-                  RiteImageContainerWidet(),
-                  SizedBox(height: 30,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("app_conf".tr, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: ColorStyles.textGreen),),
-                          LanguageToggleBtnWidget()
-                        ],
-                      ),
-                      SizedBox(height: 30,),
-                      Text("continue".tr, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey),),
-
-
+          body: Container(
+            child: Padding(
+              padding:  EdgeInsets.all(ScreenMainPadding.screenPadding),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
                     SizedBox(height: 20,),
-                      Form(
-                        key: _formKey,
-                        child: Column(
+                    RiteImageContainerWidet(),
+                    SizedBox(height: 30,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-
-                            ResueableEmailTextFieldWidget(
-                              emailController: loginVm.emailController.value,
-                              hintText: "email_hint".tr,),
-
-                            SizedBox(height: 25,),
-                            ResueableTextFieldPasswordWidget(
-                              controllerText: loginVm.passwordController.value,)
+                            Text("sign_in".tr, style: Styles.aliceGreentText35_400),
+                            LanguageToggleBtnWidget()
                           ],
                         ),
-                      ),
-                    ],
-                  ),
+                        SizedBox(height: 50,),
+                        Text("continue".tr, style: TextStyle(fontFamily: 'IstokWeb', fontSize: 15, color: Styles.greyColor),),
 
-                  SizedBox(height: 20,),
-                  Obx(() =>RoundedButton(
-                    title: "submit_btn".tr,
-                    color: ColorStyles.textGreen,
-                    loading: loginVm.loading.value ,
-                    onTap: (){
-                      if(_formKey.currentState!.validate()){
-                        loginVm.loginApi();
-                      }
 
-                     //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomeScreen()));
-                    },),
-                  ),
+                      SizedBox(height: 20,),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
 
-                  SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.lock, size: 30, color: ColorStyles.primaryColor,),
-                      SizedBox(width: 10,),
-              InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ForgotPasswordScreen()));
-                  },
-                  child: Text("forgot_pass".tr, style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: ColorStyles.textGreen),)),
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    color: ColorStyles.primaryColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("success_text".tr, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),)),
+                              ResueableEmailTextFieldWidget(
+                                emailController: loginVm.emailController.value,
+                                hintText: "email_hint".tr,),
+
+                              SizedBox(height: 25,),
+                              ResueableTextFieldPasswordWidget(
+                                controllerText: loginVm.passwordController.value,)
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  )
 
+                    SizedBox(height: 40,),
 
-                ],
+                    Obx(() =>RoundedButton(
+                      width: Get.width * 0.95,
+                      title: "log_in".tr,
+                      color: Styles.textGreen,
+                      loading: loginVm.loading.value ,
+                      onTap: (){
+                        if(_formKey.currentState!.validate()){
+                          loginVm.loginApi();
+                        }
+
+                      },),
+                    ),
+
+                    SizedBox(height: 20,),
+                    InkWell(
+                      onTap: (){
+                        Get.toNamed(RoutesName.forgotPassScreen);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.lock, size: 26, color: Styles.primaryColor,),
+                          SizedBox(width: 10,),
+                Text("forgot_pass1".tr, style: Styles.normalGreenTextStyle20_700),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      color: Styles.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(child: Text("success_text".tr, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),)),
+                      ),
+                    ),
+
+                    SizedBox(height: 50,),
+                    Container(
+                      height: 23,
+                      width: 240,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/icons/solution.png')
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
               ),
             ),
-          ),
-        )
+          )
+      ),
     );
   }
 

@@ -16,14 +16,14 @@ import '../../user_profile_screen/components/profile_use_data_view_widget.dart';
 
 
 
-class PatientProfileDetailsScreen extends StatefulWidget {
+class PatientInfoScreen extends StatefulWidget {
   static const routeName = "/profile";
 
   @override
-  _PatientProfileDetailsScreenState createState() => _PatientProfileDetailsScreenState();
+  _PatientInfoScreenState createState() => _PatientInfoScreenState();
 }
 
-class _PatientProfileDetailsScreenState extends State<PatientProfileDetailsScreen> {
+class _PatientInfoScreenState extends State<PatientInfoScreen> {
   List<String> data =[
     'one',
   ];
@@ -31,30 +31,22 @@ class _PatientProfileDetailsScreenState extends State<PatientProfileDetailsScree
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
           drawer: Drawer(
-
             child:DrawerWidget(),
           ),
-
           appBar: AppBar(
-            backgroundColor: ColorStyles.primaryColor,
+            backgroundColor: Styles.primaryColor,
             actions: [
               AppBarWidget(),
-
-              ///popup menu item
-              PopUpButtonWidget()
-
-
             ],
           ),
-
 
           body:   SingleChildScrollView(
             child: Padding(
               padding:  EdgeInsets.all(ScreenMainPadding.screenPadding),
               child: Column(
                 children: [
+
                   Container(
                     height: 150,
                     child: ListView.builder(
@@ -174,21 +166,11 @@ class _PatientProfileDetailsScreenState extends State<PatientProfileDetailsScree
                         }),
                   ),
 
-
-
                   Container(
-
                     child: Column(
                       children: [
 
-                        Container(
-                          height: 50,
-                          color: ColorStyles.primaryColor,
-                          child: ListTile(
-                            title:Center(child: Text("Patient  Details",style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20))),
 
-                          ),
-                        ),
                         SizedBox(height: 20,),
 
                         ProfileImageContainerWidget(imageUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"),

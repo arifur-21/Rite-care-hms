@@ -1,8 +1,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ritecare_hms/screens/patient_registration/short_form_register.dart';
 import 'package:ritecare_hms/screens/search_screen/search_patient_Screen.dart';
+import 'package:ritecare_hms/utils/color_styles.dart';
+import 'package:ritecare_hms/widgets/popup_button_widget.dart';
+
+import '../resources/routes/routes.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({Key? key}) : super(key: key);
@@ -15,17 +20,18 @@ class AppBarWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
             InkWell(
               onTap: (){
-                Navigator.pop(context);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientSearch()));
+                Get.toNamed(RoutesName.patientSearchScreen);
               },
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 3,),
-                  Icon(Icons.search_outlined,),
-                  Text("Search", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, ))
+
+                  Icon(Icons.search_outlined,size: 18,),
+                  Text("Search", style: Styles.aliceFontWhiteColor14_400,)
 
                 ],
               ),
@@ -36,17 +42,20 @@ class AppBarWidget extends StatelessWidget {
             InkWell(
               onTap: (){
                 Navigator.pop(context);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ShortForm()));
+                Get.toNamed(RoutesName.registerFormScreen);
               },
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 8,),
                   Icon(Icons.app_registration, size: 18,),
-                  Text("Register", style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),)
+
+                  Text("Register", style: Styles.aliceFontWhiteColor14_400,)
 
                 ],
               ),
             ),
+
+            PopUpButtonWidget(),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 
 import '../../../widgets/app_bar_widget.dart';
@@ -25,11 +26,9 @@ class _PatientListScreenState extends State<PatientListScreen> {
       ),
 
       appBar: AppBar(
-          backgroundColor: ColorStyles.primaryColor,
+          backgroundColor: Styles.primaryColor,
           actions: [
           AppBarWidget(),
-        ///popup menu item
-        PopUpButtonWidget()
         ]
       ),
 
@@ -45,7 +44,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
                 children: [
                   Container(
                       height: 70,
-                      width: 180,
+                      width: Get.width * 0.5 ,
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.greenAccent.shade100,
@@ -54,15 +53,15 @@ class _PatientListScreenState extends State<PatientListScreen> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.person, size: 40,),
+                          Icon(Icons.person, size: 30,),
 
                           SizedBox(width: 10,),
 
                           Column(
                             children: [
-                              Text("Total Payment :",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: ColorStyles.textGreen), ),
+                              Text("Total Payment :",style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16, color: Styles.textGreen), ),
                               SizedBox(height: 8,),
-                              Text("45888",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: ColorStyles.textGreen),),
+                              Text("45888",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
                             ],
                           )
                         ],
@@ -71,7 +70,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
 
                   Container(
                       height: 70,
-                      width: 160,
+                      width: Get.width * 0.4 ,
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
                           border: Border.all(),

@@ -25,17 +25,16 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
         child:DrawerWidget(),
       ),
       appBar: AppBar(
-
-        backgroundColor: ColorStyles.primaryColor,
+        backgroundColor: Styles.primaryColor,
         actions: [
           AppBarWidget(),
-          PopUpButtonWidget()
         ],
       ),
       body: Column(
         children: [
+          SizedBox(height: 20,),
           FilterContainerBtn(),
-
+          SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -46,23 +45,23 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
 
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    color: ColorStyles.primaryColor,
+                    color: Styles.primaryColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("TEST NAME", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),),
-                        Text("REPORT SERIAL NO",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-                        Text('CATEGORY',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white))
+                        Text("TEST NAME", style: Styles.poppinsFont12_500,),
+                        Text("REPORT SERIAL NO",style: Styles.poppinsFont12_500,),
+                        Text('CATEGORY',style: Styles.poppinsFont12_500,)
                       ],
                     ),
                   ),
                 ),
                 SizedBox(height: 10,),
 
-             LabList1CardList(title: "Urine Electrolytes", code: 134, category: "Biochemistry", price: 350),
+             LabList1CardList(title: "Urine Electrolytes", code: 134433333, category: "Biochemistry", price: 350),
              LabList1CardList(title: "Urine Electrolytes", code: 134, category: "Biochemistry", price: 350),
 
 

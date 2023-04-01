@@ -25,7 +25,7 @@ class ResuableHeader extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              color: ColorStyles.primaryColor
+              color: Styles.primaryColor
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

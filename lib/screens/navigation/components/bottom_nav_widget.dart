@@ -32,22 +32,22 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.menu_rounded, color: Colors.white,),
-              backgroundColor: ColorStyles.primaryColor,
+              backgroundColor: Styles.primaryColor,
               label: ""
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.query_builder_sharp, color: Colors.white),
-              backgroundColor: ColorStyles.primaryColor,
+              backgroundColor: Styles.primaryColor,
               label: ""
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.call, color: Colors.white,),
-              backgroundColor: ColorStyles.primaryColor,
+              backgroundColor: Styles.primaryColor,
               label: ""
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings, color: Colors.white,),
-              backgroundColor: ColorStyles.primaryColor,
+              backgroundColor: Styles.primaryColor,
               label: ""
           )
 
@@ -59,7 +59,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
             _currentIndex = index;
           });
         },
-        backgroundColor: ColorStyles.primaryColor,
+        backgroundColor: Styles.primaryColor,
         elevation: 5,
 
       ) ,

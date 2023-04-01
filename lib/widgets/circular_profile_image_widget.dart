@@ -12,7 +12,7 @@ class CircularProfileImageWidget extends StatelessWidget {
       width: 100,
       height: 100,
       decoration: BoxDecoration(
-        border: Border.all(width: 2, color: ColorStyles.primaryColor),
+        border: Border.all(width: 2, color: Styles.primaryColor),
 
       ),
       child: Padding(

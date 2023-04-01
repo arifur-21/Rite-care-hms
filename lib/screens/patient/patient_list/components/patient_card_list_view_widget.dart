@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/color_styles.dart';
-import '../../patient_info/patient_details_screen.dart';
+import '../../patient_info/patien_info_screen.dart';
 
 
 
@@ -19,21 +19,21 @@ class PatientCartListViewWidgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Card(
-      elevation: 6,
+      elevation: 4,
       child: Row(
         children: [
           Expanded(
-              flex: 2,
+              flex: 3,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(patientId, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: ColorStyles.textGreen),),
+                    Text(patientId, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
                     SizedBox(height: 10,),
-                    Text(PatientName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: ColorStyles.textGreen),),
+                    Text(PatientName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
                     SizedBox(height: 10,),
-                    Text(DateOfBirth, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: ColorStyles.textGreen),),
+                    Text(DateOfBirth, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
 
                   ],
                 ),
@@ -44,11 +44,11 @@ class PatientCartListViewWidgets extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("93839-393", style: TextStyle( fontSize: 16, color: ColorStyles.textGreen),),
+                  Text("93839-393", style: TextStyle( fontSize: 16, color: Styles.textGreen),),
                   SizedBox(height: 10,),
-                  Text("Md Abdur Rahim", style: TextStyle( fontSize: 16, color: ColorStyles.textGreen),),
+                  Text("Md Abdur Rahim", style: TextStyle( fontSize: 16, color: Styles.textGreen),),
                   SizedBox(height: 10,),
-                  Text("13/45/2030", style: TextStyle(fontSize: 16, color: ColorStyles.textGreen),),
+                  Text("13/45/2030", style: TextStyle(fontSize: 16, color: Styles.textGreen),),
                 ],)),
           Expanded(
               flex: 1,
@@ -58,7 +58,7 @@ class PatientCartListViewWidgets extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientProfileDetailsScreen()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientInfoScreen()));
                       },
                         child: Icon(Icons.add_a_photo, size: 40,))
                   ],

@@ -27,7 +27,6 @@ class LoginPreference {
   }
 
   Future<bool> removeLoginToken() async{
-
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.clear();
     return true;

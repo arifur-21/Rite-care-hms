@@ -29,14 +29,17 @@ class _LanguageToggleBtnWidgetState extends State<LanguageToggleBtnWidget> {
     return Column(
       children: [
 
-        OutlinedButton(
-            onPressed: (){
-              setState(() {
-                isClick = !isClick;
-              });
-              isClick == true ? Get.updateLocale(Locale('en', 'US')): Get.updateLocale(Locale('bn', 'BD'));
-            }, child: isClick == true ? Text("বাংলা", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: ColorStyles.textGreen),)
-            : Text("English",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: ColorStyles.textGreen),)
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: OutlinedButton(
+              onPressed: (){
+                setState(() {
+                  isClick = !isClick;
+                });
+                isClick == true ? Get.updateLocale(Locale('en', 'US')): Get.updateLocale(Locale('bn', 'BD'));
+              }, child: isClick == true ? Text("বাংলা", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Styles.textGreen),)
+              : Text("English",style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Styles.textGreen),)
+          ),
         ),
       ],
     );

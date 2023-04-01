@@ -1,11 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ritecare_hms/utils/color_styles.dart';
 
 
+import '../resources/routes/routes.dart';
 import '../screens/lab_test/lab_test_list/lab_test_list_screen.dart';
 import '../screens/lab_test/sample_list/simple_test_screen.dart';
-import '../screens/patient/patient_info/patient_details_screen.dart';
+import '../screens/patient/patient_info/patien_info_screen.dart';
 import '../screens/lab_test/summery/summery_screen.dart';
 import '../screens/patient/patient_list/patient_list_screen.dart';
 
@@ -64,13 +67,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   SizedBox(width: 15,),
-                  Text("Patient", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600,color: isColorChange ? Colors.red: Colors.green,),)
+                  Text("Patient", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isColorChange ? Colors.red : Styles.drawerListColor,fontFamily: 'Poppins'),)
                 ],
               ),
               trailing: Icon(
                 isColorChange
                 ?Icons.remove_outlined : Icons.add, size: 30,
-                color: isColorChange ? Colors.red: Colors.green,
+                color: isColorChange ? Colors.red : Styles.drawerListColor,
                 ),
               onExpansionChanged: (bool expanded){
                 setState(() {
@@ -83,7 +86,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     subTitle: "Patient Info",
                     onTap: (){
                       Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PatientProfileDetailsScreen()));
+                      Get.toNamed(RoutesName.patientInfoScreen);
                     },
                     image: 'assets/icons/file.png'),
 
@@ -91,7 +94,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     subTitle: "Patient List",
                     onTap: (){
                       Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PatientListScreen()));
+                      Get.toNamed(RoutesName.patient_listScreen);
                     },
                     image: 'assets/icons/test_list.png'),
 
@@ -113,13 +116,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   SizedBox(width: 15,),
-                  Text("Lab Test", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: islabTestToggle ? Colors.red: Colors.green,),)
+                  Text("Lab Test", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: islabTestToggle ? Colors.red : Styles.drawerListColor,fontFamily: 'Poppins'),)
                 ],
               ),
               trailing: Icon(
                 islabTestToggle
                     ? Icons.remove_outlined : Icons.add, size: 30,
-                color: islabTestToggle ? Colors.red: Colors.green,
+                color: islabTestToggle ? Colors.red: Styles.drawerListColor
               ),
               onExpansionChanged: (bool expanded){
                 setState(() {
@@ -136,7 +139,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     subTitle: "Summary",
                     onTap: (){
                       Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PatientSummeryScreen()));
+                      Get.toNamed(RoutesName.patientSummerySreen);
                     },
                     image: 'assets/icons/summery.png'),
                 SizedBox(height: 5,),
@@ -147,7 +150,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     subTitle: "Sample List",
                     onTap: (){
                       Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SimpleTestScreen()));
+                      Get.toNamed(RoutesName.sampleListScreen);
                     },
                     image: 'assets/icons/simple.png'),
                 SizedBox(height: 5,),
@@ -157,7 +160,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 _drawerSublistWidget(
                     subTitle: "Lab Test List",
                     onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LatTestListScreen()));
+                      Get.toNamed(RoutesName.labTestListScreen);
                     },
                     image: 'assets/icons/lab_test.png'),
                 SizedBox(height: 5,),
@@ -188,13 +191,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ),
                   SizedBox(width: 15,),
-                  Text("Appointment", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: isAppointmentToggle ? Colors.red: Colors.green,),)
+                  Text("Appointment", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isAppointmentToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
                 ],
               ),
               trailing: Icon(
                 isAppointmentToggle
             ? Icons.remove_outlined : Icons.add, size: 30,
-                color: isAppointmentToggle ? Colors.red: Colors.green,
+                color: isAppointmentToggle ? Colors.red : Styles.drawerListColor,
             ),
       onExpansionChanged: (bool expand){
         setState(() {
@@ -233,8 +236,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         child: Row(
           children: [
             Container(
-              height:25,
-              width: 25,
+              height:20,
+              width: 20,
               decoration: BoxDecoration(
 
                 image: DecorationImage(
@@ -244,7 +247,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             )
             ,
             SizedBox(width: 15,),
-            Text(subTitle,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xff01BE84),))
+            Text(subTitle,style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xff01BE84),))
 
           ],),
       ),

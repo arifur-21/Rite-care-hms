@@ -36,20 +36,20 @@ class ResueableEmailTextFieldWidget extends StatelessWidget {
         },
 
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.email_outlined, color: ColorStyles.primaryColor,),
+          prefixIcon: Icon(Icons.email_outlined, color: Styles.primaryColor,size: 20,),
           fillColor: Colors.grey.shade100,
           filled: true,
           label: Text(hintText),
-          labelStyle: TextStyle(color: ColorStyles.primaryColor),
+          labelStyle: TextStyle(color: Styles.primaryColor,fontFamily: 'IstokWeb', fontWeight: FontWeight.w700, fontSize: 17),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: ColorStyles.primaryColor),
+            borderSide: BorderSide(width: 2, color: Styles.primaryColor),
             borderRadius: BorderRadius.circular(50),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: ColorStyles.primaryColor),
+            borderSide: BorderSide(width: 2, color: Styles.primaryColor),
             borderRadius: BorderRadius.circular(50),
           ),
         ),

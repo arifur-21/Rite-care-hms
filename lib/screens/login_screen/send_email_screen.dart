@@ -2,13 +2,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ritecare_hms/screens/login_screen/sign_in_screen.dart';
+
 import 'package:ritecare_hms/screens/login_screen/widgets/resueable_text_editable_widget.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
 import 'package:ritecare_hms/widgets/rounded_button.dart';
 
+import '../../resources/routes/routes.dart';
 import '../../widgets/rite_image_container_widget.dart';
+import '../../widgets/rite_solutions_text_widget.dart';
 import '../languages/Widgets/language_toggle_btn_widget.dart';
 
 
@@ -26,7 +28,12 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorStyles.primaryColor,
+        automaticallyImplyLeading: false,
+        actions: [
+          Icon(Icons.more_vert_outlined, size: 30,),
+
+        ],
+        backgroundColor: Styles.primaryColor,
       ),
 
       body: SingleChildScrollView(
@@ -35,21 +42,35 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
             padding:  EdgeInsets.all(ScreenMainPadding.screenPadding),
             child: Column(
               children: [
-                RiteImageContainerWidet(),
-                SizedBox(height: 30,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 76,
+                      width: 143,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage('assets/icons/rite.png')
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                      Text("app_conf".tr, style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: ColorStyles.textGreen),),
-                      LanguageToggleBtnWidget()
-                    ],),
-                    SizedBox(height: 30,),
-                    Text("continue".tr, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey),),
+                      Text("App Configuration", style: Styles.aliceGreentText30_400),
 
-            SizedBox(height: 20,),
+                    ],),
+                    SizedBox(height: 40,),
+                    Text("Sign in to continue", style: TextStyle(fontFamily: 'IstokWeb', fontSize: 15, color: Styles.greyColor),),
+
+                     SizedBox(height: 20,),
                     ResueableEmailTextFieldWidget(
                       emailController: sendEmailController,
                       hintText: "Mobileapp.rite-hms.com*",
@@ -61,12 +82,13 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
 
                 SizedBox(height: 30,),
                 RoundedButton(
-                    title: "submit_btn".tr,
-                    color: ColorStyles.textGreen,
+                  width: Get.width * 0.95,
+                    title: "Submit".tr,
+                    color: Styles.textGreen,
                     onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignInScreen()));
+                      Get.toNamed(RoutesName.signInScreen);
                     }),
-                SizedBox(height: 20,),
+                SizedBox(height: 30,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -74,16 +96,25 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
                       height: 25,
                         width: 25,
                         decoration: BoxDecoration(
-                          color: ColorStyles.primaryColor
+                          color: Styles.primaryColor
                         ),
                         child: Icon(Icons.question_mark_outlined,color: Colors.white,size: 20,),
                     ),
-                    SizedBox(width: 10,),
-                    Text("needs_help".tr, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color: ColorStyles.textGreen),),
-
+                    SizedBox(width: 20,),
+                    Text("Needs Help!", style: Styles.normalGreenTextStyle20_700),
                   ],
-                )
+                ),
 
+                SizedBox(height:120),
+                Container(
+                  height: 23,
+                  width: 240,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/icons/solution.png')
+                    ),
+                  ),
+                ),
 
               ],
             ),
@@ -93,42 +124,5 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
     );
   }
 
-/*  Container(
-  width: double.infinity,
-  height: 200,
-  decoration: BoxDecoration(
-  borderRadius: BorderRadius.circular(30),
-  color: Colors.green,
-  ),
-  child:  Column(
-  children: [
-  SizedBox(height: 25,),
-  Container(
-  width: double.infinity,
-  height: 175,
-  decoration: BoxDecoration(
-  borderRadius: BorderRadius.only(topRight: Radius.circular(40), topLeft: Radius.circular(40)),
-  color: Color(0xFFEFEFEF),
-  ),
-  child: Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-  SizedBox(height: 20,),
-  Container(
-  height: 100,
-  width: 200,
-  decoration: BoxDecoration(
-  image: DecorationImage(
-  fit: BoxFit.cover,
-  image: AssetImage('assets/icons/rite.png')
-  ),
-  ),
-  ),
-  ],
-  ),
-  ),
 
-  ],
-  )
-  ),*/
 }

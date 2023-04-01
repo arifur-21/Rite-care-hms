@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ritecare_hms/screens/patient_registration/short_form_register.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
 import 'package:ritecare_hms/widgets/reuseable_header_container_widget.dart';
@@ -34,12 +35,9 @@ class _FullFormState extends State<FullForm> {
           child:DrawerWidget(),
         ),
         appBar: AppBar(
-          backgroundColor: ColorStyles.primaryColor,
+          backgroundColor: Styles.primaryColor,
           actions: [
             AppBarWidget(),
-
-            ///popup menu item
-            PopUpButtonWidget()
 
           ],
         ),
@@ -52,6 +50,7 @@ class _FullFormState extends State<FullForm> {
                 padding:  EdgeInsets.all(ScreenMainPadding.screenPadding),
                 child: Column(
                   children: [
+                    SizedBox(height: 10,),
 
                     ReuseableHeaderContainerWidget(
                         titleText: "",
@@ -59,21 +58,22 @@ class _FullFormState extends State<FullForm> {
                         tralingIcon: "assets/icons/cancel.png",
                         onTap: () {
                           Navigator.pop(context);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ShortForm()));
+                          Get.back();
                     }
                     ),
 
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         RoundedButton(
+                          width: Get.width * 0.4,
                           title: 'Short Form',
                           color: Colors.greenAccent,
                           onTap: () {
                             Navigator.pop(context);
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ShortForm()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> RegistrShortForm()));
                           },
                         ),
                       ],
@@ -178,11 +178,11 @@ class _FullFormState extends State<FullForm> {
                               Column(
                                 children: [
                                   Container(
-                                      width: 150,
+                                      width: Get.width * 0.4,
                                       height: 60,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
-                                        color: ColorStyles.primaryColor,
+                                        color: Styles.primaryColor,
                                       ),
                                       child: Column(
                                         children: [
@@ -209,11 +209,11 @@ class _FullFormState extends State<FullForm> {
                               Column(
                                 children: [
                                   Container(
-                                      width: 150,
+                                      width: Get.width * 0.4,
                                       height: 60,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
-                                        color: ColorStyles.primaryColor,
+                                        color: Styles.primaryColor,
                                       ),
                                       child: Column(
                                         children: [
@@ -241,12 +241,13 @@ class _FullFormState extends State<FullForm> {
 
 
 
-                          SizedBox(height: 20,),
+                          SizedBox(height: 40,),
                           CircularProfileImageWidget(),
-                          SizedBox(height: 20,),
+                          SizedBox(height: 40,),
                           RoundedButton(
+                            width: Get.width * 0.9,
                               title: "Register",
-                              color: ColorStyles.primaryColor,
+                              color: Styles.primaryColor,
                               onTap:(){
 
                               }),

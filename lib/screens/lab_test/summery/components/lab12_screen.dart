@@ -25,7 +25,7 @@ class _Lab12ScreenState extends State<Lab12Screen> {
 
       appBar: AppBar(
 
-        backgroundColor: ColorStyles.primaryColor,
+        backgroundColor: Styles.primaryColor,
         actions: [
           AppBarWidget(),
           _popUpMenu()
@@ -119,7 +119,7 @@ class _Lab12ScreenState extends State<Lab12Screen> {
                         Container(
                             width: 25,
                             height: 25,
-                            color: ColorStyles.primaryColor,
+                            color: Styles.primaryColor,
                             child: InkWell(
                                 onTap: (){
                                 //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LabList16Widget()));
@@ -127,7 +127,7 @@ class _Lab12ScreenState extends State<Lab12Screen> {
                                 child: Icon(Icons.person, color: Colors.white,size: 25,))
                         ),
                         SizedBox(width: 10,),
-                        Text("Profile",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: ColorStyles.primaryColor))
+                        Text("Profile",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Styles.primaryColor))
                       ],
                     ),
                     SizedBox(
@@ -138,14 +138,14 @@ class _Lab12ScreenState extends State<Lab12Screen> {
                         Container(
                             width: 25,
                             height: 25,
-                            color: ColorStyles.primaryColor,
+                            color: Styles.primaryColor,
                             child: InkWell(
                                 onTap: (){
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Lab12Screen()));
                                 },
                                 child: Icon(Icons.login_outlined, color: Colors.white,size: 20,))),
                         SizedBox(width: 10,),
-                        Text("Logout", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: ColorStyles.primaryColor),)
+                        Text("Logout", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Styles.primaryColor),)
                       ],
                     ),
                   ],
