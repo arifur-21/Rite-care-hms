@@ -15,7 +15,7 @@ class NetworkApiServices extends BaseApServices{
 
   LoginPreference loginPreference = LoginPreference();
   var token;
-
+  List<SearchModel> searchList = [];
 
 
 
@@ -47,38 +47,6 @@ class NetworkApiServices extends BaseApServices{
     }
     return responseJson;
 
-  }
-
-
-  /// get api search patient data by cell no
-  @override
-  Future getPatientByCellNo(String cellNO) async{
-    loginPreference.getToken().then((value){
-      token = value.accessToken!;
-    });
-
-    if(kDebugMode){
-     // print('patinet CellNo:  $cellNO');
-    }
-
-    dynamic responseJson;
-
-    try{
-      final response = await http.get(
-          Uri.parse('https://mobileapp.rite-hms.com/Patient/GetPatientByPhone?phoneNumber=${cellNO}'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 10));
-      responseJson = returnResponse(response);
-    }on SocketException{
-      throw InternetException("");
-    }on RequestTimeOut{
-      throw RequestTimeOut('');
-    }
-    return responseJson;
   }
 
 
@@ -144,6 +112,7 @@ class NetworkApiServices extends BaseApServices{
     switch(response.statusCode){
       case 200:
         dynamic responseJson = jsonDecode(response.body);
+       // print("object ${responseJson}");
         return responseJson;
       case 400:
         throw InvalidUrlException;
@@ -152,8 +121,27 @@ class NetworkApiServices extends BaseApServices{
     }
   }
 
+  @override
+  Future<List<SearchModel>> getPatientByCellNo(String id)async {
 
-
-
+    List<SearchModel> responseJson;
+    try{
+      final response = await http.get(
+          Uri.parse('https://mobileapp.rite-hms.com/Patient/GetPatientByPhone?phoneNumber=${id}'),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache'
+          }
+      ).timeout(Duration(seconds: 10));
+      responseJson = returnResponse(response);
+      print("response json ${responseJson.toString()}");
+    }on SocketException{
+      throw InternetException("");
+    }on RequestTimeOut{
+      throw RequestTimeOut('');
+    }
+    return responseJson;
+  }
 
 }

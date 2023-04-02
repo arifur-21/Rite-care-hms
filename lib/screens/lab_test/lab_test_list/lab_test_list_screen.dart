@@ -8,6 +8,8 @@ import '../../../utils/color_styles.dart';
 import '../../../widgets/app_bar_widget.dart';
 import '../../../widgets/drawer_widget.dart';
 import '../../../widgets/popup_button_widget.dart';
+import '../sample_list/components/sample_filter_widget.dart';
+import 'components/lab_test_list_filter_widget.dart';
 
 class LatTestListScreen extends StatefulWidget {
   const LatTestListScreen({Key? key}) : super(key: key);
@@ -33,7 +35,7 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
       body: Column(
         children: [
           SizedBox(height: 20,),
-          FilterContainerBtn(),
+          LabTestListFilterWidget(),
           SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.all(10),

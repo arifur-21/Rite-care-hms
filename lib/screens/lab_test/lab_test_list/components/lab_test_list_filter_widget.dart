@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 
-class FilterContainerBtn extends StatefulWidget {
-  const FilterContainerBtn({Key? key}) : super(key: key);
+class LabTestListFilterWidget extends StatefulWidget {
+  const LabTestListFilterWidget({Key? key}) : super(key: key);
 
   @override
-  State<FilterContainerBtn> createState() => _FilterContainerBtnState();
+  State<LabTestListFilterWidget> createState() => _LabTestListFilterWidgetState();
 }
 
-class _FilterContainerBtnState extends State<FilterContainerBtn> {
+class _LabTestListFilterWidgetState extends State<LabTestListFilterWidget> {
 
   List<String> _selectedItems = [];
 
@@ -20,12 +20,26 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
     // a list of selectable items
     // these items can be hard-coded or dynamically fetched from a database/API
     final List<String> items = [
-      'Pending',
-      'Collected',
-      'Completed',
-      'Approved',
-      'Printed',
-      'Delivered'
+      'ALL',
+      'Biochemistry',
+      'Blood Transfusion',
+      'Cancer Marker',
+      'Clinical Pathology',
+      'Cyto Pathology',
+      'Cytology',
+      'Genetic And Transplant Lab',
+      'Hematology',
+      'Histopathology',
+      'Hormone',
+      'Immunology',
+      'Microbiology',
+      'Molecular Biology',
+      'n/a',
+      'Others',
+      'Radiology',
+      'Serology',
+      'Service Dept',
+      'Virology'
     ];
 
     final List<String>? results = await showDialog(
@@ -72,23 +86,23 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
                 ),
 
                 Container(
-                  height: 42,
-                  width: 40,
+                    height: 42,
+                    width: 40,
 
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(6), bottomRight: Radius.circular(6))
-                  ),
-                  child: Container(
-                    height: 22,
-                    width: 22,
                     decoration: BoxDecoration(
-
-                      image: DecorationImage(
-                          image: AssetImage('assets/icons/qrcode.png')
-                      ),
+                        border: Border.all(),
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(6), bottomRight: Radius.circular(6))
                     ),
-                  )
+                    child: Container(
+                      height: 22,
+                      width: 22,
+                      decoration: BoxDecoration(
+
+                        image: DecorationImage(
+                            image: AssetImage('assets/icons/qrcode.png')
+                        ),
+                      ),
+                    )
 
                 ),
               ],
@@ -146,8 +160,6 @@ class _FilterContainerBtnState extends State<FilterContainerBtn> {
   }
 }
 
-
-
 // Multi Select widget
 // This widget is reusable
 class MultiSelect extends StatefulWidget {
@@ -188,6 +200,8 @@ class _MultiSelectState extends State<MultiSelect> {
   @override
   Widget build(BuildContext context) {
     TextEditingController dateController = TextEditingController();
+    TextEditingController labTestNameController = TextEditingController();
+
     String startDate ='';
     String endDate = '';
     return AlertDialog(
@@ -204,101 +218,70 @@ class _MultiSelectState extends State<MultiSelect> {
 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             ExpansionTile(
-               leading: Text("Status", style: Styles.poppinsFontBlack12_400),
-               title: Text(""),
 
-               children: [
-                 Divider(height: 2,color: Colors.grey,),
-                 Column(
-                   children: [
-                     InkWell(
-                       onTap: (){
-                         setState(() {
-                           isCheckeds = !isCheckeds;
-                         });
-                       },
-                       child:  ListBody(
-                         children: widget.items
-                             .map((item) => CheckboxListTile(
-                           value: _selectedItems.contains(item),
-                           title: Text(item),
-                           controlAffinity: ListTileControlAffinity.leading,
-                           onChanged: (isChecked) => _itemChange(item, isChecked!),
-                         ))
-                             .toList(),
-                       ),
-                     ),
+            ExpansionTile(
+              leading: Text("Status", style: Styles.poppinsFontBlack12_400),
+              title: Text(""),
 
-                   ],
-                 )
-               ],
+              children: [
+                SizedBox(height: 10,),
 
-             ),
-            SizedBox(height: 20,),
-
-            Container(
-              padding: EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(6)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-
-
-                  Text('Start Date ${startDate.toString()}', style: Styles.poppinsFontBlack12_400),
-                  InkWell(
-                    onTap: () async{
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(), //get today's date
-                          firstDate:DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                          lastDate: DateTime(2101)
-                      );
-
-                      if(pickedDate != null ){
-                        print(pickedDate);  //get the picked date in the format => 2022-07-04 00:00:00.000
-                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                        print(formattedDate); //formatted date output using intl package =>  2022-07-04
-                        //You can format date as per your need
-
+                Divider(height: 2,color: Colors.grey,),
+                SizedBox(height: 5,),
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: (){
                         setState(() {
-                         startDate  = formattedDate;//set foratted date to TextField value.
-                          print("${startDate}");
+                          isCheckeds = !isCheckeds;
                         });
-                      }else{
-                        print("Date is not selected");
-                      }
-                    },
-                      child: Icon(Icons.calendar_month_outlined, size: 30,)),
-                ],
-              ),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              padding: EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(6)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('End Date', style: Styles.poppinsFontBlack12_400),
-                  Icon(Icons.calendar_month_outlined, size: 30,),
-                ],
-              ),
-            ),
+                      },
+                      child:  ListBody(
+                        children: widget.items
+                            .map((item) => CheckboxListTile(
+                          value: _selectedItems.contains(item),
+                          title: Text(item),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          onChanged: (isChecked) => _itemChange(item, isChecked!),
+                        ))
+                            .toList(),
+                      ),
+                    ),
 
-            SizedBox(height: 20,)
+                  ],
+                )
+              ],
+
+            ),
 
           ],
         ),
       ),
       actions: [
+        Container(
+          height: 40,
+          child: TextFormField(
+            controller: labTestNameController,
+            keyboardType: TextInputType.text ,
+            decoration: InputDecoration(
+              label: Text("lab test name"),
+              labelStyle: TextStyle(fontFamily: 'IstokWeb', fontWeight: FontWeight.w400, fontSize: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Styles.greyColor),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Styles.greyColor),
+                borderRadius: BorderRadius.circular(6),
+              ),
 
+            ),
+          ),
+        ),
+        SizedBox(height: 20,),
         Padding(
           padding: const EdgeInsets.only(right: 10, bottom:10),
           child: InkWell(
@@ -309,8 +292,8 @@ class _MultiSelectState extends State<MultiSelect> {
               width: 30,
               height: 30,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(color: Colors.red, width: 2)
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: Colors.red, width: 2)
 
               ),
               child: Center(child: Text("Go", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.red),)),

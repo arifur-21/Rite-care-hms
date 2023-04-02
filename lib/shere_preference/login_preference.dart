@@ -19,7 +19,7 @@ class LoginPreference {
     String? token =  sp.getString('access_token');
     //bool? isLogin =  sp.getBool('isLogin');
 
-    print("sp token $token");
+
     return LoginTokenModel(
         accessToken: token,
        // isLogin: isLogin

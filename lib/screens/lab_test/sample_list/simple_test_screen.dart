@@ -9,6 +9,7 @@ import '../../../widgets/filter_button.dart';
 import '../../../widgets/popup_button_widget.dart';
 import '../summery/components/expandable_summery_list_item_widget.dart';
 import 'components/expandable_item_sub_list.dart';
+import 'components/sample_filter_widget.dart';
 
 
 
@@ -54,7 +55,8 @@ class _SampleListState extends State<SampleList> {
 
                   SizedBox(height: 10,),
 
-                  FilterContainerBtn(),
+                  SampleListFilterWidget(),
+
                   SizedBox(height: 10,),
                   Padding(
                     padding: const EdgeInsets.all(4),
