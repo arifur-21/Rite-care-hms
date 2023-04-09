@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -6,13 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:ritecare_hms/screens/home_screen.dart';
+import 'package:ritecare_hms/screens/search_screen/search_patient_by_name.dart';
+import 'package:ritecare_hms/screens/search_screen/search_patient_by_offical_num.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
+import 'package:ritecare_hms/utils/utils.dart';
 import 'package:ritecare_hms/widgets/reuseable_text_filed.dart';
 import 'package:ritecare_hms/widgets/rounded_button.dart';
 
 import '../../data/app_exceptions.dart';
 import '../../data/response/status.dart';
 import '../../model/search_model/SearchModel.dart';
+import 'search_patient_by_cell_no.dart';
 import '../../shere_preference/login_preference.dart';
 import '../../utils/color_styles.dart';
 import '../../view_model/serch_view_mode/SearchViewModel.dart';
@@ -33,8 +38,10 @@ class PatientSearch extends StatefulWidget {
 }
 
 class _PatientSearchState extends State<PatientSearch> {
-  TextEditingController patientController = TextEditingController();
-  TextEditingController patientCellNO = TextEditingController();
+  TextEditingController patientOfficialNumController = TextEditingController();
+  TextEditingController patientCellNOController = TextEditingController();
+  TextEditingController patientByNameController = TextEditingController();
+
 
 
   final searchVM = Get.put(SearchViewModel());
@@ -44,40 +51,19 @@ class _PatientSearchState extends State<PatientSearch> {
   var token;
 
 
+
+
+
   List<SearchModel> searchData =[];
-
-  Future<List<SearchModel>> getPatientsAll()async {
-    print("patient Id ${patientCellNO.value.text}");
-    loginPreference.getToken().then((value){
-      token = value.accessToken!;
-    });
-
-    final response = await http.get(Uri.parse("https://mobileapp.rite-hms.com/Patient/GetPatientByPhone?phoneNumber=${patientCellNO.value.text}"),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'cache-control': 'no-cache'
-        }
-    );
-    var data  = jsonDecode(response.body.toString());
-    if(response.statusCode == 200){
-      for(Map i in data){
-        print(i['FirstName']);
-        searchData.add(SearchModel.fromJson(i));
-      }
-      return searchData;
-    }else{
-      return searchData;
-    }
-  }
 
 
   @override
-  void initState() {
-  searchVM.searchPatient();
- searchVM.patientCellId;
- // getPatientsAll();
-    super.initState();
+  void dispose() {
+   searchVM.patientOfficialNumberController.close();
+   searchVM.patientNameController.close();
+   searchVM.patientCellNoController.close();
+   searchVM.patienidController.close();
+    super.dispose();
   }
 
   @override
@@ -94,10 +80,17 @@ class _PatientSearchState extends State<PatientSearch> {
           ],
         ),
 
-        body: SingleChildScrollView(
+        body:
+
+
+
+        SingleChildScrollView(
           padding: EdgeInsets.all(ScreenMainPadding.screenPadding),
           child: Column(
             children: [
+
+
+
               SizedBox(height: 10,),
               Card (
                   color: Styles.primaryColor,
@@ -140,9 +133,21 @@ class _PatientSearchState extends State<PatientSearch> {
               ),
               SizedBox(height: 15,),
 
+              ////success
               ResuableTextField(
                   onTap: (){
                     searchVM.searchPatient();
+                    print('api id ${searchVM.patientList.value.id}');
+                    print(' controller${searchVM.patienidController.value.text}');
+
+                    if(searchVM.patientList.value.id != searchVM.patienidController.value.text){
+                      Utils.snakBar("error", "data not found112");
+
+                    }else   {
+                      Utils.snakBar("error", "data not found");
+
+
+                    }
                   },
                   controllerValue: searchVM.patienidController.value,
                   icon: Icons.search_outlined,
@@ -150,11 +155,16 @@ class _PatientSearchState extends State<PatientSearch> {
               SizedBox(
                 height: 15,
               ),
+
               ResuableTextField(
                   onTap: (){
-                    searchVM.patientCellId();
-                  },
-                  controllerValue: searchVM.patientCellNoController.value,
+
+                    searchVM.searchPatientCellNum();
+                  //  searchVM.patienidController.value.clear();
+                   /// Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientCellNO()));
+                },
+
+                  controllerValue:  searchVM.patientCellNoController.value,
                   icon: Icons.search_outlined,
                   hintText: "Patient Cell No"),
 
@@ -162,101 +172,63 @@ class _PatientSearchState extends State<PatientSearch> {
                 height: 15,
               ),
               ResuableTextField(
-                  controllerValue: patientController,
+                onTap: (){
+                  searchVM.patientCellNoController.value.clear();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientByName()));
+                },
+                  controllerValue: searchVM.patientNameController.value,
                   icon: Icons.search_outlined,
                   hintText: "Patient Name"),
               SizedBox(
                 height: 15,
               ),
               ResuableTextField(
-                  controllerValue: patientController,
+                onTap: (){
+                  searchVM.patientNameController.value.clear();
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientOfficialNumber()));
+
+                },
+                  controllerValue: searchVM.patientOfficialNumberController.value,
                   icon: Icons.search_outlined,
                   hintText: "Patient Official Number"),
               SizedBox(
                 height: 50,
               ),
 
-              RoundedButton(
-                width: Get.width * 0.5,
-                title: 'Conform',
-                color: Styles.primaryColor,
-                onTap: (){
-                },
-              ),
 
-              SizedBox(height: 20,),
 
               Obx((){
 
                 switch(searchVM.rxRequestStatus.value){
                   case Status.LOADING:
-                    return Center(child:  CircularProgressIndicator(),);
+                    return Center();
 
                   case Status.ERROR:
-                   /* if(searchVM.error.value){
+                    if(searchVM.error.value ==null){
                       return Text(searchVM.error.toString());
                     }else{
-                      return GeneralException(onPress: () { homeController.refreshApi();},
-
-                      );
-                    }*/
+                     return Container();
+                    }
 
                     return Text(searchVM.error.value.toString());
 
                   case Status.SUCCESS:
-                    if(searchVM.patientList.value == null){
-                      return Container(child: Text("Data not found"),);
-                    }
-                    else{
+
                       return Container(
-                        child: Column(
-                          children: [
-                            SearchlistWidget(
-                              id: ' ${searchVM.patientList.value.id!}',
-                              name: ' ${searchVM.patientList.value.firstName}',
-                              relation: ' ${searchVM.patientList.value.relationship!.name!}',
+                          child: Column(
+                            children: [
 
-                            ),
-
-
-
-                          ],
-                        )
+                              SearchlistWidget(
+                                id: ' ${searchVM.patientList.value.id}',
+                                name: ' ${searchVM.patientList.value.firstName}',
+                                relation: ' ${searchVM.patientList.value.rankName}',
+                              )
+                            ],
+                          )
                       );
                     }
-
-
-
-                }
-
               }),
 
-          Column(
-            children: [
-              FutureBuilder(
-                future:  searchVM.patientCellId(),
-                builder: (context, AsyncSnapshot<List<SearchModel>> snapShot){
-
-                  if(!snapShot.hasData){
-                    return Text("Data not found");
-                  }else{
-                    return ListView.builder(
-                      shrinkWrap: true,
-                        itemCount: snapShot.data!.length,
-                        itemBuilder: (context, index){
-                          return SearchlistWidget(
-                            id: ' ${snapShot.data![index].firstName}',
-                            name: ' ${"fdf"}',
-                            relation: 'rwwr',
-
-                          );
-                        });
-                  }
-
-                },
-              )
-            ],
-          )
 
             ],
           ),
@@ -266,5 +238,36 @@ class _PatientSearchState extends State<PatientSearch> {
       ),
     );
   }
+
+
+
 }
+
+
+/* Column(
+          children: [
+            Expanded(
+
+              child: FutureBuilder(
+                  future: searchVM.searchPatientCellNum(),
+                  builder: (context, snapShot){
+                    if(!snapShot.hasData){
+                      return Text("Loading");
+                    }else{
+
+                      return ListView.builder(
+                         itemCount: snapShot.data!.length,
+                          itemBuilder: (context, index){
+
+                            print("data is ${searchVM.patientListItem[index].firstName.toString()}");
+                            return Text(' ${searchVM.patientListItem[index].firstName.toString()}');
+                          });
+                    }
+                  }),
+            )
+          ],
+        )*/
+
+
+
 

@@ -67,7 +67,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       decoration: BoxDecoration(
 
                         image: DecorationImage(
-                            image: AssetImage('assets/icons/patient1.png')
+                            image: AssetImage('assets/icons/patients.png')
                         ),
                       ),
                     ),
@@ -176,8 +176,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       subTitle: "Nurse Station",
                       onTap: (){},
                       image: 'assets/icons/nurse.png'),
-
-
                 ],
 
               ),

@@ -12,9 +12,10 @@ class PatientCartListViewWidgets extends StatelessWidget {
   final String patientId;
   final String PatientName;
   final String DateOfBirth;
+  final VoidCallback onTap;
 
 
-  PatientCartListViewWidgets({required this.patientId, required this.PatientName, required this.DateOfBirth});
+  PatientCartListViewWidgets({required this.patientId, required this.PatientName, required this.DateOfBirth, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +30,11 @@ class PatientCartListViewWidgets extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(patientId, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
+                    Text("Patient Id", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
                     SizedBox(height: 10,),
-                    Text(PatientName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
+                    Text("Patient Name", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
                     SizedBox(height: 10,),
-                    Text(DateOfBirth, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
+                    Text("Date of Birth", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
 
                   ],
                 ),
@@ -44,11 +45,11 @@ class PatientCartListViewWidgets extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("93839-393", style: TextStyle( fontSize: 16, color: Styles.textGreen),),
+                  Text(patientId, style: TextStyle( fontSize: 16, color: Styles.textGreen),),
                   SizedBox(height: 10,),
-                  Text("Md Abdur Rahim", style: TextStyle( fontSize: 16, color: Styles.textGreen),),
+                  Text(PatientName, style: TextStyle( fontSize: 16, color: Styles.textGreen),),
                   SizedBox(height: 10,),
-                  Text("13/45/2030", style: TextStyle(fontSize: 16, color: Styles.textGreen),),
+                  Text(DateOfBirth, style: TextStyle(fontSize: 16, color: Styles.textGreen),),
                 ],)),
           Expanded(
               flex: 1,
@@ -57,10 +58,8 @@ class PatientCartListViewWidgets extends StatelessWidget {
 
                   children: [
                     InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientInfoScreen()));
-                      },
-                        child: Icon(Icons.add_a_photo, size: 40,))
+                      onTap: onTap,
+                        child: Icon(Icons.file_copy_outlined, size: 30,))
                   ],
                 ),
               )),

@@ -23,18 +23,18 @@ import 'components/register_dropdown_list_data.dart';
 import 'components/register_text_field_validate.dart';
 import 'full_form_register_screen.dart';
 
-class RegistrFullForm extends StatefulWidget {
-   dynamic? name;
-   dynamic? gender;
+class RegisterUpdateScreen extends StatefulWidget {
+  dynamic? name;
+  dynamic? gender;
 
 
-  RegistrFullForm({this.name, this.gender});
+  RegisterUpdateScreen({this.name, this.gender});
 
   @override
-  State<RegistrFullForm> createState() => _RegistrFullFormState();
+  State<RegisterUpdateScreen> createState() => _RegisterUpdateScreenState();
 }
 
-class _RegistrFullFormState extends State<RegistrFullForm> {
+class _RegisterUpdateScreenState extends State<RegisterUpdateScreen> {
   List<String> serviceTypeList = ['Uniform', 'RE', 'CNE'];
 
   final registerVM = Get.put(PatientRegisterViewModel());
@@ -133,24 +133,6 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
               ),
 
               SizedBox(height: 20,),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  RoundedButton(
-                    width: Get.width * 0.4,
-                    title: 'Short Form',
-                    color: Colors.greenAccent,
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> RegistrShortForm()));
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
 
 
               Stack(
@@ -479,15 +461,10 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
 
               RoundedButton(
                   width: Get.width * 0.4,
-                  title: "Register", color: Styles.primaryColor,
+                  title: "Update", color: Styles.primaryColor,
                   onTap: (){
-                    if(selectGender.isEmpty){
-                      print("gender null");
-
-                    }
-                    print("name ${widget.name}");
                     if(_formKey.currentState!.validate()){
-                      registerVM.registerPatientFullForm(
+                      registerVM.patientRegistrationUpdate(
                           service: selectServiceType,
                           status: selectPatientStatus,
                           gender: selectGender,

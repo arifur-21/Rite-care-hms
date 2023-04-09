@@ -20,7 +20,7 @@ class ResuableTextField extends StatelessWidget {
         decoration: InputDecoration(
           suffixIcon: InkWell(
             onTap: onTap,
-              child: Icon(Icons.search_outlined, color: Styles.primaryColor,size: 20,)),
+              child: Icon(icon, color: Styles.primaryColor,size: 20,)),
           fillColor: Colors.grey.shade100,
           filled: true,
           label: Text(hintText),
