@@ -7,7 +7,7 @@ import 'package:ritecare_hms/model/search_model/SearchModel.dart';
 import 'package:ritecare_hms/resources/app_url/app_url.dart';
 
 import '../../data/network/network_api_services.dart';
-import '../../model/blood_group_model/BloodGroupModel.dart';
+import '../../model/lab_test_model/status_model.dart';
 import '../../view_model/serch_view_mode/SearchViewModel.dart';
 
 
@@ -25,20 +25,74 @@ class SearchRepository{
   }
 
   List<SearchModel> searchData =[];
-  Future<List<SearchModel>> getPateintCell(String id)async{
+  Future<List<SearchModel>> getPatientByOccicialNo(String id)async{
 
-    dynamic response = await _apiServices.getPatientByCellNo(id);
+    dynamic response = await _apiServices.getPatientByOfficialNo(id);
     print("responsesf111 ${response.toString()}");
 
+    searchData.clear();
     for(Map i in response){
-      print("cell data ${i}");
       SearchModel data =  SearchModel.fromJson(i);
       searchData.add(data);
 
     }
 
     return searchData;
-    ///response.map((e) => SearchModel.fromJson(e)).toList();
+
   }
+
+  List<SearchModel> searchDataOfficial =[];
+  Future<List<SearchModel>> getPateintByCellNO(String id)async{
+
+    dynamic response = await _apiServices.getPatientByCellNo(id);
+    print("responses repository ${response.toString()}");
+
+    searchDataOfficial.clear();
+    for(Map i in response){
+      SearchModel data =  SearchModel.fromJson(i);
+      searchDataOfficial.add(data);
+    }
+    return searchDataOfficial;
+  }
+
+
+  List<SearchModel> searchDataByName =[];
+  Future<List<SearchModel>> getPateintByName(String id)async{
+
+    dynamic response = await _apiServices.getPatientByName(id);
+    print("responsesf111 ${response.toString()}");
+
+    searchDataOfficial.clear();
+    for(Map i in response){
+      SearchModel data =  SearchModel.fromJson(i);
+      searchDataOfficial.add(data);
+    }
+    return searchDataOfficial;
+  }
+
+
+/// get sample test status repo
+  List<StatusListModel> statusList =[];
+  Future<List<StatusListModel>> getSampleTestStatus()async{
+
+    dynamic response = await _apiServices.getSimpleTestStatus();
+    print("response sample status repo ${response.toString()}");
+
+    statusList.clear();
+    for(Map i in response){
+      StatusListModel data =  StatusListModel.fromJson(i);
+      statusList.add(data);
+
+    }
+
+    return statusList;
+
+  }
+
+
+
+
+
+
 
 }

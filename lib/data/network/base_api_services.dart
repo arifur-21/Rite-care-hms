@@ -5,16 +5,18 @@ import 'package:ritecare_hms/model/search_model/SearchModel.dart';
 
 abstract class BaseApServices{
 
+  //// search api
   Future<dynamic> getPatientById(String id);
+  Future<List<dynamic>> getPatientByCellNo(String id);
+  Future<List<dynamic>> getPatientByOfficialNo(String id);
+  Future<List<dynamic>> getPatientByName(String id);
+  Future<List<dynamic>> getSimpleTestStatus();
+
   Future<dynamic> getBloodGroup();
   Future<dynamic> getGender();
-  Future<dynamic> getPatientList();
 
-
-  Future<List<dynamic>> getPatientByCellNo(String id);
-
+  ////post api
   Future<dynamic> postApi(dynamic data, String url);
-
   Future<dynamic> patientRegistration(dynamic postData, String url);
   Future<dynamic> patientRegistrationUpdate(dynamic postData, String url);
 

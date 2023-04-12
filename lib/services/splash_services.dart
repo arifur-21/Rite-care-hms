@@ -18,7 +18,6 @@ class SplashServices{
   void isLogin(){
     userPreference.getToken().then((value){
 
-
       if(value.accessToken!.isEmpty || value.accessToken.toString() == 'null') {
         Get.to(SignInScreen());
       }else{

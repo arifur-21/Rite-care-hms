@@ -7,7 +7,7 @@ import 'package:ritecare_hms/model/search_model/SearchModel.dart';
 import 'package:ritecare_hms/resources/app_url/app_url.dart';
 
 import '../../data/response/status.dart';
-import '../../model/blood_group_model/BloodGroupModel.dart';
+import '../../model/register/blood_group_model/BloodGroupModel.dart';
 import '../../model/register/gender_model.dart';
 import '../../repository/register_patient_repository/patient_register_repository.dart';
 import '../../shere_preference/login_preference.dart';
@@ -101,7 +101,7 @@ class PatientRegisterViewModel extends GetxController{
     };
 
     _api.registerPatient(data).then((value){
-      Utils.snakBar("Login", 'Login successfully');
+      Utils.snakBar("Registration", 'Registration successfully');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
       print("error occured : ${error.toString()}");
@@ -164,7 +164,6 @@ class PatientRegisterViewModel extends GetxController{
     };
 
     _api.registerPatient(data).then((value){
-
       Utils.snakBar("Registration", 'Patient Registration Successfull');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
@@ -189,46 +188,112 @@ class PatientRegisterViewModel extends GetxController{
 
 
     Map data = {
+      "OldId": patientOldIdController.value.text.toString(),
       "FirstName": "Rizwan",
-      "LastName": lastNameController.value.text,
       "PhoneNumber": phoneNumberController.value.text,
+      "GenderId": 1,
       "BloodGroup": blood.toString(),
-      "DOB": dateOfBrith.toString(),
+      "DOB": "/Date(1679901252000)/",
       "NationalId": nationalIdController.value.text,
-      "Street": streetController.value.text ,
+      "Street": streetController.value.text,
       "City": cityController.value.text,
+      "Zip": "",
+      "Country": "BD",
       "Email": emailController.value.text,
       "Photo": imageUrl.toString(),
       "EmergencyNumber": emergencyContactNumberController.value.text,
       "EmergencyContactName": emergencyNameContactController.value.text,
       "EmergencyContactRelation": emergencyContactRelationController.value.text,
-      "CreatedDate": "/Date(1680881032977)/",
-      "ServiceId": "987654",
-      "RelationshipId": 1,
-      "RankId": 179,
-      "TradeId": null,
-      "ServiceTypeId": 0,
-      "RankTypeId": null,
+      "CreatedDate": dateOfBrith.toString(),
       "UnitName": uniController.value.text,
       "RankName": rankController.value.text,
+      "TradeName": "null",
+      "UnitId": 69,
+      "IsRetired": false,
+      "PatientPrefixId": 101,
       "PatientStatusId": null,
-      "Sex": null,
-      "OldDob": patientOldIdController.value.text.toString(),
+      "Sex": "null",
+      "OldDob": "null",
       "Gender": {
-        "Name": gender
+        "Name": gender,
+        "Code": 101,
+        "TypeName": "Male",
+        "User": null,
+        "BloodDonors": [],
+        "Id": 1,
+        "Active": true,
+        "UserId": 2,
+        "HasErrors": false,
+        "ErrorCount": 0,
+        "NoErrors": true
       },
       "PatientPrefix": {
-        "Name": prefix
+        "Name": prefix,
+        "Prefix": "O         ",
+        "LanguageCode": "EN",
+        "Id": 101,
+        "Active": true,
+        "UserId": null,
+        "HasErrors": false,
+        "ErrorCount": 0,
+        "NoErrors": true
       },
-      "PatientStatus": status.toString(),
+      "PatientStatus": null,
+      "Memberships": [],
+      "PatientInvoices": [],
+      "PatientServices": [],
+      "Payments": [],
+      "DoctorAppointments": [],
       "Relationship": {
-        "Name": relation
-      }
+        "Name": relation,
+        "LanguageCode": null,
+        "Id": 1,
+        "Active": true,
+        "UserId": null,
+        "HasErrors": false,
+        "ErrorCount": 0,
+        "NoErrors": true
+      },
+      "Rank": {
+        "Name": "Capt",
+        "LanguageCode": null,
+        "Id": 179,
+        "Active": true,
+        "UserId": null,
+        "HasErrors": false,
+        "ErrorCount": 0,
+        "NoErrors": true
+      },
+      "Unit": {
+        "Name": "71 Bde",
+        "LanguageCode": null,
+        "Id": 69,
+        "Active": true,
+        "UserId": null,
+        "HasErrors": false,
+        "ErrorCount": 0,
+        "NoErrors": true
+      },
+      "Trade": null,
+      "ParentPatient": null,
+      "VisitNo": null,
+      "PatientInvoiceShadowId": 0,
+      "TenantId": 25,
+      "Tenant": null,
+      "Id": 775898,
+      "Active": true,
+      "UserId": null,
+      "HasErrors": false,
+      "ErrorCount": 0,
+      "NoErrors": true
     };
+
+
+
 
     _api.registrationUpdate(data).then((value){
 
-      Utils.snakBar("Login", 'Login successfully');
+      Utils.snakBar("Update", 'Update Successfull');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
       print("error occured : ${error.toString()}");

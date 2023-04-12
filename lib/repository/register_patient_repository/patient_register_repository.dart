@@ -1,6 +1,6 @@
 
 import '../../data/network/network_api_services.dart';
-import '../../model/blood_group_model/BloodGroupModel.dart';
+import '../../model/register/blood_group_model/BloodGroupModel.dart';
 import '../../model/register/gender_model.dart';
 import '../../resources/app_url/app_url.dart';
 

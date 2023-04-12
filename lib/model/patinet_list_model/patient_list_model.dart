@@ -25,65 +25,65 @@ class PatientListModel {
 }
 
 class Items {
-  Null? oldId;
-  String? firstName;
-  String? lastName;
-  String? phoneNumber;
-  int? genderId;
-  String? bloodGroup;
-  Null? bloodGroupId;
-  String? fatherName;
-  String? dOB;
-  String? nationalId;
-  String? occupation;
-  String? street;
-  String? city;
-  String? zip;
-  String? country;
-  String? email;
-  String? photo;
-  String? emergencyNumber;
-  String? emergencyContactName;
-  String? emergencyContactRelation;
-  String? createdDate;
-  String? serviceId;
-  int? relationshipId;
-  int? rankId;
-  Null? tradeId;
-  int? serviceTypeId;
-  String? rankTypeId;
-  String? unitName;
-  String? rankName;
-  String? tradeName;
-  int? unitId;
-  bool? isRetired;
-  int? patientPrefixId;
-  Null? patientStatusId;
-  String? sex;
-  String? oldDob;
+  dynamic? oldId;
+  dynamic? firstName;
+  dynamic? lastName;
+  dynamic? phoneNumber;
+  dynamic? genderId;
+  dynamic? bloodGroup;
+  dynamic? bloodGroupId;
+  dynamic? fatherName;
+  dynamic? dOB;
+  dynamic? nationalId;
+  dynamic? occupation;
+  dynamic? street;
+  dynamic? city;
+  dynamic? zip;
+  dynamic? country;
+  dynamic? email;
+  dynamic? photo;
+  dynamic? emergencyNumber;
+  dynamic? emergencyContactName;
+  dynamic? emergencyContactRelation;
+  dynamic? createdDate;
+  dynamic? serviceId;
+  dynamic? relationshipId;
+  dynamic? rankId;
+  dynamic? tradeId;
+  dynamic? serviceTypeId;
+  dynamic? rankTypeId;
+  dynamic? unitName;
+  dynamic? rankName;
+  dynamic? tradeName;
+  dynamic? unitId;
+  dynamic? isRetired;
+  dynamic? patientPrefixId;
+  dynamic? patientStatusId;
+  dynamic? sex;
+  dynamic? oldDob;
   Gender? gender;
   PatientPrefix? patientPrefix;
-  Null? patientStatus;
-  List<Null>? memberships;
-  List<Null>? patientInvoices;
-  List<Null>? patientServices;
-  List<Null>? payments;
+  dynamic? patientStatus;
+  List<dynamic>? memberships;
+  List<dynamic>? patientInvoices;
+  List<dynamic>? patientServices;
+  List<dynamic>? payments;
   List<Null>? doctorAppointments;
   Relationship? relationship;
   Relationship? rank;
   Relationship? unit;
-  Null? trade;
-  Null? parentPatient;
-  Null? visitNo;
-  int? patientInvoiceShadowId;
-  int? tenantId;
-  Null? tenant;
-  int? id;
-  bool? active;
-  Null? userId;
-  bool? hasErrors;
-  int? errorCount;
-  bool? noErrors;
+  dynamic? trade;
+  dynamic? parentPatient;
+  dynamic? visitNo;
+  dynamic? patientInvoiceShadowId;
+  dynamic? tenantId;
+  dynamic? tenant;
+  dynamic? id;
+  dynamic? active;
+  dynamic? userId;
+  dynamic? hasErrors;
+  dynamic? errorCount;
+  dynamic? noErrors;
 
   Items(
       {this.oldId,
@@ -326,17 +326,17 @@ class Items {
 }
 
 class Gender {
-  String? name;
-  int? code;
-  String? typeName;
-  Null? user;
-  List<Null>? bloodDonors;
-  int? id;
-  bool? active;
-  int? userId;
-  bool? hasErrors;
-  int? errorCount;
-  bool? noErrors;
+  dynamic? name;
+  dynamic? code;
+  dynamic? typeName;
+  dynamic? user;
+  List<dynamic>? bloodDonors;
+  dynamic? id;
+  dynamic? active;
+  dynamic? userId;
+  dynamic? hasErrors;
+  dynamic? errorCount;
+  dynamic? noErrors;
 
   Gender(
       {this.name,
@@ -390,15 +390,15 @@ class Gender {
 }
 
 class PatientPrefix {
-  String? name;
-  String? prefix;
-  String? languageCode;
-  int? id;
-  bool? active;
-  Null? userId;
-  bool? hasErrors;
-  int? errorCount;
-  bool? noErrors;
+  dynamic? name;
+  dynamic? prefix;
+  dynamic? languageCode;
+  dynamic? id;
+  dynamic? active;
+  dynamic? userId;
+  dynamic? hasErrors;
+  dynamic? errorCount;
+  dynamic? noErrors;
 
   PatientPrefix(
       {this.name,
@@ -439,14 +439,14 @@ class PatientPrefix {
 }
 
 class Relationship {
-  String? name;
-  Null? languageCode;
-  int? id;
-  bool? active;
-  Null? userId;
-  bool? hasErrors;
-  int? errorCount;
-  bool? noErrors;
+  dynamic? name;
+  dynamic? languageCode;
+  dynamic? id;
+  dynamic? active;
+  dynamic? userId;
+  dynamic? hasErrors;
+  dynamic? errorCount;
+  dynamic? noErrors;
 
   Relationship(
       {this.name,

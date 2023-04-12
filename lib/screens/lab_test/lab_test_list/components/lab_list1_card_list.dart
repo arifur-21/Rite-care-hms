@@ -8,9 +8,9 @@ import '../lab_test_list_details.dart';
 class LabList1CardList extends StatelessWidget {
 
   String? title;
-  int? code;
+  String? code;
   String? category;
-  int? price;
+  double? price;
 
 
   LabList1CardList({required this.title,required this.code,required this.category,required this.price});

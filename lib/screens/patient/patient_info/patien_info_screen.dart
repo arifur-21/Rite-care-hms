@@ -229,7 +229,7 @@ class _PatientInfoScreenState extends State<PatientInfoScreen> {
                         Column(
                           children: [
 
-                            ProfileUserDataViewWidget(title: "ID",information: "${widget.patientId}"),
+                            ProfileUserDataViewWidget(title: "ID",information: "${widget.patientId }"),
                             ProfileUserDataViewWidget(title: "User Name",information: "${widget.name}"),
                             ProfileUserDataViewWidget(title: "Gender",information: "${widget.gender}"),
                             ProfileUserDataViewWidget(title: "Blood Group",information: "${widget.bloodGroup}"),

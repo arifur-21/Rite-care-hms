@@ -1,10 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:ritecare_hms/widgets/filter_button.dart';
 import 'package:ritecare_hms/screens/lab_test/lab_test_list/components/lab_list1_card_list.dart';
 
+import '../../../model/lab_test_model/lab_test_list_model.dart';
 import '../../../utils/color_styles.dart';
+import '../../../view_model/summery_view_model/summery_view_model.dart';
 import '../../../widgets/app_bar_widget.dart';
 import '../../../widgets/drawer_widget.dart';
 import '../../../widgets/popup_button_widget.dart';
@@ -19,6 +23,9 @@ class LatTestListScreen extends StatefulWidget {
 }
 
 class _LatTestListScreenState extends State<LatTestListScreen> {
+
+  final labTestListVM = Get.put(SummeryViewModel());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +62,7 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("TEST NAME", style: Styles.poppinsFont12_500,),
-                        Text("REPORT SERIAL NO",style: Styles.poppinsFont12_500,),
+                        Text("Code",style: Styles.poppinsFont12_500,),
                         Text('CATEGORY',style: Styles.poppinsFont12_500,)
                       ],
                     ),
@@ -63,14 +70,35 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
                 ),
                 SizedBox(height: 10,),
 
-             LabList1CardList(title: "Urine Electrolytes", code: 134433333, category: "Biochemistry", price: 350),
-             LabList1CardList(title: "Urine Electrolytes", code: 134, category: "Biochemistry", price: 350),
-
 
 
               ],
             ),
-          )
+          ),
+          Expanded(
+            child: FutureBuilder<LabTestListModel>(
+                future: labTestListVM.getLabTestList(),
+                builder: (context, snapShot){
+                  if(!snapShot.hasData){
+                    return Text("data not found11 ");
+                  }else{
+                    return ListView.builder(
+                        itemCount: snapShot.data!.items!.length,
+                        itemBuilder: (context, index){
+                          return   Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: LabList1CardList(
+                                title: "${snapShot.data!.items![index].name}",
+                                code: snapShot.data!.items![index].code,
+                                category:  snapShot.data!.items![index].itemCategory!.name,
+                                price: snapShot.data!.items![index].salePrice),
+                          );
+
+                        });
+                  }
+                }),
+          ),
+
         ],
       ),
     );

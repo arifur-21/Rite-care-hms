@@ -9,7 +9,7 @@ class LoginPreference {
 
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString('access_token', responseModel.accessToken.toString());
-   // sp.setBool('isLogin', responseModel.isLogin!);
+
 
     return true;
   }
@@ -17,12 +17,10 @@ class LoginPreference {
   Future<LoginTokenModel> getToken() async{
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token =  sp.getString('access_token');
-    //bool? isLogin =  sp.getBool('isLogin');
-
 
     return LoginTokenModel(
         accessToken: token,
-       // isLogin: isLogin
+       //
     );
   }
 

@@ -7,7 +7,7 @@ import 'package:ritecare_hms/model/search_model/SearchModel.dart';
 import 'package:ritecare_hms/repository/search_repository/SearchRepository.dart';
 
 import '../../data/response/status.dart';
-import '../../model/blood_group_model/BloodGroupModel.dart';
+import '../../model/register/blood_group_model/BloodGroupModel.dart';
 import '../../shere_preference/login_preference.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,18 +16,15 @@ class SearchViewModel extends GetxController{
   final _api = SearchRepository();
   LoginPreference loginPreference = LoginPreference();
   var token;
-  bool patientFound  = false;
+
 
   final rxRequestStatus = Status.LOADING.obs;
   final patientList = SearchModel().obs;
-  final bloodGroupList = BloodGroupModel().obs;
   final patientListItem = <SearchModel>[].obs;
-
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void setPatientList(SearchModel _value) => patientList.value = _value;
-  void setPatientBlood(BloodGroupModel _value) => bloodGroupList.value = _value;
   void setPatient(List<SearchModel> _value) => patientListItem.value = _value;
   void setError(String _value) => error.value = _value;
 
@@ -39,8 +36,6 @@ class SearchViewModel extends GetxController{
 
 
   void searchPatient(){
-
-    print("patientId ${patienidController.value.text}");
 
     _api.getSearch(patienidController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
@@ -54,20 +49,43 @@ class SearchViewModel extends GetxController{
 
 
   Future<List<SearchModel>> searchPatientCellNum()async{
-
-    _api.getPateintCell(patientCellNoController.value.text).then((value) {
-      print("test 1");
+    setRxRequestStatus(Status.LOADING);
+    _api.getPateintByCellNO(patientCellNoController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
-      print("cell number ${value}");
-      print("object");
-
       setPatient(value);
     }).onError((error, stackTrace){
       setRxRequestStatus(Status.ERROR);
       setError(error.toString());
      print("viewModel error cell ${error.toString()}");
     });
-   // print("item ${patientListItem.}")
+
+    return patientListItem;
+  }
+
+  Future<List<SearchModel>> searchPatientOfficalNo()async{
+    setRxRequestStatus(Status.LOADING);
+    _api.getPatientByOccicialNo(patientOfficialNumberController.value.text).then((value) {
+      setRxRequestStatus(Status.SUCCESS);
+      setPatient(value);
+    }).onError((error, stackTrace){
+      setRxRequestStatus(Status.ERROR);
+      setError(error.toString());
+      print("viewModel error cell ${error.toString()}");
+    });
+
+    return patientListItem;
+  }
+
+  Future<List<SearchModel>> searchPatientByName()async{
+    setRxRequestStatus(Status.LOADING);
+    _api.getPateintByName(patientNameController.value.text).then((value) {
+      setRxRequestStatus(Status.SUCCESS);
+      setPatient(value);
+    }).onError((error, stackTrace){
+      setRxRequestStatus(Status.ERROR);
+      setError(error.toString());
+      print("viewModel error Name ${error.toString()}");
+    });
 
     return patientListItem;
   }
@@ -89,7 +107,6 @@ class SearchViewModel extends GetxController{
     );
 
     if(response.statusCode == 200){
-
       data  = jsonDecode(response.body) ;
       return data;
     }else{
@@ -141,7 +158,5 @@ class SearchViewModel extends GetxController{
       return data;
     }
   }
-
-
 
 }

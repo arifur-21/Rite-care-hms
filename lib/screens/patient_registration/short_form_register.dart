@@ -32,6 +32,8 @@ class RegistrShortForm extends StatefulWidget {
 
 class _RegistrShortFormState extends State<RegistrShortForm> {
   List<String> serviceTypeList = ['Uniform', 'RE', 'CNE'];
+  List<String> genderList = ['Male', 'Female', 'Third Gender'];
+  List<String> bloodGroupList = ['A(+VE)','A(-VE)','B(+VE)', 'B(-VE)', 'O(+VE)','O(-VE)','AB(+VE)','AB(-VE)',];
 
   final registerVM = Get.put(PatientRegisterViewModel());
   final _formKey = GlobalKey<FormState>();
@@ -428,7 +430,78 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                         );
                       }
 
-                    })
+                    }),
+///demo
+            Container(
+              child: Column(
+                children: [
+
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        isGender = !isGender;
+                        // registerVM.getGender();
+                      });
+                    },
+                    child: Container(
+                        width: double.infinity,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(width: 2,color: Styles.drawerListColor)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(selectGender , style: TextStyle(color: Styles.drawerListColor),),
+                              Icon(isGender ? Icons.keyboard_arrow_down_outlined : Icons.keyboard_arrow_up,color: Styles.drawerListColor,),
+                            ],
+                          ),
+                        )
+
+                    ),
+                  ),
+                  if(isGender)
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 2,color: Colors.grey)
+                      ),
+                      child: SingleChildScrollView(
+                        child: ListView(
+                          primary: true,
+                          shrinkWrap: true,
+                          children:  genderList!.map((e) => Container(
+                            decoration: BoxDecoration(
+                              border: Border(top: BorderSide(width: 0.7,color: Colors.grey)),
+                              color: selectGender == e ? Styles.primaryColor :Colors.white,
+                            ),
+                            child: InkWell(
+                                onTap: (){
+                                  selectGender = e.toString();
+                                  isGender = false;
+                                  print(selectGender);
+                                  setState(() {
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(e.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectGender == e ? Colors.white : Styles.drawerListColor),),
+
+                                )),
+
+                          )).toList(),
+
+                        ),
+                      ),
+
+
+                    ),
+
+                ],
+              ),
+            )
 
               ],
             ),
@@ -446,7 +519,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
             onTap: (){
               setState(() {
                 isOpen = !isOpen;
-                registerVM.BloodGroup();
+             //   registerVM.BloodGroup();
               });
             },
             child: Container(
@@ -478,14 +551,14 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 child: ListView(
                   primary: true,
                   shrinkWrap: true,
-                  children: registerVM.bloodGroupList.value.data!.map((e) => Container(
+                  children: bloodGroupList!.map((e) => Container(
                     decoration: BoxDecoration(
                       border: Border(top: BorderSide(width: 0.7,color: Colors.grey)),
-                      color: selectBloodGroup == e.name ? Styles.primaryColor :Colors.white,
+                      color: selectBloodGroup == e ? Styles.primaryColor :Colors.white,
                     ),
                     child: InkWell(
                         onTap: (){
-                          selectBloodGroup = e.name.toString();
+                          selectBloodGroup = e.toString();
                           print(selectBloodGroup);
                           isOpen = false;
                           setState(() {
@@ -493,7 +566,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12),
-                          child: Text(e.name.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectBloodGroup == e.name ? Colors.white : Styles.drawerListColor),),
+                          child: Text(e.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectBloodGroup == e ? Colors.white : Styles.drawerListColor),),
 
                         )),
 
@@ -520,7 +593,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
             onTap: (){
               setState(() {
                 isGender = !isGender;
-                registerVM.getGender();
+               // registerVM.getGender();
               });
             },
             child: Container(
@@ -552,21 +625,22 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 child: ListView(
                   primary: true,
                   shrinkWrap: true,
-                  children:  registerVM.genderList.value.data!.map((e) => e == null ? CircularProgressIndicator( ):  Container(
+                  children:  genderList!.map((e) => Container(
                     decoration: BoxDecoration(
                       border: Border(top: BorderSide(width: 0.7,color: Colors.grey)),
-                      color: selectGender == e.name ? Styles.primaryColor :Colors.white,
+                      color: selectGender == e ? Styles.primaryColor :Colors.white,
                     ),
                     child: InkWell(
                         onTap: (){
-                          selectGender = e.name.toString();
+                          selectGender = e.toString();
                           isGender = false;
+                          print(selectGender);
                           setState(() {
                           });
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12),
-                          child: Text(e.name.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectGender == e.name ? Colors.white : Styles.drawerListColor),),
+                          child: Text(e.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectGender == e ? Colors.white : Styles.drawerListColor),),
 
                         )),
 
