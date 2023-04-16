@@ -11,6 +11,7 @@ import 'package:ritecare_hms/screens/login_screen/link_send_email_login_screen.d
 import 'package:ritecare_hms/screens/login_screen/send_email_screen.dart';
 import 'package:ritecare_hms/screens/login_screen/sign_in_screen.dart';
 import 'package:ritecare_hms/screens/login_screen/slider_screen/slider_screen.dart';
+import 'package:ritecare_hms/screens/ot_management/Ot_management_screen.dart';
 import 'package:ritecare_hms/screens/patient/patient_info/patien_info_screen.dart';
 import 'package:ritecare_hms/screens/patient/patient_list/patient_list_screen.dart';
 import 'package:ritecare_hms/screens/patient_registration/short_form_register.dart';
@@ -63,6 +64,9 @@ class AppRoutes{
         transitionDuration: Duration(milliseconds: 250)),
 
     GetPage(name: RoutesName.userProfileScreen, page: ()=>UserProfileDetailsScreen(), transition: Transition.leftToRightWithFade,
+        transitionDuration: Duration(milliseconds: 250)),
+
+    GetPage(name: RoutesName.otManagementScreen, page: ()=>OtManagementScreen(), transition: Transition.leftToRightWithFade,
         transitionDuration: Duration(milliseconds: 250)),
 
   ];

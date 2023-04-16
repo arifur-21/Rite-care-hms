@@ -9,7 +9,25 @@ import '../../../widgets/popup_button_widget.dart';
 import 'lab_test_list_screen.dart';
 
 class LabTestListDetailsScreen extends StatefulWidget {
-  const LabTestListDetailsScreen({Key? key}) : super(key: key);
+
+  final dynamic testName;
+  final dynamic category;
+  final dynamic code;
+  final dynamic reportSerialNO;
+  final dynamic labReportGroup;
+  final dynamic refferCommission;
+  final dynamic chargePrice;
+
+
+  LabTestListDetailsScreen(
+  {
+      this.testName,
+      this.category,
+      this.code,
+      this.reportSerialNO,
+      this.labReportGroup,
+      this.refferCommission,
+      this.chargePrice});
 
   @override
   State<LabTestListDetailsScreen> createState() => _LabTestListDetailsScreenState();
@@ -17,40 +35,6 @@ class LabTestListDetailsScreen extends StatefulWidget {
 
 class _LabTestListDetailsScreenState extends State<LabTestListDetailsScreen> {
 
-  List<Map> _books = [
-    {
-      'id': "CATEGORY",
-      'title': 'Cancer Marker',
-
-    },
-    {
-      'id': "CODE",
-      'title': '183',
-
-    },
-    {
-      'id': 'REPORT SERIAL NO',
-      'title': '0',
-
-    },
-    {
-      'id': 'LAB REPORT GROUP',
-      'title': 'AB',
-
-    },
-    {
-      'id': 'REFERRER COMMISSION(TK)',
-      'title': '294',
-
-    },
-    {
-      'id': 'CHARGE PRICE',
-      'title': '389',
-
-    }
-  ];
-  int _currentSortColumn = 0;
-  bool _isSortAsc = true;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +70,7 @@ class _LabTestListDetailsScreenState extends State<LabTestListDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("IMAGING DETAIL",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                    Text("LABTEST ITEM DETAILS",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                     InkWell(
                       onTap: (){
                         Navigator.pop(context);
@@ -99,15 +83,29 @@ class _LabTestListDetailsScreenState extends State<LabTestListDetailsScreen> {
             ),
           ),
 
-          Card(
-            margin: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                _createDataTable()
-              ],
+
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 2, color: Styles.primaryColor)
+              ),
+              child: Column(
+                children: [
+
+                  labTestItemDetails(categoroy:"Test Name", data: "${widget.testName}"),
+                  labTestItemDetails(categoroy:"Category", data: "${widget.category}"),
+                  labTestItemDetails(categoroy:"Code", data: "${widget.code}"),
+                  labTestItemDetails(categoroy:"Report Serial No", data: "${widget.reportSerialNO}"),
+                  labTestItemDetails(categoroy:"Lab Report Group", data: "${widget.labReportGroup}"),
+                  labTestItemDetails(categoroy:"Referrer commission(tk)", data: "${widget.refferCommission}"),
+                  labTestItemDetails(categoroy:"Charge price", data: "${widget.chargePrice}"),
+
+
+                ],
+              ),
             ),
           ),
-
 
         ],
       ),
@@ -115,46 +113,39 @@ class _LabTestListDetailsScreenState extends State<LabTestListDetailsScreen> {
   }
 
 
-  Widget _createDataTable() {
-    return Container(
-      width: double.infinity,
-      child: DataTable(
-        columns: _createColumns(),
-        rows: _createRows(),
-        sortColumnIndex: _currentSortColumn,
-        sortAscending: _isSortAsc,
-      ),
-    );
-  }
-  List<DataColumn> _createColumns() {
-    return [
-      DataColumn(
-        label: Text('TEST NAME', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-       /* onSort: (columnIndex, _) {
-          setState(() {
-            _currentSortColumn = columnIndex;
-            if (_isSortAsc) {
-              _books.sort((a, b) => b['id'].compareTo(a['id']));
-            } else {
-              _books.sort((a, b) => a['id'].compareTo(b['id']));
-            }
-            _isSortAsc = !_isSortAsc;
-          });
-        },*/
-      ),
-      DataColumn(label: Text('AFP',style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+Widget labTestItemDetails({ dynamic data, dynamic categoroy}){
+    return
+      Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1, color: Styles.primaryColor),
+          )
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          child: Text("${categoroy}",style: Styles.poppinsFontBlack12_600)),
+                      Expanded(
+                          flex: 1,
+                          child: Text(":", style: Styles.poppinsFontBlack12_400)),
 
-    ];
-  }
-  List<DataRow> _createRows() {
-    return _books
-        .map((book) => DataRow(cells: [
-      DataCell(Expanded(child: Text( book['id'].toString(), style: TextStyle(fontWeight: FontWeight.bold),))),
-      DataCell(Expanded(child: Text(book['title']))),
+                      Expanded(
+                        flex: 5,
+                          child: Text("${data.toString()}",style: Styles.poppinsFontBlack12_300))
+                    ],),
+                ))
 
-    ]))
-        .toList();
-  }
+          ],
+        ),
+      );
+}
 }
 
 

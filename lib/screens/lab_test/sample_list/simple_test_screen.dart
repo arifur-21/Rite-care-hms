@@ -188,6 +188,7 @@ class _SampleListState extends State<SampleList> {
                                          title: "CBC",
                                          category: "Hematoloty",
                                          name: snapShot.data!.items![index].patient?.firstName,
+                                         sampleList: [snapShot.data!.items!] ,
                                        ),
                                      ],
                                    ),
@@ -198,22 +199,21 @@ class _SampleListState extends State<SampleList> {
                  }),
 
 
-        /*  Expanded(
+       /*   Expanded(
             child: FutureBuilder(
                 future: simpleVM.getSampleTestStatus(),
                 builder: (context, snapShot){
                   if(!snapShot.hasData){
-                    return Text("Loading,,,");
+                    return Text("Loading....");
                   }else{
                     return ListView.builder(
                         itemCount: simpleVM.statusList.length,
                         itemBuilder: (context, index){
-                          return Text("object ${snapShot.data![index].name}");
+                          return Text(" ${snapShot.data![index].name}");
                         });
                   }
                 }),
-          ),
-*/
+          ),*/
         ],
       ),
     );

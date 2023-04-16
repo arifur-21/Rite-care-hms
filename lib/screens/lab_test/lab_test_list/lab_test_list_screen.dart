@@ -14,6 +14,7 @@ import '../../../widgets/drawer_widget.dart';
 import '../../../widgets/popup_button_widget.dart';
 import '../sample_list/components/sample_filter_widget.dart';
 import 'components/lab_test_list_filter_widget.dart';
+import 'lab_test_list_details.dart';
 
 class LatTestListScreen extends StatefulWidget {
   const LatTestListScreen({Key? key}) : super(key: key);
@@ -88,6 +89,18 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
                           return   Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: LabList1CardList(
+                              onTap: (){
+                               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
+                                   LabTestListDetailsScreen(
+                                     code: snapShot.data!.items![index].code,
+                                     testName: snapShot.data!.items![index].name,
+                                     category: snapShot.data!.items![index].itemCategory!.name,
+                                     reportSerialNO: snapShot.data!.items![index].labItemSerialNo,
+                                     labReportGroup: snapShot.data!.items![index].labReportGroup,
+                                     chargePrice: snapShot.data!.items![index].salePrice,
+                                     refferCommission: snapShot.data!.items![index].itemCategory!.referralCommission,
+                                   ) ));
+                                 },
                                 title: "${snapShot.data!.items![index].name}",
                                 code: snapShot.data!.items![index].code,
                                 category:  snapShot.data!.items![index].itemCategory!.name,

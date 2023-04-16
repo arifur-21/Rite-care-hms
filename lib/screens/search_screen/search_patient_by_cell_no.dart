@@ -5,9 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:ritecare_hms/screens/patient_registration/full_form_register_screen.dart';
 import 'package:ritecare_hms/screens/search_screen/conponents/search_list_widget.dart';
 import 'package:ritecare_hms/screens/search_screen/search_patient_Screen.dart';
 import 'package:ritecare_hms/shere_preference/login_preference.dart';
+import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/view_model/serch_view_mode/SearchViewModel.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -28,12 +30,15 @@ class SearchPatientCellNO extends StatefulWidget {
 class _SearchPatientCellNOState extends State<SearchPatientCellNO> {
 
   final searchVM = Get.put(SearchViewModel());
+  dynamic cellNoumber;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: Styles.primaryColor,
+        ),
         body: Column(
           children: [
 
@@ -62,69 +67,68 @@ class _SearchPatientCellNOState extends State<SearchPatientCellNO> {
                         });
                   }
                   else {
+                    return  ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index){
+                          return InkWell(
+                            onTap: (){
+                              if(!snapshot.hasData){
+                                return;
+                              }
 
-                    print(" fsfd ${snapshot.data![0]['Id']}");
-                    print("controller data ${searchVM.patientCellNoController.value.text}");
-                    if(searchVM.patientList.value.id != searchVM.patienidController.value.text){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                  PatientInfoScreen(
+                                    name: snapshot.data![index]?['FirstName'],
+                                    serviceId: snapshot.data![index]?['ServiceId'],
+                                    cellNOId: snapshot.data![index]?['PhoneNumber'],
+                                    officalNoId: snapshot.data![index]?['ServiceId'],
+                                    patientId: snapshot.data![index]?['Id'],
+                                    gender: snapshot.data![index]['Gender']?['Name'],
+                                    email: snapshot.data![index]?['Email'],
+                                    dateOfBirth: snapshot.data![index]?['CreatedDate'],
+                                    bloodGroup: snapshot.data![index]?['BloodGroup'],
+                                    mobile: snapshot.data![index]?['PhoneNumber'],
+                                    emergencyContact: snapshot.data![index]?['EmergencyNumber'],
+                                    emergencyRelation: snapshot.data![index]?['EmergencyContactRelation'],
+                                    address: snapshot.data![index]?['City'],
+                                    unit: snapshot.data![index]?['UnitName'],
+                                    rank: snapshot.data![index]?['RankName'],
+                                    prationPrefix: snapshot.data![index]?['PatientPrefix']?['Name'],
+                                    patientStatus: snapshot.data![index]?['PatientStatus'],
+                                    nationalId: snapshot.data![index]?['NationalId'],
+                                    branch: snapshot.data![index]?['TradeName'],
+                                    serviceType: snapshot.data![index]?['ServiceId'],
+                                    relationship: snapshot.data![index]?['Relationship']?['Name'],
+                                  )));
+                            },
+                            child: SearchlistWidget(
+                              id: index+1,
+                              name: '${snapshot.data![index]['FirstName']}',
+                              relation: '${snapshot.data![index]['Relationship']?['Name']}',
 
-                      print("data not found");
-                    return Container(
-
-                    );
-
-                    }else{
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index){
-                            return InkWell(
-                              onTap: (){
-                                if(!snapshot.hasData){
-                                  print(snapshot.data);
-                                  return;
-                                }
-
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                    PatientInfoScreen(
-                                      name: snapshot.data![index]['FirstName'],
-                                      serviceId: snapshot.data![index]['ServiceId'],
-                                      cellNOId: snapshot.data![index]['PhoneNumber'],
-                                      officalNoId: snapshot.data![index]['ServiceId'],
-                                      patientId: snapshot.data![index]['Id'],
-                                      gender: snapshot.data![index]['Gender']['Name'],
-                                      email: snapshot.data![index]?['Email'],
-                                      dateOfBirth: snapshot.data![index]['CreatedDate'],
-                                      bloodGroup: snapshot.data![index]['BloodGroup'],
-                                      mobile: snapshot.data![index]['PhoneNumber'],
-                                      emergencyContact: snapshot.data![index]?['EmergencyNumber'],
-                                      emergencyRelation: snapshot.data![index]?['EmergencyContactRelation'],
-                                      address: snapshot.data![index]?['City'],
-                                      unit: snapshot.data![index]?['UnitName'],
-                                      rank: snapshot.data![index]?['RankName'],
-                                      prationPrefix: snapshot.data![index]?['PatientPrefix']['Name'],
-                                      patientStatus: snapshot.data![index]?['PatientStatus'],
-                                      nationalId: snapshot.data![index]?['NationalId'],
-                                      branch: snapshot.data![index]?['TradeName'],
-                                      serviceType: snapshot.data![index]?['ServiceId'],
-                                      relationship: snapshot.data![index]?['Relationship']['Name'],
-                                    )));
-                              },
-                              child: SearchlistWidget(
-                                id: index+1,
-                                name: '${snapshot.data![index]['FirstName']}',
-                                relation: '${snapshot.data![index]['Relationship']?['Name']}',
-
-                              ),
-                            );
-                          });
-                    }
-                   // print(snapshot.data);
-
+                            ),
+                          );
+                        });
                   }
                 },
               ),
             )
           ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: FloatingActionButton.extended(
+
+            backgroundColor: Styles.primaryColor,
+            onPressed: () {
+           cellNoumber =  searchVM.patientCellNoController.value.text;
+           print("patient cell num ${cellNoumber}");
+           Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistrFullForm(cellNumber: cellNoumber,)));
+            }, label: Text("Register"),
+            icon: Icon(Icons.person),
+          ),
         ),
       ),
     );

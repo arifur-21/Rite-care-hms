@@ -23,7 +23,6 @@ class RegisterPatientRepository{
 
   Future<BloodGroupModel> getBloodGroup()async{
     dynamic response = await _apiService.getBloodGroup();
-    print("id response ${response}");
     return BloodGroupModel.fromJson(response);
   }
 

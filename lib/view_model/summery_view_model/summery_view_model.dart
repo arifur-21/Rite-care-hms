@@ -48,7 +48,7 @@ class SummeryViewModel{
   }
 
 
-  //// get sample list 1
+  //// get sample list status
   List<StatusListModel> statusList = [];
   Future<List<StatusListModel>> getSampleTestStatus()async {
     var data;
@@ -67,7 +67,10 @@ class SummeryViewModel{
 
     if(response.statusCode == 200){
       data  = jsonDecode(response.body) ;
+
+      statusList.clear();
       for(Map i in data){
+
         statusList.add(StatusListModel.fromJson(i));
        // print(i["Name"]);
       }

@@ -20,6 +20,7 @@ import '../../widgets/rounded_button.dart';
 import '../patient_registration/short_form_register.dart';
 
 class SearchPatientOfficialNumber extends StatefulWidget {
+
   const SearchPatientOfficialNumber({super.key});
 
 
@@ -41,6 +42,11 @@ class _SearchPatientOfficialNumberState extends State<SearchPatientOfficialNumbe
     _controller.dispose();
     super.dispose();
   }
+  @override
+  void initState() {
+    searchVM.getPatientByOfficialNumber();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,53 +60,19 @@ class _SearchPatientOfficialNumberState extends State<SearchPatientOfficialNumbe
               child: FutureBuilder(
                 future: searchVM.getPatientByOfficialNumber(),
                 builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-
-                          Expanded(
-                              flex: 1,
-                              child: SpinKitFadingCircle(
-                                duration: Duration(seconds: 6),
-                                color: Colors.black,
-                                size: 50,
-                                controller: _controller,
-                              )),
-
-                      Column(
-                        children: [
-                          Text("Don't have any registration.", style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20, color: Colors.red),),
-                          SizedBox(height: 10,),
-                          Text("Please register.", style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20, color: Colors.red),),
-
-                          SizedBox(height: 50,),
-
-                          RoundedButton(
-                            width: Get.width * 0.5,
-                            title: 'Registration',
-                            color: Styles.primaryColor,
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistrShortForm() ));
-                            },
-                          )
-
-
-                        ],
-                      )
-
-                        ],
-                      ),
-                    );
-
-
+                  print("response ${snapshot}");
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    Text("data not foud");
+                  }else if(snapshot.connectionState == ConnectionState.none){
+                    Text("data");
                   }
-                  else {
+                 else if(snapshot.hasData) {
                     return ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index){
+                          print("name search${snapshot.data![index]['FirstName']}");
+
                           return InkWell(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>
@@ -132,9 +104,12 @@ class _SearchPatientOfficialNumberState extends State<SearchPatientOfficialNumbe
                         });
                   }
 
+                  return Text("Show ");
                 },
               ),
-            )
+            ),
+
+
           ],
         ),
       ),

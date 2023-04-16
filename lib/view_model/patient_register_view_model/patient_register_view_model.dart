@@ -22,7 +22,7 @@ class PatientRegisterViewModel extends GetxController{
   var token;
 
   final  personalController = TextEditingController().obs;
-  var  firstNameController = TextEditingController().obs;
+  final  firstNameController = TextEditingController().obs;
   final  phoneNumberController = TextEditingController().obs;
   final  zipCodeController = TextEditingController().obs;
   final  rankController = TextEditingController().obs;
@@ -40,11 +40,12 @@ class PatientRegisterViewModel extends GetxController{
 
   RxString gender = ''.obs;
 
+
   final rxRequestStatus = Status.LOADING.obs;
   RxString error = ''.obs;
 
-  final bloodGroupList = BloodGroupModel().obs;
-  final genderList = GenderModel().obs;
+  dynamic bloodGroupList = BloodGroupModel().obs;
+  dynamic genderList = GenderModel().obs;
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void setPatientBlood(BloodGroupModel _value) => bloodGroupList.value = _value;
@@ -52,6 +53,7 @@ class PatientRegisterViewModel extends GetxController{
   void setError(String _value) => error.value = _value;
 
 
+  //registration short form
   void registerPatient({
     dynamic service,
     dynamic status,
@@ -60,48 +62,71 @@ class PatientRegisterViewModel extends GetxController{
     dynamic prefix,
     dynamic blood,
     dynamic imageUrl,
-    dynamic  dateOfBrith
+    dynamic  dateOfBrith,
+    dynamic isRetired,
+    dynamic prefixId,
+    dynamic statusId,
+    dynamic relationId
   }
       ){
 
 
-    Map data = {
-      "FirstName": "Rizwan",
-      "LastName": "",
+    Map data =
+    {
+      "FirstName": firstNameController.value.text,
       "PhoneNumber": phoneNumberController.value.text,
-      "BloodGroup": blood.toString(),
+    //  "GenderId": 1,
+    //  "BloodGroup": null,
+     // "BloodGroupId": null,
+    //  "FatherName": null,
       "DOB": dateOfBrith.toString(),
       "Email": emailController.value.text,
       "Photo": imageUrl.toString(),
-      "EmergencyNumber": "",
-      "EmergencyContactName": "",
-      "EmergencyContactRelation": "",
-      "CreatedDate": "/Date(1680881032977)/",
-      "ServiceId": "987654",
-      "RelationshipId": 1,
+      "ServiceId": personalController.value.text,
+      "RelationshipId": relationId,
+      "BloodGroupId": blood,
       "RankId": 179,
-      "TradeId": null,
-      "ServiceTypeId": 0,
-      "RankTypeId": null,
-      "UnitName": uniController.value.text,
-      "RankName": rankController.value.text,
-      "PatientStatusId": null,
-      "Sex": null,
-      "OldDob": null,
+      "UnitName": "71 Bde",
+      //"RankName": "Capt",
+     // "UnitId": 69,
+      //"PatientStatus": status,
+      //"PatientStatusId": statusId,
+      "IsRetired": isRetired,
+      "PatientPrefixId": prefixId,
       "Gender": {
-        "Name": gender
+        "Name": gender.toString(),
+      //  "Id": 1
       },
-      "PatientPrefix": {
-        "Name": prefix
-      },
-      "PatientStatus": status.toString(),
+
       "Relationship": {
-        "Name": relation
-      }
+        "Name": relation.toString(),
+        "Id": relationId
+      },
+      "Rank": {
+        "Name": rankController.value.text,
+        "Id": 179
+
+      },
+      "Unit": {
+        "Name": "71 Bde",
+        "Id": 69
+
+      },
+  //    "Id": 775898
+
     };
 
     _api.registerPatient(data).then((value){
-      Utils.snakBar("Registration", 'Registration successfully');
+
+      if(value == "PatientExist") {
+        Utils.snakBar("Registration", 'Already Exist.');
+      }
+      print(value);
+      if(value['Id'] > 0) {
+        Utils.snakBar("Registration", 'Registration successfully');
+      }
+      print("short form register ${value}");
+
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
       print("error occured : ${error.toString()}");
@@ -111,6 +136,7 @@ class PatientRegisterViewModel extends GetxController{
 
 
 
+  //registration full form
   void registerPatientFullForm({
     dynamic service,
     dynamic status,
@@ -121,50 +147,74 @@ class PatientRegisterViewModel extends GetxController{
     dynamic imageUrl,
     dynamic  dateOfBrith,
     dynamic isRetired,
-  }
-      ){
+    dynamic prefixId,
+    dynamic statusId,
+    dynamic relationId
+  }){
 
 
-    Map data = {
-      "FirstName": "Rizwan",
-      "LastName": lastNameController.value.text,
+    Map data ={
+      "FirstName": firstNameController.value.text,
       "PhoneNumber": phoneNumberController.value.text,
-      "BloodGroup": blood.toString(),
-      "DOB": dateOfBrith.toString(),
+      "LastName": lastNameController.value.text,
       "NationalId": nationalIdController.value.text,
-      "Street": streetController.value.text ,
-      "City": cityController.value.text,
+      //  "GenderId": 1,
+      //  "BloodGroup": null,
+      // "BloodGroupId": null,
+      //  "FatherName": null,
+      "DOB": dateOfBrith.toString(),
       "Email": emailController.value.text,
       "Photo": imageUrl.toString(),
+      "ServiceId": personalController.value.text,
       "EmergencyNumber": emergencyContactNumberController.value.text,
       "EmergencyContactName": emergencyNameContactController.value.text,
       "EmergencyContactRelation": emergencyContactRelationController.value.text,
-      "CreatedDate": "/Date(1680881032977)/",
-      "ServiceId": "987654",
-      "RelationshipId": 1,
+      "RelationshipId": relationId,
+      "BloodGroupId": blood,
+      "Street": streetController.value.text,
+      "City": cityController.value.text,
       "RankId": 179,
-      "TradeId": null,
-      "ServiceTypeId": 0,
-      "RankTypeId": null,
-      "UnitName": uniController.value.text,
-      "RankName": rankController.value.text,
-      "PatientStatusId": null,
-      "Sex": null,
-      "OldDob": patientOldIdController.value.text.toString(),
+      "UnitName": "71 Bde",
+      //"RankName": "Capt",
+      // "UnitId": 69,
+      "BloodGroup": blood,
+      "PatientStatusId": "statusId",
+      "PatientStatus": "status",
+      "IsRetired": isRetired,
+      "PatientPrefixId": prefixId,
       "Gender": {
-        "Name": gender
+        "Name": "Male",
+        "Code": 101,
+        "TypeName": "Male",
       },
-      "PatientPrefix": {
-        "Name": prefix
-      },
-      "PatientStatus": status.toString(),
+
       "Relationship": {
-        "Name": relation
-      }
+        "Name": relation.toString(),
+        "Id": relationId
+      },
+      "Rank": {
+        "Name": rankController.value.text,
+        "Id": 179
+
+      },
+      "Unit": {
+        "Name": "71 Bde",
+        "Id": 69
+
+      },
+
+
     };
 
     _api.registerPatient(data).then((value){
-      Utils.snakBar("Registration", 'Patient Registration Successfull');
+      if(value == "PatientExist") {
+        Utils.snakBar("Registration", 'Already Exist.');
+      }
+
+      print('patient stauts ${gender}');
+      if(value['Id'] > 0) {
+        Utils.snakBar("Registration", 'Registration successfully');
+      }
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
       print("error occured : ${error.toString()}");
@@ -197,7 +247,6 @@ class PatientRegisterViewModel extends GetxController{
       "NationalId": nationalIdController.value.text,
       "Street": streetController.value.text,
       "City": cityController.value.text,
-      "Zip": "",
       "Country": "BD",
       "Email": emailController.value.text,
       "Photo": imageUrl.toString(),
@@ -207,89 +256,32 @@ class PatientRegisterViewModel extends GetxController{
       "CreatedDate": dateOfBrith.toString(),
       "UnitName": uniController.value.text,
       "RankName": rankController.value.text,
-      "TradeName": "null",
       "UnitId": 69,
       "IsRetired": false,
       "PatientPrefixId": 101,
       "PatientStatusId": null,
-      "Sex": "null",
-      "OldDob": "null",
       "Gender": {
         "Name": gender,
-        "Code": 101,
-        "TypeName": "Male",
-        "User": null,
-        "BloodDonors": [],
         "Id": 1,
-        "Active": true,
-        "UserId": 2,
-        "HasErrors": false,
-        "ErrorCount": 0,
-        "NoErrors": true
       },
       "PatientPrefix": {
         "Name": prefix,
-        "Prefix": "O         ",
-        "LanguageCode": "EN",
         "Id": 101,
-        "Active": true,
-        "UserId": null,
-        "HasErrors": false,
-        "ErrorCount": 0,
-        "NoErrors": true
       },
       "PatientStatus": null,
-      "Memberships": [],
-      "PatientInvoices": [],
-      "PatientServices": [],
-      "Payments": [],
-      "DoctorAppointments": [],
       "Relationship": {
         "Name": relation,
-        "LanguageCode": null,
         "Id": 1,
-        "Active": true,
-        "UserId": null,
-        "HasErrors": false,
-        "ErrorCount": 0,
-        "NoErrors": true
       },
       "Rank": {
         "Name": "Capt",
-        "LanguageCode": null,
         "Id": 179,
-        "Active": true,
-        "UserId": null,
-        "HasErrors": false,
-        "ErrorCount": 0,
-        "NoErrors": true
       },
       "Unit": {
         "Name": "71 Bde",
-        "LanguageCode": null,
         "Id": 69,
-        "Active": true,
-        "UserId": null,
-        "HasErrors": false,
-        "ErrorCount": 0,
-        "NoErrors": true
       },
-      "Trade": null,
-      "ParentPatient": null,
-      "VisitNo": null,
-      "PatientInvoiceShadowId": 0,
-      "TenantId": 25,
-      "Tenant": null,
-      "Id": 775898,
-      "Active": true,
-      "UserId": null,
-      "HasErrors": false,
-      "ErrorCount": 0,
-      "NoErrors": true
     };
-
-
-
 
     _api.registrationUpdate(data).then((value){
 
@@ -321,6 +313,7 @@ class PatientRegisterViewModel extends GetxController{
     _api.getGender().then((value) {
       setRxRequestStatus(Status.SUCCESS);
       serGender(value);
+      print('erer${value}');
     }).onError((error, stackTrace){
       setRxRequestStatus(Status.ERROR);
       setError(error.toString());
@@ -400,8 +393,6 @@ class PatientRegisterViewModel extends GetxController{
       return data;
     }
   }
-
-
 
 
 }

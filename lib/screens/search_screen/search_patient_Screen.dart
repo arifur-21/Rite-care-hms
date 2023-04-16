@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:ritecare_hms/screens/home_screen.dart';
+import 'package:ritecare_hms/screens/search_screen/patient_list_id_screen.dart';
 import 'package:ritecare_hms/screens/search_screen/search_patient_by_name.dart';
 import 'package:ritecare_hms/screens/search_screen/search_patient_by_offical_num.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
@@ -42,7 +43,7 @@ class _PatientSearchState extends State<PatientSearch> {
   TextEditingController patientCellNOController = TextEditingController();
   TextEditingController patientByNameController = TextEditingController();
 
-
+ bool isCheck = false;
 
   final searchVM = Get.put(SearchViewModel());
 
@@ -123,23 +124,13 @@ class _PatientSearchState extends State<PatientSearch> {
                     ],
                   )
               ),
-              SizedBox(height: 15,),
+              SizedBox(height: 30,),
 
               ////success
               ResuableTextField(
                   onTap: (){
-                    searchVM.searchPatient();
-                    print('api id ${searchVM.patientList.value.id}');
-                    print(' controller${searchVM.patienidController.value.text}');
-
-                    if(searchVM.patientList.value.id != searchVM.patienidController.value.text){
-                      Utils.snakBar("error", "data not found112");
-
-                    }else   {
-                      Utils.snakBar("error", "data not found");
-
-
-                    }
+                    //searchVM.searchPatient();
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> PatientListIdScreen()));
                   },
                   controllerValue: searchVM.patienidController.value,
                   icon: Icons.search_outlined,
@@ -150,10 +141,9 @@ class _PatientSearchState extends State<PatientSearch> {
 
               ResuableTextField(
                   onTap: (){
-
-                    searchVM.searchPatientCellNum();
+                   // searchVM.searchPatientCellNum();
                   //  searchVM.patienidController.value.clear();
-                  //  Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientCellNO()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientCellNO()));
                 },
 
                   controllerValue:  searchVM.patientCellNoController.value,
@@ -165,9 +155,9 @@ class _PatientSearchState extends State<PatientSearch> {
               ),
               ResuableTextField(
                 onTap: (){
-                  searchVM.searchPatientByName();
+                //  searchVM.searchPatientByName();
                  // searchVM.patientCellNoController.value.clear();
-                 // Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientByName()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientByName()));
                 },
                   controllerValue: searchVM.patientNameController.value,
                   icon: Icons.search_outlined,
@@ -177,9 +167,9 @@ class _PatientSearchState extends State<PatientSearch> {
               ),
               ResuableTextField(
                 onTap: (){
-                  searchVM.searchPatientOfficalNo();
+                 // searchVM.searchPatientOfficalNo();
                  // searchVM.patientNameController.value.clear();
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientOfficialNumber()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPatientOfficialNumber()));
 
                 },
                   controllerValue: searchVM.patientOfficialNumberController.value,
@@ -190,7 +180,7 @@ class _PatientSearchState extends State<PatientSearch> {
               ),
 
 
-              Obx((){
+       /*       Obx((){
                 switch(searchVM.rxRequestStatus.value){
                   case Status.LOADING:
                     return Center(child:  CircularProgressIndicator(),);
@@ -200,43 +190,38 @@ class _PatientSearchState extends State<PatientSearch> {
                     return Text(searchVM.error.value.toString());
 
                   case Status.SUCCESS:
+                    SearchlistWidget(
+                      id: ' ${searchVM.patientList.value.id}',
+                      name: ' ${searchVM.patientList.value.firstName}',
+                      relation: ' ${searchVM.patientList.value.rankName}',
+                    );
 
-                    if(searchVM.patientListItem == null){
-                      print("data not found");
-                      return Text("data not found");
+
+
+                      if(searchVM.patientListItem == null){
+                        print("data not found");
+                        return Text("data not found");
+                      }
+                      else{
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: searchVM.patientListItem.value.length,
+                            itemBuilder: (context, index){
+                              //  searchVM.patientListItem.clear();
+                              print("item ${searchVM.patientListItem[index].id.toString()}");
+                              return SearchlistWidget(
+                                id: ' ${searchVM.patientListItem[index]?.id.toString()}',
+                                name: ' ${searchVM.patientListItem[index]?.firstName.toString()}',
+                                relation: ' ${searchVM.patientListItem[index].relationship?.name}',
+                              );
+                            });
+                      }
+
+
+
+
                     }
-                    else{
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: searchVM.patientListItem.value.length,
-                          itemBuilder: (context, index){
-                            //  searchVM.patientListItem.clear();
-                            print("item ${searchVM.patientListItem[index].id.toString()}");
-                            return SearchlistWidget(
-                              id: ' ${searchVM.patientListItem[index]?.id.toString()}',
-                              name: ' ${searchVM.patientListItem[index]?.firstName.toString()}',
-                              relation: ' ${searchVM.patientListItem[index].relationship?.name}',
-                            );
-                          });
-                    }
-
-
-
-
-                Container(
-                          child: Column(
-                            children: [
-
-                              SearchlistWidget(
-                                id: ' ${searchVM.patientList.value.id}',
-                                name: ' ${searchVM.patientList.value.firstName}',
-                                relation: ' ${searchVM.patientList.value.rankName}',
-                              )
-                            ],
-                          )
-                      );
-                    }
-              }),
+              }),*/
 
 
             ],

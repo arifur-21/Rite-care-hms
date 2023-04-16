@@ -8,6 +8,7 @@ import 'package:ritecare_hms/utils/color_styles.dart';
 import '../resources/routes/routes.dart';
 import '../screens/lab_test/lab_test_list/lab_test_list_screen.dart';
 import '../screens/lab_test/sample_list/simple_test_screen.dart';
+import '../screens/ot_management/Ot_management_screen.dart';
 import '../screens/patient/patient_info/patien_info_screen.dart';
 import '../screens/lab_test/summery/summery_screen.dart';
 import '../screens/patient/patient_list/patient_list_screen.dart';
@@ -27,6 +28,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   bool isAdminToggle = false;
   bool isReportToggle = false;
   bool isMisReportToggle = false;
+  bool isOtToggle = false;
+  bool isOtSchedulingToggle = false;
+  bool isOtManagementToggle = false;
 
 
   @override
@@ -100,6 +104,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       onTap: (){
                         Navigator.pop(context);
                         Get.toNamed(RoutesName.patient_listScreen);
+
                       },
                       image: 'assets/icons/test_list.png'),
 
@@ -179,6 +184,129 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
 
               ),
+
+              ExpansionTile(
+
+                title: Row(
+                  children: [
+                    Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+
+                        image: DecorationImage(
+                            image: AssetImage('assets/icons/appointment.png')
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15,),
+                    Text("OT", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isOtToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
+                  ],
+                ),
+                trailing: Icon(
+                  isOtToggle
+                      ? Icons.remove_outlined : Icons.add, size: 30,
+                  color: isOtToggle ? Colors.red : Styles.drawerListColor,
+                ),
+                onExpansionChanged: (bool expand){
+                  setState(() {
+                    isOtToggle = expand;
+                  });
+                },
+                children: [
+                  SizedBox(height: 10,),
+
+                  _drawerSublistWidget(
+                      subTitle: "Summary",
+                      onTap: (){},
+                      image: 'assets/icons/lab_test.png'),
+                  Divider(height: 2,color: Colors.grey,),
+                ],
+
+              ),
+              ExpansionTile(
+
+                title: Row(
+                  children: [
+                    Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+
+                        image: DecorationImage(
+                            image: AssetImage('assets/icons/appointment.png')
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15,),
+                    Text("OT Scheduling", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isOtSchedulingToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
+                  ],
+                ),
+                trailing: Icon(
+                  isOtSchedulingToggle
+                      ? Icons.remove_outlined : Icons.add, size: 30,
+                  color: isOtSchedulingToggle ? Colors.red : Styles.drawerListColor,
+                ),
+                onExpansionChanged: (bool expand){
+                  setState(() {
+                    isOtSchedulingToggle = expand;
+                  });
+                },
+                children: [
+                  SizedBox(height: 10,),
+
+                  _drawerSublistWidget(
+                      subTitle: "Summary",
+                      onTap: (){},
+                      image: 'assets/icons/lab_test.png'),
+                  Divider(height: 2,color: Colors.grey,),
+                ],
+
+              ),
+
+              ExpansionTile(
+
+                title: Row(
+                  children: [
+                    Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+
+                        image: DecorationImage(
+                            image: AssetImage('assets/icons/appointment.png')
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15,),
+                    Text("OT Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isOtManagementToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
+                  ],
+                ),
+                trailing: Icon(
+                  isOtManagementToggle
+                      ? Icons.remove_outlined : Icons.add, size: 30,
+                  color: isOtManagementToggle ? Colors.red : Styles.drawerListColor,
+                ),
+                onExpansionChanged: (bool expand){
+                  setState(() {
+                    isOtManagementToggle = expand;
+                  });
+                },
+                children: [
+                  SizedBox(height: 10,),
+
+                  _drawerSublistWidget(
+                      subTitle: "OT List",
+                      onTap: (){
+                        //Get.toNamed(RoutesName.otManagementScreen);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtManagementScreen()));
+                      },
+                      image: 'assets/icons/lab_test.png'),
+                  Divider(height: 2,color: Colors.grey,),
+                ],
+
+              ),
+
               ExpansionTile(
 
                 title: Row(

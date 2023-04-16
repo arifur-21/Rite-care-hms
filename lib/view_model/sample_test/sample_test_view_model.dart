@@ -8,6 +8,7 @@ class SampleTestViewModel{
   LoginPreference loginPreference = LoginPreference();
   var token;
 
+  // get sample list data
   Future<List<dynamic>> getSimpleListData()async {
     var data;
 

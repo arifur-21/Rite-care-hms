@@ -12,6 +12,9 @@ abstract class BaseApServices{
   Future<List<dynamic>> getPatientByName(String id);
   Future<List<dynamic>> getSimpleTestStatus();
 
+  //user profile
+  Future<dynamic> getUserProfile();
+
   Future<dynamic> getBloodGroup();
   Future<dynamic> getGender();
 

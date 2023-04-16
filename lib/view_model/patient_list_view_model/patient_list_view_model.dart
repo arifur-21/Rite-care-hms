@@ -18,6 +18,7 @@ class PatientListViewModel{
 
 
 
+  /// get patient list
   Future<PatientListModel> getPatientsList()async {
     var data;
 

@@ -15,5 +15,6 @@ class RoutesName{
   static const String patientSearchScreen = '/patient_search_screen';
   static const String registerFormScreen = '/register_form_screen';
   static const String userProfileScreen = '/user_profile_screeb';
+  static const String otManagementScreen = '/ot_management_screen';
 
 }

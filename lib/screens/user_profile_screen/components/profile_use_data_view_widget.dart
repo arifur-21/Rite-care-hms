@@ -19,7 +19,7 @@ class ProfileUserDataViewWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
-            children: [
+            children: [///98557654
               Expanded(
                 flex: 3,
                   child: Row(
@@ -30,7 +30,7 @@ class ProfileUserDataViewWidget extends StatelessWidget {
                 ],
                   )),
               Expanded(
-                flex: 5,
+                flex: 4,
                   child: Row(
                     children: [
                       Text(information,style: TextStyle(fontWeight: FontWeight.w400, color: Colors.black, fontSize: 15))

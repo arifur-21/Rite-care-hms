@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
 
+import '../../data/response/status.dart';
 import '../../utils/color_styles.dart';
+import '../../view_model/user_profile_view_model/user_profile_view_model.dart';
 import '../../widgets/app_bar_widget.dart';
 import '../../widgets/drawer_widget.dart';
 import '../../widgets/popup_button_widget.dart';
@@ -19,6 +21,13 @@ class UserProfileDetailsScreen extends StatefulWidget {
 }
 
 class _UserProfileDetailsScreenState extends State<UserProfileDetailsScreen> {
+  final userProfileVM = Get.put(UserProfileViewModel());
+
+  @override
+  void initState() {
+   userProfileVM.getUserProfile();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,21 +64,36 @@ class _UserProfileDetailsScreenState extends State<UserProfileDetailsScreen> {
 
              ProfileImageContainerWidget(imageUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"),
              SizedBox(height: 20,),
-             Column(
-               children: [
-                 ProfileUserDataViewWidget(title: "User Name",information: "Abdur Rahman"),
-                 ProfileUserDataViewWidget(title: "First Name",information: "Abdur"),
-                 ProfileUserDataViewWidget(title: "Last Name",information: "Rahaman"),
-                 ProfileUserDataViewWidget(title: "Phone Number",information: "0184738-5555"),
-                 ProfileUserDataViewWidget(title: "E-Mail",information: "abdur_rahman@gamil.com"),
-                 ProfileUserDataViewWidget(title: "Gender",information: "Male"),
-                 ProfileUserDataViewWidget(title: "Street",information: "Dhaka, Rampura"),
-                 ProfileUserDataViewWidget(title: "City",information: "Dhaka"),
-                 ProfileUserDataViewWidget(title: "Country",information: "Bangladesh"),
-                 ProfileUserDataViewWidget(title: "Assign Role",information: "345"),
-                 SizedBox(height: 20,)
-               ],
-             )
+
+             Obx((){
+               switch(userProfileVM.rxRequestStatus.value){
+                 case Status.LOADING:
+                   return Center(child:  CircularProgressIndicator(),);
+
+                 case Status.ERROR:
+                   print("error ${userProfileVM.error.value.toString()}");
+                   return Text(userProfileVM.error.value.toString());
+
+                 case Status.SUCCESS:
+
+                   print("profile ${userProfileVM.userProfile.value.userName}");
+                  return Column(
+                     children: [
+                       ProfileUserDataViewWidget(title: "User Name",information: "${userProfileVM.userProfile.value.userName}"),
+                       ProfileUserDataViewWidget(title: "Name",information: "${userProfileVM.userProfile.value.fullName}"),
+                       ProfileUserDataViewWidget(title: "Phone Number",information: "${userProfileVM.userProfile.value.phoneNumber}"),
+                       ProfileUserDataViewWidget(title: "E-Mail",information: "${userProfileVM.userProfile.value!.coa?.companyEmail}"),
+                       ProfileUserDataViewWidget(title: "Address",information: "${userProfileVM.userProfile.value!.coa?.companyAddress}"),
+                       ProfileUserDataViewWidget(title: "Assign Role",information: ""),
+                       SizedBox(height: 20,)
+                     ],
+                   );
+
+
+              }
+             }),
+
+
 
            ],
           ),

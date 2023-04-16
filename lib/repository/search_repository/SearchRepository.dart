@@ -8,6 +8,7 @@ import 'package:ritecare_hms/resources/app_url/app_url.dart';
 
 import '../../data/network/network_api_services.dart';
 import '../../model/lab_test_model/status_model.dart';
+import '../../model/user_profile_model/user_profile_model.dart';
 import '../../view_model/serch_view_mode/SearchViewModel.dart';
 
 
@@ -23,6 +24,14 @@ class SearchRepository{
     print("id response ${response}");
     return SearchModel.fromJson(response);
   }
+
+  /// get user profile
+  Future<UserProfileModel> getUserProfile()async{
+    dynamic response = await _apiServices.getUserProfile();
+    print("id response ${response}");
+    return UserProfileModel.fromJson(response);
+  }
+
 
   List<SearchModel> searchData =[];
   Future<List<SearchModel>> getPatientByOccicialNo(String id)async{

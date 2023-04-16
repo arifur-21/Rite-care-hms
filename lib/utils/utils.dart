@@ -17,7 +17,7 @@ class Utils{
         
   }
   static snakBar(String title, String message){
-    Get.snackbar(title, message,backgroundColor: Colors.red, colorText: Colors.white,snackPosition: SnackPosition.BOTTOM, duration: Duration(seconds: 5));
+    Get.snackbar(title, message,backgroundColor: Colors.grey, colorText: Colors.white,snackPosition: SnackPosition.BOTTOM, duration: Duration(seconds: 5));
   }
 
 }

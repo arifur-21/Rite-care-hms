@@ -10,10 +10,11 @@ class ExpandableItemSubList extends StatefulWidget {
   final String? title;
   final String? category;
   final String? name;
+  final List<dynamic> sampleList;
   final VoidCallback? onPressed;
 
 
-  ExpandableItemSubList({this.title, this.category, this.name, this.onPressed});
+  ExpandableItemSubList({this.title, this.category, this.name, this.onPressed, required this.sampleList});
 
   @override
   State<ExpandableItemSubList> createState() => _ExpandableItemSubListState();

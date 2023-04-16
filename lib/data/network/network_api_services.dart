@@ -44,6 +44,34 @@ class NetworkApiServices extends BaseApServices {
     return responseJson;
   }
 
+  ///// user profile
+  @override
+  Future getUserProfile() async{
+    loginPreference.getToken().then((value) {
+      token = value.accessToken!;
+    });
+
+    dynamic responseJson;
+
+    try {
+      final response = await http.get(
+          Uri.parse(
+              'https://mobileapp.rite-hms.com/Login/GetLoggedinUser'),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache'
+          }
+      ).timeout(Duration(seconds: 30));
+      responseJson = returnResponse(response);
+      print("response json ${responseJson.length}");
+    } on SocketException {
+      throw InternetException("");
+    } on RequestTimeOut {
+      throw RequestTimeOut('');
+    }
+    return responseJson;
+  }
 
   ///login user
   @override
@@ -103,7 +131,7 @@ class NetworkApiServices extends BaseApServices {
 
   @override
   Future<List<dynamic>> getPatientByCellNo(String id) async {
-    print("test123");
+
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
     });
@@ -330,5 +358,6 @@ class NetworkApiServices extends BaseApServices {
 
 
 
-
 }
+
+

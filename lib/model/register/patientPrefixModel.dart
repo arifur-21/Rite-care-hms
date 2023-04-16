@@ -1,13 +1,13 @@
 class PatientPrefixModel {
-  String? name;
-  String? prefix;
-  String? languageCode;
-  int? id;
-  bool? active;
-  Null? userId;
-  bool? hasErrors;
-  int? errorCount;
-  bool? noErrors;
+  dynamic? name;
+  dynamic? prefix;
+  dynamic? languageCode;
+  dynamic? id;
+  dynamic? active;
+  dynamic? userId;
+  dynamic? hasErrors;
+  dynamic? errorCount;
+  dynamic? noErrors;
 
   PatientPrefixModel(
       {this.name,

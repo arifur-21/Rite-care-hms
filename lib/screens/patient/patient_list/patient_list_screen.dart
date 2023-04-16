@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ritecare_hms/model/patinet_list_model/patient_list_model.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 import '../../../data/response/status.dart';
@@ -24,6 +25,8 @@ class PatientListScreen extends StatefulWidget {
 class _PatientListScreenState extends State<PatientListScreen> {
 
   final patinetListVM = Get.put(PatientListViewModel());
+
+
 
   @override
   void initState() {
@@ -67,7 +70,6 @@ class _PatientListScreenState extends State<PatientListScreen> {
               ),
             ),
 
-
             Expanded(
               child: FutureBuilder<PatientListModel>(
                   future: patinetListVM.getPatientsList(),
@@ -82,7 +84,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
                             return  PatientCartListViewWidgets(
                               patientId: ' ${snapShot.data?.items![index].id}',
                               PatientName: ' ${snapShot.data?.items![index].firstName}',
-                              DateOfBirth: ' ${snapShot.data?.items![index].dOB}',
+                              DateOfBirth: '${snapShot.data?.items![index].dOB}',
                             onTap: (){
 
                               Navigator.of(context).push(MaterialPageRoute(

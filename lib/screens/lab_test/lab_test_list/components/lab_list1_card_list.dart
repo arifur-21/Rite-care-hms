@@ -11,25 +11,25 @@ class LabList1CardList extends StatelessWidget {
   String? code;
   String? category;
   double? price;
+  VoidCallback onTap;
 
 
-  LabList1CardList({required this.title,required this.code,required this.category,required this.price});
+  LabList1CardList({required this.title,required this.code,required this.category,required this.price, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-
-      child: Card(
-        elevation: 6,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            margin: EdgeInsets.all(6),
-
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border:  Border.all(width: 1, color: Styles.primaryColor)
+        ),
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,30 +49,29 @@ class LabList1CardList extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 16,),
-
+                SizedBox(height: 10,),
+                Divider(height: 1, color: Colors.grey,),
+                SizedBox(height: 8,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
-                        Text("Price",style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.green)),
+                        Text("Price :",style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.green)),
                         SizedBox(width: 10,),
                         Text(price.toString(),style: Styles.poppinsFontBlack12_400),
                       ],
                     ),
                     InkWell(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LabTestListDetailsScreen() ));
-                        },
+                        onTap: onTap,
                         child: Icon(Icons.note_outlined,size: 25,color: Styles.primaryColor,))
                   ],
                 )
               ],
             ),
           ),
-        ),
-      )
+        )
+      ),
     );
 
   }

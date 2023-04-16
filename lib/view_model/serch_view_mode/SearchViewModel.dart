@@ -36,18 +36,19 @@ class SearchViewModel extends GetxController{
 
 
   void searchPatient(){
-
     _api.getSearch(patienidController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
-      setPatientList(value);
+      List<SearchModel> slist =[];
+      slist.add(value);
+
+      setPatient(slist);
+      print("value${value}");
     }).onError((error, stackTrace){
       setRxRequestStatus(Status.ERROR);
       setError(error.toString());
       print("viewModel error ${error.toString()}");
     });
   }
-
-
   Future<List<SearchModel>> searchPatientCellNum()async{
     setRxRequestStatus(Status.LOADING);
     _api.getPateintByCellNO(patientCellNoController.value.text).then((value) {
@@ -61,7 +62,6 @@ class SearchViewModel extends GetxController{
 
     return patientListItem;
   }
-
   Future<List<SearchModel>> searchPatientOfficalNo()async{
     setRxRequestStatus(Status.LOADING);
     _api.getPatientByOccicialNo(patientOfficialNumberController.value.text).then((value) {
@@ -75,7 +75,6 @@ class SearchViewModel extends GetxController{
 
     return patientListItem;
   }
-
   Future<List<SearchModel>> searchPatientByName()async{
     setRxRequestStatus(Status.LOADING);
     _api.getPateintByName(patientNameController.value.text).then((value) {
@@ -91,6 +90,7 @@ class SearchViewModel extends GetxController{
   }
 
 
+  // get patient cell number
   Future<List<dynamic>> getPatientsCell()async {
     var data;
 
@@ -108,12 +108,14 @@ class SearchViewModel extends GetxController{
 
     if(response.statusCode == 200){
       data  = jsonDecode(response.body) ;
+      print("cell number ${data}");
       return data;
     }else{
       return data;
     }
   }
 
+  ///get patinet by name
   Future<List<dynamic>> getPatientByName()async {
     var data;
     loginPreference.getToken().then((value){
@@ -136,6 +138,7 @@ class SearchViewModel extends GetxController{
     }
   }
 
+  ///get patient by official number
   Future<List<dynamic>> getPatientByOfficialNumber()async {
     var data;
 
@@ -153,6 +156,7 @@ class SearchViewModel extends GetxController{
 
     if(response.statusCode == 200){
       data  = jsonDecode(response.body) ;
+      print("${data}");
       return data;
     }else{
       return data;

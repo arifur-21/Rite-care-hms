@@ -1,8 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
+
+import '../../../../view_model/summery_view_model/summery_view_model.dart';
 
 class SampleListFilterWidget extends StatefulWidget {
   const SampleListFilterWidget({Key? key}) : super(key: key);
@@ -13,8 +16,9 @@ class SampleListFilterWidget extends StatefulWidget {
 
 class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
 
-  List<String> _selectedItems = [];
+  final summeryVm = Get.put(SummeryViewModel());
 
+  List<String> _selectedItems = [];
 
   void _showMultiSelect() async {
     // a list of selectable items
@@ -39,12 +43,10 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
     if (results != null) {
       setState(() {
         _selectedItems = results;
-        print(_selectedItems);
+        print("select item ${_selectedItems}");
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //bar code ui
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -93,49 +96,40 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                 ),
               ],
             ),
+            ///filter container
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
                   onTap: (){
-                    Column(
-                      children: [
-
-                      ],);
+                    _showMultiSelect();
                   },
-                  child:InkWell(
-                    onTap: (){
+                  child: Container(
+                      height: 42,
+                      width: 140,
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(6)
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 26,
+                            width: 26,
+                            decoration: BoxDecoration(
 
-                      _showMultiSelect();
-                    },
-                    child: Container(
-                        height: 42,
-                        width: 140,
-                        padding: const EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(6)
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 26,
-                              width: 26,
-                              decoration: BoxDecoration(
-
-                                image: DecorationImage(
-                                    image: AssetImage('assets/icons/filter.png')
-                                ),
+                              image: DecorationImage(
+                                  image: AssetImage('assets/icons/filter.png')
                               ),
                             ),
-                            SizedBox(width: 20,),
-                            Text("Filter",style: Styles.poppinsFont14_600),
+                          ),
+                          SizedBox(width: 20,),
+                          Text("Filter",style: Styles.poppinsFont14_600),
 
-                          ],
-                        )
-                    ),
+                        ],
+                      )
                   ),
-
                 ),
 
               ],
@@ -148,6 +142,7 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
 
 // Multi Select widget
 // This widget is reusable
+
 class MultiSelect extends StatefulWidget {
   final List<String> items;
 
@@ -158,6 +153,9 @@ class MultiSelect extends StatefulWidget {
 }
 
 class _MultiSelectState extends State<MultiSelect> {
+
+  final summeryVm = Get.put(SummeryViewModel());
+
   // this variable holds the selected items
   final List<String> _selectedItems = [];
   bool isCheckeds = false;
@@ -223,12 +221,11 @@ class _MultiSelectState extends State<MultiSelect> {
                         });
                       },
                       child:  ListBody(
-                        children: widget.items
-                            .map((item) => CheckboxListTile(
-                          value: _selectedItems.contains(item),
-                          title: Text(item),
+                        children: summeryVm.statusList.map((item) => CheckboxListTile(
+                          value: _selectedItems.contains(item.name),
+                         // title: Text(item.name.toString()),
                           controlAffinity: ListTileControlAffinity.leading,
-                          onChanged: (isChecked) => _itemChange(item, isChecked!),
+                          onChanged: (isChecked) => _itemChange(item.name.toString(), isChecked!)
                         ))
                             .toList(),
                       ),
@@ -252,7 +249,6 @@ class _MultiSelectState extends State<MultiSelect> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-
 
               Text('Start Date ${startDate.toString()}', style: Styles.poppinsFontBlack12_400),
               InkWell(
@@ -300,54 +296,59 @@ class _MultiSelectState extends State<MultiSelect> {
 
         SizedBox(height: 10,),
 
-        Container(
-          height: 40,
-          child: TextFormField(
-            controller: sampleIdController,
-            keyboardType: TextInputType.text ,
-            decoration: InputDecoration(
-              label: Text("Sample Id"),
-              labelStyle: TextStyle(fontFamily: 'IstokWeb', fontWeight: FontWeight.w400, fontSize: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Styles.greyColor),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Styles.greyColor),
-                borderRadius: BorderRadius.circular(6),
-              ),
+         Column(
+           children: [
+             Container(
+               height: 40,
+               child: TextFormField(
+                 controller: sampleIdController,
+                 keyboardType: TextInputType.text ,
+                 decoration: InputDecoration(
+                   label: Text("Sample Id"),
+                   labelStyle: TextStyle(fontFamily: 'IstokWeb', fontWeight: FontWeight.w400, fontSize: 12),
+                   border: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(6),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderSide: BorderSide(width: 2, color: Styles.greyColor),
+                     borderRadius: BorderRadius.circular(6),
+                   ),
+                   enabledBorder: OutlineInputBorder(
+                     borderSide: BorderSide(width: 2, color: Styles.greyColor),
+                     borderRadius: BorderRadius.circular(6),
+                   ),
 
-            ),
-          ),
-        ),
-        SizedBox(height: 10,),
+                 ),
+               ),
+             ),
+             SizedBox(height: 10,),
 
-        Container(
-          height: 40,
-          child: TextFormField(
-            controller: invoNoController,
-            keyboardType: TextInputType.text ,
-            decoration: InputDecoration(
-              label: Text("Invo.No"),
-              labelStyle: TextStyle(fontFamily: 'IstokWeb', fontWeight: FontWeight.w400, fontSize: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Styles.greyColor),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Styles.greyColor),
-                borderRadius: BorderRadius.circular(6),
-              ),
+             Container(
+               height: 40,
+               child: TextFormField(
+                 controller: invoNoController,
+                 keyboardType: TextInputType.text ,
+                 decoration: InputDecoration(
+                   label: Text("Invo.No"),
+                   labelStyle: TextStyle(fontFamily: 'IstokWeb', fontWeight: FontWeight.w400, fontSize: 12),
+                   border: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(6),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderSide: BorderSide(width: 2, color: Styles.greyColor),
+                     borderRadius: BorderRadius.circular(6),
+                   ),
+                   enabledBorder: OutlineInputBorder(
+                     borderSide: BorderSide(width: 2, color: Styles.greyColor),
+                     borderRadius: BorderRadius.circular(6),
+                   ),
 
-            ),
-          ),
-        ),
+                 ),
+               ),
+             ),
+           ],
+         ),
+
         SizedBox(height: 20,),
         Padding(
           padding: const EdgeInsets.only(right: 10, bottom:10),
@@ -363,7 +364,15 @@ class _MultiSelectState extends State<MultiSelect> {
                   border: Border.all(color: Colors.red, width: 2)
 
               ),
-              child: Center(child: Text("Go", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.red),)),
+              child: InkWell(
+                onTap: (){
+
+                  print("value ${_selectedItems}");
+                  print("value11 ${summeryVm.statusList.length}");
+
+                },
+                  child: Center(
+                      child: Text("Go", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.red),))),
             ),
           ),
         ),
@@ -371,4 +380,8 @@ class _MultiSelectState extends State<MultiSelect> {
       ],
     );
   }
+
+
+
+
 }

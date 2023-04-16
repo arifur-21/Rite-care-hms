@@ -26,9 +26,10 @@ import 'full_form_register_screen.dart';
 class RegistrFullForm extends StatefulWidget {
    dynamic? name;
    dynamic? gender;
+   dynamic? cellNumber;
 
 
-  RegistrFullForm({this.name, this.gender});
+  RegistrFullForm({this.name, this.gender, this.cellNumber});
 
   @override
   State<RegistrFullForm> createState() => _RegistrFullFormState();
@@ -36,6 +37,15 @@ class RegistrFullForm extends StatefulWidget {
 
 class _RegistrFullFormState extends State<RegistrFullForm> {
   List<String> serviceTypeList = ['Uniform', 'RE', 'CNE'];
+  List<String> genderList = ['Male', 'Female', 'Third Gender'];
+  List<String> bloodGroupList = ['A(+VE)', 'A(-VE)', 'B(+VE)', 'B(-VE)', 'O(+VE)', 'O(-VE)', 'AB(+VE)', 'AB(-VE)',
+  ];
+
+  dynamic prefixId;
+  dynamic statusId;
+  dynamic relationId;
+
+
 
   final registerVM = Get.put(PatientRegisterViewModel());
   final _formKey = GlobalKey<FormState>();
@@ -61,41 +71,14 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
   bool isServiceType = false;
 
 
+  @override
+  void initState() {
 
-  Map data = {
-    "FirstName": "Rizwan",
-    "LastName": "",
-    "PhoneNumber": "967676",
-    "BloodGroup": null,
-    "DOB": null,
-    "Email": "",
-    "Photo": null,
-    "EmergencyNumber": "",
-    "EmergencyContactName": "",
-    "EmergencyContactRelation": "",
-    "CreatedDate": "/Date(1680881032977)/",
-    "ServiceId": "987654",
-    "RelationshipId": 1,
-    "RankId": 179,
-    "TradeId": null,
-    "ServiceTypeId": 0,
-    "RankTypeId": null,
-    "UnitName": "71 Bde",
-    "RankName": "Capt",
-    "PatientStatusId": null,
-    "Sex": null,
-    "OldDob": null,
-    "Gender": {
-      "Name": "Male"
-    },
-    "PatientPrefix": {
-      "Name": "Officers"
-    },
-    "PatientStatus": null,
-    "Relationship": {
-      "Name": "Self"
-    }
-  };
+    super.initState();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -288,7 +271,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                         height: 15,
                       ),
                       RegisterValidateTextField(
-                        textController: registerVM.firstNameController.value,
+                        textController: registerVM.phoneNumberController.value,
                         hintText: "First Name",
                         errorText: "enter your name",),
 
@@ -393,89 +376,6 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                       ),
                     ],)),
 
-              /* Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                  width: Get.width*0.4,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Styles.primaryColor,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Container(
-                                          height: 25,
-                                          width: 25,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage('assets/icons/scan.png')
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Text("Take Image", style: TextStyle(fontSize: 16, color: Colors.white),)
-                                    ],
-                                  )
-                              )
-                            ],
-                          ),
-
-                          Column(
-                            children: [
-                              Container(
-                                  width: Get.width*0.4,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Styles.primaryColor,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(4),
-                                        child: Container(
-                                          height: 25,
-                                          width: 25,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage('assets/icons/file.png')
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Text("Upload", style: TextStyle(fontSize: 16,color: Colors.white),)
-                                    ],
-                                  )
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 40,),
-                      CircularProfileImageWidget(),
-                      SizedBox(height: 40,),
-                      RoundedButton(
-                        width: Get.width * 0.9,
-                          title: "Register",
-                          color: Styles.primaryColor,
-                          onTap:(){
-                          registerVM.registerPatient();
-                          })
-                    ],
-                  ),
-                ),*/
 
               RoundedButton(
                   width: Get.width * 0.4,
@@ -485,7 +385,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                       print("gender null");
 
                     }
-                    print("name ${widget.name}");
+                    print("status  ${selectPatientStatus}");
                     if(_formKey.currentState!.validate()){
                       registerVM.registerPatientFullForm(
                           service: selectServiceType,
@@ -496,7 +396,11 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                           prefix: selectPatientFrefix,
                           imageUrl: imageFile,
                           dateOfBrith: dateOfBirth,
-                          isRetired: isRetired
+                          isRetired: isRetired,
+                          prefixId: prefixId,
+                          statusId: statusId,
+                          relationId: relationId
+
                       );
                     }
 
@@ -550,14 +454,14 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                 child: ListView(
                   primary: true,
                   shrinkWrap: true,
-                  children: registerVM.bloodGroupList.value.data!.map((e) => Container(
+                  children: bloodGroupList!.map((e) => Container(
                     decoration: BoxDecoration(
                       border: Border(top: BorderSide(width: 0.7,color: Colors.grey)),
-                      color: selectBloodGroup == e.name ? Styles.primaryColor :Colors.white,
+                      color: selectBloodGroup == e ? Styles.primaryColor :Colors.white,
                     ),
                     child: InkWell(
                         onTap: (){
-                          selectBloodGroup = e.name.toString();
+                          selectBloodGroup = e.toString();
                           print(selectBloodGroup);
                           isOpen = false;
                           setState(() {
@@ -565,7 +469,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12),
-                          child: Text(e.name.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectBloodGroup == e.name ? Colors.white : Styles.drawerListColor),),
+                          child: Text(e.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectBloodGroup == e ? Colors.white : Styles.drawerListColor),),
 
                         )),
 
@@ -624,21 +528,21 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                 child: ListView(
                   primary: true,
                   shrinkWrap: true,
-                  children:  registerVM.genderList.value.data!.map((e) => e == null ? CircularProgressIndicator( ):  Container(
+                  children:  genderList.map((e) => e == null ? CircularProgressIndicator( ):  Container(
                     decoration: BoxDecoration(
                       border: Border(top: BorderSide(width: 0.7,color: Colors.grey)),
-                      color: selectGender == e.name ? Styles.primaryColor :Colors.white,
+                      color: selectGender == e ? Styles.primaryColor :Colors.white,
                     ),
                     child: InkWell(
                         onTap: (){
-                          selectGender = e.name.toString();
+                          selectGender = e.toString();
                           isGender = false;
                           setState(() {
                           });
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12),
-                          child: Text(e.name.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectGender == e.name ? Colors.white : Styles.drawerListColor),),
+                          child: Text(e.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: selectGender == e ? Colors.white : Styles.drawerListColor),),
 
                         )),
 
@@ -730,7 +634,6 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
 
   Widget patientPrefix(){
     return Container(
-
       child: Column(
         children: [
 
@@ -789,7 +692,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                               itemBuilder: (context, index){
                                 return InkWell(
                                   onTap: (){
-                                    selectPatientFrefix = snapshot.data![index]?["Name"];
+                                  //  selectPatientFrefix = snapshot.data![index]?["Name"];
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -801,7 +704,9 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                                       child: InkWell(
                                           onTap: (){
                                             selectPatientFrefix  = snapshot.data![index]?["Name"];
+                                            prefixId  = snapshot.data![index]?["Id"];
 
+                                            print("id${snapshot.data![index]?["Id"]}");
                                             isPrefix = false;
                                             setState(() {
                                             });
@@ -891,7 +796,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                               itemBuilder: (context, index){
                                 return InkWell(
                                   onTap: (){
-                                    selectPatientStatus =snapshot.data![index]?["Name"];
+                              //      selectPatientStatus =snapshot.data![index]?["Name"];
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -903,6 +808,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                                       child: InkWell(
                                           onTap: (){
                                             selectPatientStatus  = snapshot.data![index]?["Name"];
+                                            statusId  = snapshot.data![index]?["Id"];
                                             print("status ${snapshot.data![index]?["Name"]}");
                                             isStutus = false;
                                             setState(() {
@@ -992,7 +898,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                               itemBuilder: (context, index){
                                 return InkWell(
                                   onTap: (){
-                                    selectPatientRelation =snapshot.data![index]?["Name"];
+                                  //  selectPatientRelation =snapshot.data![index]?["Name"];
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -1004,6 +910,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
                                       child: InkWell(
                                           onTap: (){
                                             selectPatientRelation  = snapshot.data![index]?["Name"];
+                                            relationId  = snapshot.data![index]?["Id"];
                                             print("status ${snapshot.data![index]?["Name"]}");
                                             isRelation = false;
                                             setState(() {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../utils/color_styles.dart';
 import '../../patient_info/patien_info_screen.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -11,9 +12,8 @@ class PatientCartListViewWidgets extends StatelessWidget {
 
   final String patientId;
   final String PatientName;
-  final String DateOfBirth;
+  final dynamic? DateOfBirth;
   final VoidCallback onTap;
-
 
   PatientCartListViewWidgets({required this.patientId, required this.PatientName, required this.DateOfBirth, required this.onTap});
 
@@ -39,6 +39,7 @@ class PatientCartListViewWidgets extends StatelessWidget {
                   ],
                 ),
               )),
+
           Expanded(
               flex: 3,
               child:
@@ -47,8 +48,10 @@ class PatientCartListViewWidgets extends StatelessWidget {
                 children: [
                   Text(patientId, style: TextStyle( fontSize: 16, color: Styles.textGreen),),
                   SizedBox(height: 10,),
+
                   Text(PatientName, style: TextStyle( fontSize: 16, color: Styles.textGreen),),
                   SizedBox(height: 10,),
+
                   Text(DateOfBirth, style: TextStyle(fontSize: 16, color: Styles.textGreen),),
                 ],)),
           Expanded(
