@@ -7,8 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:ritecare_hms/model/ot_management_model/ot_list_model.dart';
 import 'package:ritecare_hms/widgets/resuable_header.dart';
 
+import '../../data/response/status.dart';
 import '../../utils/color_styles.dart';
 import '../../view_model/ot_management_view_model/ot_list_view_model.dart';
+import '../../view_model/user_profile_view_model/user_profile_view_model.dart';
 import '../../widgets/app_bar_widget.dart';
 import '../../widgets/drawer_widget.dart';
 
@@ -22,9 +24,19 @@ class OtManagementScreen extends StatefulWidget {
 class _OtManagementScreenState extends State<OtManagementScreen> {
 
   final otListVM = Get.put(OtListViewModel());
+  final userProfileVM = Get.put(UserProfileViewModel());
+  dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+  dynamic endDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+  dynamic startBtn = 'Start';
+  Color? btnColor = Colors.orange;
+  bool btnVisibility = true;
 
-  String startDate = '';
-  String endDate = '';
+  @override
+  void initState() {
+    //otListVM.getOtListData();
+    otListVM.getSchedule();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,31 +64,43 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
 
           ResuableHeader(date: "Surgery", invNo: "Patient", status: "Status"),
 
-          Expanded(
-              child: FutureBuilder<OtListModel>(
-            future: otListVM.getOtListData(),
-                builder: (context, snapShot){
-              if(!snapShot.hasData){
-                return Text("data not found");
-              }else{
-                return ListView.builder(
-                  itemCount: snapShot.data!.items!.length,
-                    itemBuilder: (context, index){
-                    print("length ${snapShot.data!.items!.length}");
-                  return  otListWidget(
-                    //name: snapShot.data!.items[index].
-                  );
-                });
-              }
-                },
-          ))
+          Obx((){
+            switch(userProfileVM.rxRequestStatus.value){
+              case Status.LOADING:
+                return Center(child:  CircularProgressIndicator(),);
+
+              case Status.ERROR:
+                print("error ${userProfileVM.error.value.toString()}");
+                return Center(child: Text(userProfileVM.error.value.toString()));
+
+              case Status.SUCCESS:
+
+                print("ot length ${otListVM.otScheduleList.value.items?.length}");
+                return Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                      itemCount: otListVM.otScheduleList.value.items?.length,
+                      itemBuilder: (context, index){
+
+                        return  otListWidget(
+                          title: otListVM.otScheduleList.value.items?[index]?.item?.name,
+                          name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
+                          status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
+                          surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
+                          indexNum : index,
+
+                        );
+                      }),
+                );
+            }
+          }),
 
         ],
       ),
     );
   }
 
-  Widget otListWidget({String? title, dynamic? name}){
+  Widget otListWidget({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum}){
     return Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
@@ -84,7 +108,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Styles.primaryColor),
+                border: Border.all(width: 2, color: (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,),
                 borderRadius: BorderRadius.circular(6)
 
             ),
@@ -96,16 +120,16 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: Text("${name}")),
+                      Expanded(child: Text("${title}")),
                       SizedBox(width: 10,),
-                      Expanded(child: Text("Mrs. Sultana Begum,")),
+                      Expanded(child: Text("${name},")),
                       SizedBox(width: 10,),
                       Expanded(
                         child: Container(
                             height: 25,
                             width: 100,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              color:  (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,
                               border: Border(),
                               borderRadius: BorderRadius.circular(50),
                               boxShadow: [
@@ -119,7 +143,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                               ],
                             ),
                             child: Center(
-                                child: Text("Initiated",
+                                child: Text("${status}",
                                     style: Styles.poppinsFont12_600))),
 
                       )
@@ -136,27 +160,54 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Cardiac"),
-                      Container(
-                          height: 30,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            border: Border(),
-                            borderRadius: BorderRadius.circular(6),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 3,
-                                blurRadius: 7,
-                                offset: Offset(
-                                    0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                              child: Text("Start",
-                                  style: Styles.poppinsFont12_600))),
+                      Text("${surgeryType}"),
+
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            if(status == 'Initiated'){
+                             // startBtn = 'End';
+                          //    btnColor = Colors.tealAccent;
+                              dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
+                              aItem?.surgeryStatus?.name = "In Progress";
+                            }
+                          if(status == 'In Progress'){
+                           // startBtn = 'Complited';
+                          //  btnColor = Colors.teal;
+                          } if(status == 'Completed'){
+                           // btnVisibility = false;
+                           // startBtn = 'invisible';
+                          //  btnColor = Colors.red;
+                          }
+                          });
+
+
+                          ///print( aItem?.item?.name);
+
+                         // otListVM.otScheduleList.value.items?[indexNum!]= aItem;
+
+
+                        },
+                        child: Container(
+                            height: 30,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: btnColor,
+                              border: Border(),
+                              borderRadius: BorderRadius.circular(6),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 3,
+                                  blurRadius: 7,
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                                child: Text("${startBtn}",  style: Styles.poppinsFont12_600))),
+                      ),
                       Icon(Icons.file_copy_outlined, size: 30,)
                     ],
                   )
@@ -187,7 +238,7 @@ Widget calanderDateWidget(){
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(" ${startDate.toString()}", style: TextStyle(fontSize: 16, color: Styles.primaryColor),),
+                    Text(" ${otListVM.startDate.toString()}", style: TextStyle(fontSize: 16, color: Styles.primaryColor),),
                     SizedBox(height: 6,),
                     InkWell(
                         onTap: () async {
@@ -204,14 +255,12 @@ Widget calanderDateWidget(){
                                 pickedDate); //get the picked date in the format => 2022-07-04 00:00:00.000
                             String formattedDate = DateFormat('yyyy-MM-dd').format(
                                 pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                            print(
-                                formattedDate); //formatted date output using intl package =>  2022-07-04
+                            print(formattedDate); //formatted date output using intl package =>  2022-07-04
                             //You can format date as per your need
 
                             setState(() {
-                              startDate =
-                                  formattedDate; //set foratted date to TextField value.
-                              print("${startDate}");
+                              otListVM.startDate = formattedDate; //set foratted date to TextField value.
+                              print("${otListVM.startDate}");
                             });
                           } else {
                             print("Date is not selected");
@@ -238,7 +287,7 @@ Widget calanderDateWidget(){
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(" ${endDate.toString()}", style: TextStyle(fontSize: 16, color: Styles.primaryColor),),
+                    Text(" ${otListVM.endDate.toString()}", style: TextStyle(fontSize: 16, color: Styles.primaryColor),),
                     SizedBox(height: 6,),
                     InkWell(
                         onTap: () async {
@@ -260,9 +309,9 @@ Widget calanderDateWidget(){
                             //You can format date as per your need
 
                             setState(() {
-                              endDate =
+                              otListVM.endDate =
                                   formattedDate; //set foratted date to TextField value.
-                              print("${endDate}");
+                              print("${otListVM.endDate}");
                             });
                           } else {
                             print("Date is not selected");

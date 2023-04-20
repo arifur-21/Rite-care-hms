@@ -25,38 +25,38 @@ class SampleTest {
 }
 
 class Items {
-  int? invoiceNo;
-  int? patientID;
-  String? invoiceDate;
-  String? dueDate;
-  int? invoiceStatusId;
-  int? labStatusId;
-  int? totalAmount;
-  int? totalDiscount;
-  Null? itemDiscount;
+  dynamic? invoiceNo;
+  dynamic? patientID;
+  dynamic? invoiceDate;
+  dynamic? dueDate;
+  dynamic? invoiceStatusId;
+  dynamic? labStatusId;
+  dynamic? totalAmount;
+  dynamic? totalDiscount;
+  dynamic? itemDiscount;
   bool? isRefunded;
   bool? isReturn;
-  Null? modifiedBy;
+  dynamic? modifiedBy;
   bool? isBothSideDiscount;
-  int? discountPercentage;
-  Null? discountNote;
-  Null? patientAdmission;
+  dynamic? discountPercentage;
+  dynamic? discountNote;
+  dynamic? patientAdmission;
   bool? isAnyCompleteItem;
-  int? advance;
-  Null? vat;
+  dynamic? advance;
+  dynamic? vat;
   bool? isVatPaid;
   Patient? patient;
-  int? amount;
-  Null? medicalTypeName;
+  dynamic? amount;
+  dynamic? medicalTypeName;
   bool? isDueCollection;
-  int? branchId;
-  Null? branch;
-  int? tenantId;
-  int? id;
+  dynamic? branchId;
+  dynamic? branch;
+  dynamic? tenantId;
+  dynamic? id;
   bool? active;
-  int? userId;
+  dynamic? userId;
   bool? hasErrors;
-  int? errorCount;
+  dynamic? errorCount;
   bool? noErrors;
 
   Items(
@@ -174,21 +174,21 @@ class Items {
 }
 
 class Patient {
-  String? firstName;
-  String? lastName;
-  String? phoneNumber;
-  int? genderId;
-  Null? bloodGroup;
-  Null? bloodGroupId;
-  Null? fatherName;
-  String? dOB;
-  String? nationalId;
-  String? occupation;
-  String? street;
-  String? city;
-  String? zip;
-  String? country;
-  String? email;
+  dynamic? firstName;
+  dynamic? lastName;
+  dynamic? phoneNumber;
+  dynamic? genderId;
+  dynamic? bloodGroup;
+  dynamic? bloodGroupId;
+  dynamic? fatherName;
+  dynamic? dOB;
+  dynamic? nationalId;
+  dynamic? occupation;
+  dynamic? street;
+  dynamic? city;
+  dynamic? zip;
+  dynamic? country;
+  dynamic? email;
 
   Patient(
       {

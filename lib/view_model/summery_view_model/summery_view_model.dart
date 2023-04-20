@@ -2,7 +2,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:intl/intl.dart';
 import 'package:ritecare_hms/model/lab_test_model/status_model.dart';
 import 'package:ritecare_hms/model/login_model/login_token_model.dart';
 import 'package:ritecare_hms/resources/app_url/app_url.dart';
@@ -21,6 +23,14 @@ class SummeryViewModel{
   LoginPreference loginPreference = LoginPreference();
   var token;
   dynamic list = [];
+  dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
+  dynamic endDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
+  dynamic statusId =''.obs;
+  //RxString endDate = ''.obs;
+//  RxString formattedDate = ''.obs;
+
+  final sampleIdController = TextEditingController().obs;
+  final invoNumController = TextEditingController().obs;
 
 
   ///summery list data
@@ -70,7 +80,6 @@ class SummeryViewModel{
 
       statusList.clear();
       for(Map i in data){
-
         statusList.add(StatusListModel.fromJson(i));
        // print(i["Name"]);
       }
@@ -81,14 +90,20 @@ class SummeryViewModel{
   }
 
 
-  ///get sample list 2
+  ///get sample list
   Future<SampleTest> getSampleTestApiData()async {
+
+    print('status id vm ${statusId}');
+    print('start date id vm ${startDate}');
+    print('end date id vm ${endDate}');
+
+
     var data;
     loginPreference.getToken().then((value){
       token = value.accessToken!;
     });
 
-    final response = await http.get(Uri.parse('https://mobileapp.rite-hms.com/Item/GetInvoiceSampleIDByMedicalType?id=775925&statusid=0&medicalTypeID=62&DateStart=2023-04-06&DateEnd=2023-04-06&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null'),
+    final response = await http.get(Uri.parse('https://mobileapp.rite-hms.com/Item/GetInvoiceSampleIDByMedicalType?id=775925&statusid=0&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -98,7 +113,7 @@ class SummeryViewModel{
     data  = jsonDecode(response.body) ;
        if(response.statusCode == 200){
    //   print(("sample test111 ${data['items'][0]['InvoiceNo']}"));
-
+         print("test sample ${data}");
 
       return  SampleTest.fromJson(data);
     }else{

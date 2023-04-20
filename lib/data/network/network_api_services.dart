@@ -21,9 +21,7 @@ class NetworkApiServices extends BaseApServices {
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
     });
-
     dynamic responseJson;
-
     try {
       final response = await http.get(
           Uri.parse(
@@ -46,7 +44,7 @@ class NetworkApiServices extends BaseApServices {
 
   ///// user profile
   @override
-  Future getUserProfile() async{
+  Future getApiData(String url) async{
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
     });
@@ -55,8 +53,34 @@ class NetworkApiServices extends BaseApServices {
 
     try {
       final response = await http.get(
+          Uri.parse(url),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache'
+          }
+      ).timeout(Duration(seconds: 30));
+      responseJson = returnResponse(response);
+      print("response json ${responseJson.length}");
+    } on SocketException {
+      throw InternetException("");
+    } on RequestTimeOut {
+      throw RequestTimeOut('');
+    }
+    return responseJson;
+  }
+
+  //get ot schedule
+  @override
+  Future getOtSchdule() async{
+    loginPreference.getToken().then((value) {
+      token = value.accessToken!;
+    });
+    dynamic responseJson;
+    try {
+      final response = await http.get(
           Uri.parse(
-              'https://mobileapp.rite-hms.com/Login/GetLoggedinUser'),
+              'https://mobileapp.rite-hms.com/OT/GetOperationScheduleList?pageNumber=1&pageSize=150&startDate=2023-04-18&endDate=2023-04-18&patientId=0&isMobileApp=true'),
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
@@ -128,7 +152,7 @@ class NetworkApiServices extends BaseApServices {
     }
     return responseJson;
   }
-
+// get patient by cell number
   @override
   Future<List<dynamic>> getPatientByCellNo(String id) async {
 
@@ -159,6 +183,7 @@ class NetworkApiServices extends BaseApServices {
     return responseJson;
   }
 
+  /// get blood group
   @override
   Future getBloodGroup() async {
     loginPreference.getToken().then((value) {
@@ -187,6 +212,7 @@ class NetworkApiServices extends BaseApServices {
     return responseJson;
   }
 
+  //get gender
   @override
   Future getGender()async {
     loginPreference.getToken().then((value) {
@@ -354,7 +380,6 @@ class NetworkApiServices extends BaseApServices {
                 response.statusCode.toString());
     }
   }
-
 
 
 

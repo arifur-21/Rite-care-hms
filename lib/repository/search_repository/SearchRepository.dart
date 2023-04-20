@@ -8,6 +8,7 @@ import 'package:ritecare_hms/resources/app_url/app_url.dart';
 
 import '../../data/network/network_api_services.dart';
 import '../../model/lab_test_model/status_model.dart';
+import '../../model/ot_management_model/ot_list_model.dart';
 import '../../model/user_profile_model/user_profile_model.dart';
 import '../../view_model/serch_view_mode/SearchViewModel.dart';
 
@@ -27,9 +28,15 @@ class SearchRepository{
 
   /// get user profile
   Future<UserProfileModel> getUserProfile()async{
-    dynamic response = await _apiServices.getUserProfile();
+    dynamic response = await _apiServices.getApiData(AppUrl.userProfile);
     print("id response ${response}");
     return UserProfileModel.fromJson(response);
+  }
+
+  /// get ot schdule
+   Future<OtScheduleModel> getOtSchedule(dynamic startDate, dynamic endDate)async{
+    dynamic response = await _apiServices.getApiData("https://mobileapp.rite-hms.com/OT/GetOperationScheduleList?pageNumber=1&pageSize=150&startDate=2023-04-12&endDate=2023-04-18&patientId=0&isMobileApp=true");
+    return OtScheduleModel.fromJson(response);
   }
 
 

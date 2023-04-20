@@ -38,8 +38,7 @@ class _SampleListState extends State<SampleList> {
 
   @override
   void initState() {
-   //simpleVM.getSampleTestApiData();
-  //  simpleVM.getLabTestList();
+   simpleVM.getSampleTestApiData();
     super.initState();
   }
 
