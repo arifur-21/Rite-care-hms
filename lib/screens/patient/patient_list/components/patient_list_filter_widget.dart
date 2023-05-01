@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 
 class PatientListFilterWidget extends StatefulWidget {
-  final String? totalPayment;
+  final dynamic? totalPayment;
 
 
   PatientListFilterWidget({this.totalPayment});

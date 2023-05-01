@@ -15,22 +15,63 @@ import '../../model/lab_test_model/lab_test_list_model.dart';
 import '../../model/lab_test_model/simple_list_models.dart';
 import '../../model/lab_test_model/summery_model.dart';
 import '../../model/patinet_list_model/patient_list_model.dart';
+import '../../repository/search_repository/SearchRepository.dart';
 import '../../shere_preference/login_preference.dart';
 import 'package:http/http.dart' as http;
 
 class SummeryViewModel{
 
+  final _api = SearchRepository();
   LoginPreference loginPreference = LoginPreference();
   var token;
   dynamic list = [];
   dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
   dynamic endDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
   dynamic statusId =''.obs;
-  //RxString endDate = ''.obs;
-//  RxString formattedDate = ''.obs;
 
   final sampleIdController = TextEditingController().obs;
   final invoNumController = TextEditingController().obs;
+
+
+
+  final rxRequestStatus = Status.LOADING.obs;
+  final labtestListData = LabTestListModel().obs;
+  final sampleListItem = SampleTest().obs;
+  RxString error = ''.obs;
+
+  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  void setLabTestList(LabTestListModel _value) => labtestListData.value = _value;
+  void setSampleList(SampleTest _value) => sampleListItem.value = _value;
+  void setError(String _value) => error.value = _value;
+
+
+  /// get lab test list data
+  Future? getLabTestListData(){
+    _api.getLabTestListApi().then((value) {
+      setRxRequestStatus(Status.SUCCESS);
+      setLabTestList(value);
+      print("lab vm ${value.items}");
+    }).onError((error, stackTrace){
+      setRxRequestStatus(Status.ERROR);
+      setError(error.toString());
+      print("viewModel error ${error.toString()}");
+    });
+  }
+
+  /// get sample list data
+  Future? getSampleListData(){
+    print("start date1 ${startDate}");
+    _api.getSampleListData(startDate, endDate).then((value) {
+      setRxRequestStatus(Status.SUCCESS);
+      setSampleList(value);
+      print(" sample list vm ${value}");
+    }).onError((error, stackTrace){
+      setRxRequestStatus(Status.ERROR);
+      setError(error.toString());
+      print("viewModel error ${error.toString()}");
+    });
+  }
+
 
 
   ///summery list data
@@ -56,7 +97,6 @@ class SummeryViewModel{
       return SummeryModel.fromJson(data);
     }
   }
-
 
   //// get sample list status
   List<StatusListModel> statusList = [];
@@ -92,18 +132,16 @@ class SummeryViewModel{
 
   ///get sample list
   Future<SampleTest> getSampleTestApiData()async {
-
     print('status id vm ${statusId}');
     print('start date id vm ${startDate}');
     print('end date id vm ${endDate}');
-
 
     var data;
     loginPreference.getToken().then((value){
       token = value.accessToken!;
     });
 
-    final response = await http.get(Uri.parse('https://mobileapp.rite-hms.com/Item/GetInvoiceSampleIDByMedicalType?id=775925&statusid=0&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null'),
+    final response = await http.get(Uri.parse('https://mobileapp.rite-hms.com/Item/GetInvoiceSampleIDByMedicalType?id=775925&statusid=0&medicalTypeID=62&DateStart=2023-04-06&DateEnd=2023-04-06&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -120,80 +158,4 @@ class SummeryViewModel{
       return SampleTest.fromJson(data);
     }
   }
-
-  ///get lab test list
-  Future<LabTestListModel> getLabTestList()async {
-
-    loginPreference.getToken().then((value){
-      token = value.accessToken!;
-    });
-
-
-    var response = await http.get(Uri.parse('https://mobileapp.rite-hms.com/Item/GetLabItemsByMedicalType?medicalTypeID=62&pageNumber=1&pageSize=25&categoryId=null&searchTerm=&allData=undefined&ItemId=0&isLabItemSerialNo=false'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'cache-control': 'no-cache'
-        }
-    );
-
-    dynamic data  = jsonDecode(response.body) ;
-
-    print("data list11 :${data}");
-
-    if(response.statusCode == 200){
-      LabTestListModel a = LabTestListModel.fromJson(data);
-      print("data list12:${a.items}");
-      return LabTestListModel.fromJson(data);
-    }else{
-      return LabTestListModel.fromJson(data);
-    }
-  }
-
-///  get lab  test
-
- /* Future<LabTestListModel> getLabTest()async {
-    dynamic responseJson;
-    print("test1");
-
-
-    try {
-      print("test2");
-      final response = await http.get(Uri.parse('https://mobileapp.rite-hms.com/Item/GetLabItemsByMedicalType?medicalTypeID=62&pageNumber=1&pageSize=25&categoryId=null&searchTerm=&allData=undefined&ItemId=0&isLabItemSerialNo=false'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-
-      responseJson = returnResponse(response);
-      print("object${responseJson}");
-
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return LabTestListModel.fromJson(responseJson);
-  }*/
-
-
-
-  dynamic returnResponse(http.Response response) {
-    switch (response.statusCode) {
-      case 200:
-        dynamic responseJson = jsonDecode(response.body);
-        print("object res ${responseJson.length}");
-        return responseJson;
-      case 400:
-        print("object error}");
-        throw InvalidUrlException;
-      default:
-        throw featchDataException(
-            "Error accoured while communication with server" +
-                response.statusCode.toString());
-    }
-  }
-
 }

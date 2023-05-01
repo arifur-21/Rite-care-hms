@@ -42,6 +42,9 @@ class PatientInfoScreen extends StatefulWidget {
   final dynamic? prationPrefix ;
   final dynamic? patientStatus ;
   final dynamic? nationalId ;
+  List<dynamic>? patientList;
+  final dynamic? index;
+
 
 
   PatientInfoScreen({
@@ -65,7 +68,9 @@ class PatientInfoScreen extends StatefulWidget {
       this.relationship,
       this.serviceType,
       this.prationPrefix,
-      this.patientStatus});
+      this.patientStatus,
+      this.patientList,
+      this.index});
 
   @override
   _PatientInfoScreenState createState() => _PatientInfoScreenState();

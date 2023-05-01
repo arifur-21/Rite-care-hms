@@ -30,6 +30,7 @@ class Styles{
       static TextStyle poppinsFont12_500 = TextStyle( fontFamily: 'Poppins', fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white);
       static TextStyle poppinsFont12_600 = TextStyle( fontFamily: 'Poppins', fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white);
       static TextStyle poppinsFontBlack12_600 = TextStyle( fontFamily: 'Poppins', fontSize: 12, fontWeight: FontWeight.w600, color: blackColor);
+      static TextStyle poppinsFontWhite12_600 = TextStyle( fontFamily: 'Poppins', fontSize: 12, fontWeight: FontWeight.w600, color: whiteColor);
       static TextStyle poppinsFontBlack12_500 = TextStyle( fontFamily: 'Poppins', fontSize: 12, fontWeight: FontWeight.w500, color: blackColor);
       static TextStyle poppinsFontBlack12_300 = TextStyle( fontFamily: 'Poppins', fontSize: 12, fontWeight: FontWeight.w300, color: blackColor);
       static TextStyle poppinsFontBlack12_400 = TextStyle( fontFamily: 'Poppins', fontSize: 12, fontWeight: FontWeight.w400, color: blackColor);

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:ritecare_hms/model/ot_management_model/ot_list_model.dart';
+import 'package:ritecare_hms/screens/ot_management/ot_management_details_screen.dart';
 import 'package:ritecare_hms/widgets/resuable_header.dart';
 
 import '../../data/response/status.dart';
@@ -30,10 +31,10 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
   dynamic startBtn = 'Start';
   Color? btnColor = Colors.orange;
   bool btnVisibility = true;
+  dynamic demoText = 'start';
 
   @override
   void initState() {
-    //otListVM.getOtListData();
     otListVM.getSchedule();
     super.initState();
   }
@@ -62,16 +63,16 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
           calanderDateWidget(),
 
 
-          ResuableHeader(date: "Surgery", invNo: "Patient", status: "Status"),
+          ResuableHeader(leadingText: "Surgery", titleText: "Patient", tralingText: "Status"),
 
           Obx((){
-            switch(userProfileVM.rxRequestStatus.value){
+            switch(otListVM.rxRequestStatus.value){
               case Status.LOADING:
                 return Center(child:  CircularProgressIndicator(),);
 
               case Status.ERROR:
-                print("error ${userProfileVM.error.value.toString()}");
-                return Center(child: Text(userProfileVM.error.value.toString()));
+                print("error ${otListVM.error.value.toString()}");
+                return Center(child: Text(otListVM.error.value.toString()));
 
               case Status.SUCCESS:
 
@@ -88,7 +89,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                           status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
                           surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
                           indexNum : index,
-
+                          noteId: otListVM.otScheduleList.value.items?[index]?.id
                         );
                       }),
                 );
@@ -100,7 +101,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
     );
   }
 
-  Widget otListWidget({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum}){
+  Widget otListWidget({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}){
     return Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
@@ -165,50 +166,66 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                       InkWell(
                         onTap: (){
                           setState(() {
+                            print(indexNum);
                             if(status == 'Initiated'){
-                             // startBtn = 'End';
-                          //    btnColor = Colors.tealAccent;
+                              var id = 101;
+                              print("progress${id}");
                               dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
                               aItem?.surgeryStatus?.name = "In Progress";
                             }
                           if(status == 'In Progress'){
-                           // startBtn = 'Complited';
+                            var id = 102;
+                            print("progress${id}");
+                            startBtn = 'End';
                           //  btnColor = Colors.teal;
+                           btnVisibility  = !btnVisibility;
+                            dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
+                            aItem?.surgeryStatus?.name = "Completed";
                           } if(status == 'Completed'){
-                           // btnVisibility = false;
-                           // startBtn = 'invisible';
-                          //  btnColor = Colors.red;
+                              var id = 103;
+                              print("progress${id}");
+                               btnVisibility  = !btnVisibility;
                           }
                           });
 
-
+                          startBtn = 'End';
+                          btnColor = Colors.blue;
                           ///print( aItem?.item?.name);
 
                          // otListVM.otScheduleList.value.items?[indexNum!]= aItem;
 
 
                         },
-                        child: Container(
-                            height: 30,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              color: btnColor,
-                              border: Border(),
-                              borderRadius: BorderRadius.circular(6),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 3,
-                                  blurRadius: 7,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                                child: Text("${startBtn}",  style: Styles.poppinsFont12_600))),
+                        child: Visibility(
+                          visible: btnVisibility,
+                          child: Container(
+                              height: 30,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: btnColor,
+                                border: Border(),
+                                borderRadius: BorderRadius.circular(6),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 3,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Center(child:
+                              Text("${startBtn }",  style: Styles.poppinsFont12_600))),
+                        ),
                       ),
-                      Icon(Icons.file_copy_outlined, size: 30,)
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OtManagementDetailsScreen(
+                            noteId: noteId,
+                          )));
+                        },
+                          child: Icon(Icons.file_copy_outlined, size: 30,))
                     ],
                   )
                 ],
@@ -259,7 +276,9 @@ Widget calanderDateWidget(){
                             //You can format date as per your need
 
                             setState(() {
-                              otListVM.startDate = formattedDate; //set foratted date to TextField value.
+                              otListVM.startDate = formattedDate;
+                              otListVM.getSchedule();
+                              //set foratted date to TextField value.
                               print("${otListVM.startDate}");
                             });
                           } else {

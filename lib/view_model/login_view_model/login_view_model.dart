@@ -5,14 +5,13 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:ritecare_hms/model/login_model/login_token_model.dart';
 import 'package:ritecare_hms/screens/home_screen.dart';
 import 'package:ritecare_hms/shere_preference/login_preference.dart';
-
-import '../../repository/login_repository/login_repository.dart';
+import '../../repository/repository.dart';
 import '../../resources/routes/routes.dart';
 import '../../utils/utils.dart';
 
 class LoginViewModel extends GetxController{
 
-  final _api = LoginRepository();
+  final _api = Repository();
 
   LoginPreference loginPreference = LoginPreference();
 
@@ -28,7 +27,6 @@ class LoginViewModel extends GetxController{
 
   void loginApi(){
     loading.value = true;
-
     Map data ={
       'grant_type' : 'password',
       'scope' : 'all',

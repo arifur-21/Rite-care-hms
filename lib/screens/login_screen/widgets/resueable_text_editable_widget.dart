@@ -15,7 +15,6 @@ class ResueableEmailTextFieldWidget extends StatelessWidget {
 
   ResueableEmailTextFieldWidget({ required this.emailController, required this.hintText});
 
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

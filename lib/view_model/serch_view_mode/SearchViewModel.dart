@@ -49,6 +49,7 @@ class SearchViewModel extends GetxController{
       print("viewModel error ${error.toString()}");
     });
   }
+
   Future<List<SearchModel>> searchPatientCellNum()async{
     setRxRequestStatus(Status.LOADING);
     _api.getPateintByCellNO(patientCellNoController.value.text).then((value) {

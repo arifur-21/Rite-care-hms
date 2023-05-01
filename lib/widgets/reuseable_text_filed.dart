@@ -5,18 +5,25 @@ import 'package:flutter/material.dart';
 import '../utils/color_styles.dart';
 
 class ResuableTextField extends StatelessWidget {
+
   final TextEditingController controllerValue;
   final IconData? icon;
   final String hintText;
   final VoidCallback? onTap;
+  final String? errorMsg;
 
 
-  ResuableTextField({required this.controllerValue,  this.icon, required this.hintText, this.onTap});
+  ResuableTextField({required this.controllerValue,  this.icon, required this.hintText, this.onTap, this.errorMsg});
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controllerValue,
+        validator: (value){
+        if(value!.isEmpty || value == null){
+          return errorMsg;
+        }
+        },
         decoration: InputDecoration(
           suffixIcon: InkWell(
             onTap: onTap,
@@ -36,7 +43,7 @@ class ResuableTextField extends StatelessWidget {
             borderSide: BorderSide(width: 2, color: Styles.primaryColor),
             borderRadius: BorderRadius.circular(6),
           ),
-        )
+        ),
     );
   }
 }

@@ -9,7 +9,7 @@ import 'package:ritecare_hms/resources/app_url/app_url.dart';
 import '../../data/response/status.dart';
 import '../../model/register/blood_group_model/BloodGroupModel.dart';
 import '../../model/register/gender_model.dart';
-import '../../repository/register_patient_repository/patient_register_repository.dart';
+import '../../repository/repository.dart';
 import '../../shere_preference/login_preference.dart';
 import '../../utils/utils.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +17,7 @@ import 'package:http/http.dart' as http;
 class PatientRegisterViewModel extends GetxController{
 
 
-  final _api = RegisterPatientRepository();
+  final _api = Repository();
   LoginPreference loginPreference = LoginPreference();
   var token;
 
@@ -73,7 +73,7 @@ class PatientRegisterViewModel extends GetxController{
 
     Map data =
     {
-      "FirstName": firstNameController.value.text,
+      "FirstName": "Rizwan",
       "PhoneNumber": phoneNumberController.value.text,
     //  "GenderId": 1,
     //  "BloodGroup": null,

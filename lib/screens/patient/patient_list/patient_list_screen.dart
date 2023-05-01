@@ -25,12 +25,12 @@ class PatientListScreen extends StatefulWidget {
 class _PatientListScreenState extends State<PatientListScreen> {
 
   final patinetListVM = Get.put(PatientListViewModel());
-
+  dynamic totalAmount;
 
 
   @override
   void initState() {
-    patinetListVM.getPatientsList();
+    patinetListVM.getPatientList();
     super.initState();
   }
 
@@ -55,68 +55,69 @@ class _PatientListScreenState extends State<PatientListScreen> {
 
               SizedBox(height: 10,),
 
-            Container(
-              height: 80,
-              child: Expanded(
-                child: FutureBuilder<PatientListModel>(
-                    future: patinetListVM.getPatientsList(),
-                    builder: (context, snapShot){
-                      if(!snapShot.hasData){
-                        return Text("Loading,,,");
-                      }else{
-                        return PatientListFilterWidget(totalPayment: snapShot.data!.total.toString(),);
-                      }
-                    }),
-              ),
-            ),
+        PatientListFilterWidget(totalPayment: totalAmount),
 
-            Expanded(
-              child: FutureBuilder<PatientListModel>(
-                  future: patinetListVM.getPatientsList(),
-                  builder: (context, snapShot){
 
-                    if(!snapShot.hasData){
-                      return Text("data not found");
-                    }else{
-                      return ListView.builder(
-                          itemCount: snapShot.data!.items!.length,
-                          itemBuilder: (context, index){
-                            return  PatientCartListViewWidgets(
-                              patientId: ' ${snapShot.data?.items![index].id}',
-                              PatientName: ' ${snapShot.data?.items![index].firstName}',
-                              DateOfBirth: '${snapShot.data?.items![index].dOB}',
-                            onTap: (){
+        Expanded(
+          child: Obx((){
+            switch(patinetListVM.rxRequestStatus.value){
+              case Status.LOADING:
+                return Center(child:  CircularProgressIndicator(),);
 
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context)=> PatientInfoScreen(
-                                      name: snapShot.data?.items![index].firstName,
-                                      serviceId: snapShot.data?.items![index].id,
-                                      officalNoId: snapShot.data?.items![index].phoneNumber,
-                                      patientId: snapShot.data?.items![index].id,
-                                      cellNOId: snapShot.data?.items![index].phoneNumber,
-                                      gender: snapShot.data?.items![index].gender?.name ??"",
-                                      dateOfBirth: snapShot.data?.items![index].dOB,
-                                      mobile: snapShot.data?.items![index].phoneNumber,
-                                      bloodGroup: snapShot.data?.items![index].bloodGroup,
-                                      emergencyContact: snapShot.data?.items![index].emergencyNumber,
-                                      emergencyRelation: snapShot.data?.items![index].emergencyContactRelation,
-                                      email: snapShot.data?.items![index].email,
-                                      address: snapShot.data?.items![index].country,
-                                      relationship: snapShot.data?.items![index].relationship?.name,
-                                      serviceType: snapShot.data?.items![index].serviceId,//01770249707
-                                      rank: snapShot.data?.items![index].rankName,
-                                      branch: snapShot.data?.items![index].trade,
-                                      unit: snapShot.data?.items![index].unitName,
-                                      nationalId: snapShot.data?.items![index].nationalId,
-                                      patientStatus: snapShot.data?.items![index].patientStatus,
-                                      prationPrefix: snapShot.data?.items![index].patientPrefix?.name,
-                                  )));
+              case Status.ERROR:
+                print("error ${patinetListVM.error.value.toString()}");
+                return Text(patinetListVM.error.value.toString());
 
-                            },);
-                          });
-                    }
-                  }),
-            ),
+              case Status.SUCCESS:
+                totalAmount = patinetListVM.patientList.value.total;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: patinetListVM.patientList.value.items!.length ,
+                    itemBuilder: (context, index){
+                    print("item ${patinetListVM.patientList.value.items![index].firstName}");
+                    return
+                      Column(
+                        children: [
+                          PatientCartListViewWidgets(
+                              patientId: patinetListVM.patientList.value.items![index].id.toString(),
+                              PatientName: patinetListVM.patientList.value.items![index].firstName.toString(),
+                              DateOfBirth: patinetListVM.patientList.value.items![index].dOB.toString(),
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context)=>PatientInfoScreen(
+                                      name: patinetListVM.patientList.value.items![index].firstName,
+                                      serviceId: patinetListVM.patientList.value?.items![index].id,
+                                      officalNoId: patinetListVM.patientList.value?.items![index].phoneNumber,
+                                      patientId: patinetListVM.patientList.value?.items![index].id,
+                                      cellNOId: patinetListVM.patientList.value?.items![index].phoneNumber,
+                                      gender: patinetListVM.patientList.value?.items![index].gender?.name ??"",
+                                      dateOfBirth:patinetListVM.patientList.value?.items![index].dOB,
+                                      mobile: patinetListVM.patientList.value?.items![index].phoneNumber,
+                                      bloodGroup: patinetListVM.patientList.value?.items![index].bloodGroup,
+                                      emergencyContact: patinetListVM.patientList.value?.items![index].emergencyNumber,
+                                      emergencyRelation: patinetListVM.patientList.value?.items![index].emergencyContactRelation,
+                                      email: patinetListVM.patientList.value?.items![index].email,
+                                      address: patinetListVM.patientList.value?.items![index].country,
+                                      relationship: patinetListVM.patientList.value?.items![index].relationship?.name,
+                                      serviceType: patinetListVM.patientList.value?.items![index].serviceId,//01770249707
+                                      rank: patinetListVM.patientList.value?.items![index].rankName,
+                                      branch: patinetListVM.patientList.value?.items![index].trade,
+                                      unit: patinetListVM.patientList.value?.items![index].unitName,
+                                      nationalId: patinetListVM.patientList.value?.items![index].nationalId,
+                                      patientStatus: patinetListVM.patientList.value?.items![index].patientStatus,
+                                      prationPrefix: patinetListVM.patientList.value?.items![index].patientPrefix?.name,
+                                    )));
+                              })
+                        ],
+                      );
+                });
+
+
+
+            }
+          }),
+        )
+
 
 
 

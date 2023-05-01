@@ -28,26 +28,26 @@ class OtScheduleModel {
 }
 
 class Items {
-  int? id;
-  int? surgeryTypeId;
-  int? patientId;
-  int? surgeryItemId;
-  int? surgeryStatusId;
-  int? userId;
+  dynamic? id;
+  dynamic? surgeryTypeId;
+  dynamic? patientId;
+  dynamic? surgeryItemId;
+  dynamic? surgeryStatusId;
+  dynamic? userId;
   bool? active;
-  int? branchId;
-  int? tenantId;
-  int? roomId;
-  String? surgeryScheduleDate;
+  dynamic? branchId;
+  dynamic? tenantId;
+  dynamic? roomId;
+  dynamic? surgeryScheduleDate;
   bool? instrumentReceived;
   bool? instrumentRefund;
   bool? archived;
-  String? disease;
-  String? aNS;
-  String? aSA;
-  String? ward;
+  dynamic? disease;
+  dynamic? aNS;
+  dynamic? aSA;
+  dynamic? ward;
   bool? isApproved;
-  int? approvedUserId;
+  dynamic? approvedUserId;
   SurgeryType? surgeryType;
   SurgeryStatus? surgeryStatus;
   Patient? patient;

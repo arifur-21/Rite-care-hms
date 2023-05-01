@@ -10,6 +10,7 @@ class ProfileUserDataViewWidget extends StatelessWidget {
   final String information;
 
 
+
   ProfileUserDataViewWidget({ required this.title, required this.information});
 
   @override
@@ -19,24 +20,27 @@ class ProfileUserDataViewWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
-            children: [///98557654
+            children: [
               Expanded(
-                flex: 3,
-                  child: Row(
-                children: [Text(title, style: TextStyle(fontWeight: FontWeight.w500, color: Styles.textGreen, fontSize: 14),),],)),
-              Expanded(flex: 1, child: Row(
-                children: [
-                      Text(":",style: TextStyle( color: Styles.textGreen,fontSize: 14, fontWeight: FontWeight.bold),),
-                ],
-                  )),
-              Expanded(
-                flex: 4,
-                  child: Row(
-                    children: [
-                      Text(information,style: TextStyle(fontWeight: FontWeight.w400, color: Colors.black, fontSize: 15))
-                    ],
-                  )),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 4,
+                            child: Row(
+                              children: [Text(title, style: TextStyle(fontWeight: FontWeight.w500, color: Styles.textGreen, fontSize: 14),),],)),
+                        Expanded(flex: 1, child: Row(
+                          children: [
+                            Text(":",style: TextStyle( color: Styles.textGreen,fontSize: 14, fontWeight: FontWeight.bold),),
+                          ],
+                        )),
 
+                        Expanded(
+                            flex: 5,
+                            child: Text("${information}",style: TextStyle(fontWeight: FontWeight.w400, color: Colors.black, fontSize: 14)))
+                      ],),
+                  ))
 
             ],
           ),

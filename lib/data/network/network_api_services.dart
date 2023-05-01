@@ -13,6 +13,7 @@ class NetworkApiServices extends BaseApServices {
 
   LoginPreference loginPreference = LoginPreference();
   var token;
+  var referesh;
 
 
   ///get search patien data by id
@@ -42,7 +43,7 @@ class NetworkApiServices extends BaseApServices {
     return responseJson;
   }
 
-  ///// user profile
+  ///// get object list data
   @override
   Future getApiData(String url) async{
     loginPreference.getToken().then((value) {
@@ -70,34 +71,8 @@ class NetworkApiServices extends BaseApServices {
     return responseJson;
   }
 
-  //get ot schedule
-  @override
-  Future getOtSchdule() async{
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-    dynamic responseJson;
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://mobileapp.rite-hms.com/OT/GetOperationScheduleList?pageNumber=1&pageSize=150&startDate=2023-04-18&endDate=2023-04-18&patientId=0&isMobileApp=true'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-      responseJson = returnResponse(response);
-      print("response json ${responseJson.length}");
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
 
-  ///login user
+
   @override
   Future postApi(var data, String url) async {
     if (kDebugMode) {
@@ -117,6 +92,64 @@ class NetworkApiServices extends BaseApServices {
       throw RequestTimeOut('');
     }
     return responseJson;
+  }
+
+  @override
+  Future<List> getListOfApiData(String url) async {
+    loginPreference.getToken().then((value) {
+      token = value.accessToken!;
+    });
+    dynamic responseJson;
+    try {
+      final response = await http.get(
+          Uri.parse(url),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache'
+          }
+      ).timeout(Duration(seconds: 30));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw InternetException("No Internet");
+    } on RequestTimeOut {
+      throw RequestTimeOut('Request Time Out');
+    }
+    return responseJson;
+  }
+
+////post  Surggery note
+  @override
+  Future postSurgeryNote(dynamic postData, String url) async {
+
+    loginPreference.getToken().then((value) {
+      token = value.accessToken!;
+      referesh = value.refreshToken;
+    });
+    dynamic responseJson;
+
+    try {
+      final response = await http.post(
+          Uri.parse(url),
+          body: jsonEncode(postData),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache'
+          }
+
+      ).timeout(Duration(seconds: 10));
+
+      ///body: jsonEncode(data)
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw InternetException("");
+    } on RequestTimeOut {
+      throw RequestTimeOut('');
+    }
+    return responseJson;
+
+
   }
 
   ///register patient
@@ -152,220 +185,10 @@ class NetworkApiServices extends BaseApServices {
     }
     return responseJson;
   }
-// get patient by cell number
-  @override
-  Future<List<dynamic>> getPatientByCellNo(String id) async {
-
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-
-    dynamic responseJson;
-
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://mobileapp.rite-hms.com/Patient/GetPatientByPhone?phoneNumber=${id}'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-
-      responseJson = returnResponse(response);
-      print("response json12 ${responseJson.length}");
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
-
-  /// get blood group
-  @override
-  Future getBloodGroup() async {
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-
-    dynamic responseJson;
-
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://mobileapp.rite-hms.com/Blood/GetAllAsync'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-      responseJson = returnResponse(response);
-      print("response json ${responseJson.length}");
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
-
-  //get gender
-  @override
-  Future getGender()async {
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-
-    dynamic responseJson;
-
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://mobileapp.rite-hms.com/Gender/GetAllAsync'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-      responseJson = returnResponse(response);
-      print("response json ${responseJson.length}");
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
-
-  ////update register
-  @override
-  Future patientRegistrationUpdate(updateData, String url)async {
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-
-    if (kDebugMode) {
-      print('patient data1 : $updateData');
-    }
-    dynamic responseJson;
-
-    try {
-      final response = await http.post(
-          Uri.parse(url),
-          body: jsonEncode(updateData),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-
-      ).timeout(Duration(seconds: 10));
-
-      ///body: jsonEncode(data)
-      responseJson = returnResponse(response);
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
-
-  @override
-  Future<List> getPatientByOfficialNo(String id) async {
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-
-    dynamic responseJson;
-
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://mobileapp.rite-hms.com/Patient/GetPatientByServiceId?serviceNumber=${id}&oldData=false'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-
-      responseJson = returnResponse(response);
-      print("response json1 ${responseJson.length}"); ///WHID%20ALI
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
-
-  @override
-  Future<List> getPatientByName(String id) async {
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-
-    dynamic responseJson;
-
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://mobileapp.rite-hms.com/Patient/SearchPatientByPartialName?name=${id}&partialFullSearch=true'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-
-      responseJson = returnResponse(response);
-      print("response json1 ${responseJson.length}");
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
 
 
-  ///sample test status
-  @override
-  Future<List> getSimpleTestStatus()async {
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
-    });
-
-    dynamic responseJson;
-
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://mobileapp.rite-hms.com/Item/GetAllLabStatus'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
-      ).timeout(Duration(seconds: 30));
-
-      responseJson = returnResponse(response);
-      print("response simple status ${responseJson.length}");
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
 
 
-  //// response status
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -380,6 +203,8 @@ class NetworkApiServices extends BaseApServices {
                 response.statusCode.toString());
     }
   }
+
+
 
 
 

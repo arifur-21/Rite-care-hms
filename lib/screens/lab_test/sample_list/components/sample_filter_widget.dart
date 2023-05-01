@@ -375,6 +375,7 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                           onTap: () {
                             print("value ${_selectedItems}");
                             print("value11 ${summeryVm.statusList.length}");
+
                           },
                           child: Center(
                               child: Text(
