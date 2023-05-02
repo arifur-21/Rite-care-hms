@@ -1,33 +1,4 @@
-import '../lab_test_model/simple_list_models.dart';
-
-class OtScheduleModel {
-  List<Items>? items;
-  int? totalItems;
-
-  OtScheduleModel({this.items, this.totalItems});
-
-  OtScheduleModel.fromJson(Map<String, dynamic> json) {
-    print("from json");
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items!.add(new Items.fromJson(v));
-      });
-    }
-    totalItems = json['totalItems'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.items != null) {
-      data['items'] = this.items!.map((v) => v.toJson()).toList();
-    }
-    data['totalItems'] = this.totalItems;
-    return data;
-  }
-}
-
-class Items {
+class SaveOperationScheduleModel {
   dynamic? id;
   dynamic? surgeryTypeId;
   dynamic? patientId;
@@ -39,35 +10,35 @@ class Items {
   dynamic? tenantId;
   dynamic? roomId;
   dynamic? surgeryScheduleDate;
-  bool? instrumentReceived;
-  bool? instrumentRefund;
-  bool? archived;
-  dynamic? disease;
-  dynamic? aNS;
-  dynamic? aSA;
-  dynamic? ward;
+  dynamic? startTime;
+  dynamic? endTime;
   bool? isApproved;
   dynamic? approvedUserId;
   SurgeryType? surgeryType;
   SurgeryStatus? surgeryStatus;
-  Patient? patient;
-  Item? item;
-  List<dynamic>? surgeryNotes;
+  List<SurgeryNotes>? surgeryNotes;
 
-  Items(
+  SaveOperationScheduleModel(
       {this.id,
         this.surgeryTypeId,
         this.patientId,
         this.surgeryItemId,
         this.surgeryStatusId,
         this.userId,
-        this.patient,
+        this.active,
+        this.branchId,
+        this.tenantId,
+        this.roomId,
+        this.surgeryScheduleDate,
+        this.startTime,
+        this.endTime,
+        this.isApproved,
+        this.approvedUserId,
         this.surgeryType,
         this.surgeryStatus,
-        this.item,
-      });
+        this.surgeryNotes});
 
-  Items.fromJson(Map<String, dynamic> json) {
+  SaveOperationScheduleModel.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
     surgeryTypeId = json['SurgeryTypeId'];
     patientId = json['PatientId'];
@@ -79,13 +50,8 @@ class Items {
     tenantId = json['TenantId'];
     roomId = json['RoomId'];
     surgeryScheduleDate = json['SurgeryScheduleDate'];
-    instrumentReceived = json['InstrumentReceived'];
-    instrumentRefund = json['InstrumentRefund'];
-    archived = json['Archived'];
-    disease = json['Disease'];
-    aNS = json['ANS'];
-    aSA = json['ASA'];
-    ward = json['Ward'];
+    startTime = json['StartTime'];
+    endTime = json['EndTime'];
     isApproved = json['IsApproved'];
     approvedUserId = json['ApprovedUserId'];
     surgeryType = json['SurgeryType'] != null
@@ -94,13 +60,10 @@ class Items {
     surgeryStatus = json['SurgeryStatus'] != null
         ? new SurgeryStatus.fromJson(json['SurgeryStatus'])
         : null;
-    item = json['Item'] != null ? new Item.fromJson(json['Item']) : null;
-
-    patient =
-    json['Patient'] != null ? new Patient.fromJson(json['Patient']) : null;
     if (json['SurgeryNotes'] != null) {
-      surgeryNotes = <Null>[];
+      surgeryNotes = <SurgeryNotes>[];
       json['SurgeryNotes'].forEach((v) {
+        surgeryNotes!.add(new SurgeryNotes.fromJson(v));
       });
     }
   }
@@ -118,13 +81,8 @@ class Items {
     data['TenantId'] = this.tenantId;
     data['RoomId'] = this.roomId;
     data['SurgeryScheduleDate'] = this.surgeryScheduleDate;
-    data['InstrumentReceived'] = this.instrumentReceived;
-    data['InstrumentRefund'] = this.instrumentRefund;
-    data['Archived'] = this.archived;
-    data['Disease'] = this.disease;
-    data['ANS'] = this.aNS;
-    data['ASA'] = this.aSA;
-    data['Ward'] = this.ward;
+    data['StartTime'] = this.startTime;
+    data['EndTime'] = this.endTime;
     data['IsApproved'] = this.isApproved;
     data['ApprovedUserId'] = this.approvedUserId;
     if (this.surgeryType != null) {
@@ -133,37 +91,42 @@ class Items {
     if (this.surgeryStatus != null) {
       data['SurgeryStatus'] = this.surgeryStatus!.toJson();
     }
-    if (this.item != null) {
-      data['Item'] = this.item!.toJson();
-    }
-    if (this.patient != null) {
-      data['Patient'] = this.patient!.toJson();
-    }
     if (this.surgeryNotes != null) {
-
+      data['SurgeryNotes'] = this.surgeryNotes!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-
-
 class SurgeryType {
   dynamic? id;
   dynamic? name;
+  dynamic? userId;
+  bool? active;
+  dynamic? tenantId;
+
   SurgeryType(
       {this.id,
-        this.name,});
+        this.name,
+        this.userId,
+        this.active,
+        this.tenantId});
 
   SurgeryType.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
     name = json['Name'];
+    userId = json['UserId'];
+    active = json['Active'];
+    tenantId = json['TenantId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['Id'] = this.id;
     data['Name'] = this.name;
+    data['UserId'] = this.userId;
+    data['Active'] = this.active;
+    data['TenantId'] = this.tenantId;
     return data;
   }
 }
@@ -172,13 +135,17 @@ class SurgeryStatus {
   dynamic? id;
   dynamic? name;
   dynamic? userId;
+  bool? active;
+
+
   SurgeryStatus(
-      {this.id, this.name, this.userId});
+      {this.id, this.name, this.userId, this.active});
 
   SurgeryStatus.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
     name = json['Name'];
     userId = json['UserId'];
+    active = json['Active'];
   }
 
   Map<String, dynamic> toJson() {
@@ -186,47 +153,35 @@ class SurgeryStatus {
     data['Id'] = this.id;
     data['Name'] = this.name;
     data['UserId'] = this.userId;
+    data['Active'] = this.active;
     return data;
   }
 }
 
-class Patient {
+class SurgeryNotes {
+  dynamic? userId;
+  bool? active;
   dynamic? id;
-  dynamic? oldId;
-  dynamic? firstName;
+  dynamic? note;
+  dynamic? surgeryId;
 
-  Patient(
-      {this.id,
-        this.oldId,
-        this.firstName,
-       });
-  Patient.fromJson(Map<String, dynamic> json) {
+  SurgeryNotes({this.userId, this.active, this.id, this.note, this.surgeryId});
+
+  SurgeryNotes.fromJson(Map<String, dynamic> json) {
+    userId = json['UserId'];
+    active = json['Active'];
     id = json['Id'];
-    oldId = json['OldId'];
-    firstName = json['FirstName'];
+    note = json['Note'];
+    surgeryId = json['SurgeryId'];
   }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['UserId'] = this.userId;
+    data['Active'] = this.active;
     data['Id'] = this.id;
-    data['OldId'] = this.oldId;
-    data['FirstName'] = this.firstName;
+    data['Note'] = this.note;
+    data['SurgeryId'] = this.surgeryId;
     return data;
   }
 }
-class Item {
-  dynamic? name;
-  Item(
-      {this.name,
-        });
-  Item.fromJson(Map<String, dynamic> json) {
-    name = json['Name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Name'] = this.name;
-    return data;
-  }
-}
-
-

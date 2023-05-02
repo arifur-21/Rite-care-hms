@@ -22,6 +22,7 @@ class AppUrl{
    static const String getBloodGroutUrl =  '$base_url/Blood/GetAllAsync';
    static const String getGenderUrl =  '$base_url/Gender/GetAllAsync';
    static const String surgeryNoteDeleteUrl =  '$base_url/OT/DeleteSurgeryNote';
+   static const String operationScheduleStatusUrl =  '$base_url/OT/SaveOperationSchedule';
 
 
 

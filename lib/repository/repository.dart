@@ -31,6 +31,12 @@ class Repository{
     return response;
   }
 
+  /// post operation schedule status
+  Future<dynamic> postOperationScheduleStatus(var data)async{
+    dynamic response = await _apiServices.postSurgeryNote(data, AppUrl.operationScheduleStatusUrl);
+    return response;
+  }
+
   /// edit surgery note
   Future<dynamic> editSurgeryNote(var data)async{
     dynamic response = await _apiServices.postSurgeryNote(data, AppUrl.surgeryNoteUrl);

@@ -26,12 +26,15 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
 
   final otListVM = Get.put(OtListViewModel());
   final userProfileVM = Get.put(UserProfileViewModel());
-  dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
-  dynamic endDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+
   dynamic startBtn = 'Start';
+  dynamic endBtn = 'End';
   Color? btnColor = Colors.orange;
   bool btnVisibility = true;
-  dynamic demoText = 'start';
+  dynamic statusId;
+  dynamic status;
+
+  Map<dynamic, dynamic> btnStatus = {'start' : 101, 'end': 102};
 
   @override
   void initState() {
@@ -75,14 +78,11 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                 return Center(child: Text(otListVM.error.value.toString()));
 
               case Status.SUCCESS:
-
-                print("ot length ${otListVM.otScheduleList.value.items?.length}");
                 return Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
                       itemCount: otListVM.otScheduleList.value.items?.length,
                       itemBuilder: (context, index){
-
                         return  otListWidget(
                           title: otListVM.otScheduleList.value.items?[index]?.item?.name,
                           name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
@@ -102,6 +102,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
   }
 
   Widget otListWidget({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}){
+
     return Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
@@ -117,6 +118,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
               padding: const EdgeInsets.all(4),
               child: Column(
                 children: [
+
                   SizedBox(height: 5,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,7 +132,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                             height: 25,
                             width: 100,
                             decoration: BoxDecoration(
-                              color:  (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,
+                              color:  (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : (status == 'Pending') ? Colors.indigo : Colors.orange,
                               border: Border(),
                               borderRadius: BorderRadius.circular(50),
                               boxShadow: [
@@ -168,41 +170,40 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                           setState(() {
                             print(indexNum);
                             if(status == 'Initiated'){
-                              var id = 101;
-                              print("progress${id}");
+                              statusId = 103;
+                              status = 'In Progress';
+                              print("init${statusId}");
                               dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
                               aItem?.surgeryStatus?.name = "In Progress";
+                              print("items1 ${aItem}");
                             }
                           if(status == 'In Progress'){
-                            var id = 102;
-                            print("progress${id}");
-                            startBtn = 'End';
-                          //  btnColor = Colors.teal;
-                           btnVisibility  = !btnVisibility;
+                           statusId = 104;
+                           status = 'Completed';
+                            print("progressId ${statusId}");
                             dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
                             aItem?.surgeryStatus?.name = "Completed";
-                          } if(status == 'Completed'){
-                              var id = 103;
-                              print("progress${id}");
-                               btnVisibility  = !btnVisibility;
+                            if(btnVisibility == true){
+                              btnVisibility = false;
+                            }else{
+                              btnVisibility = true;
+                            }
+                          }
+                          if(status == 'Completed'){
+                              dynamic id = otListVM.otScheduleList.value.items?[indexNum!].surgeryStatus?.id;
+                              print("com${id}");
                           }
                           });
 
-                          startBtn = 'End';
-                          btnColor = Colors.blue;
-                          ///print( aItem?.item?.name);
-
-                         // otListVM.otScheduleList.value.items?[indexNum!]= aItem;
-
-
+                          otListVM.operationScheduleStatus(statusId,status);
                         },
                         child: Visibility(
-                          visible: btnVisibility,
+                          visible: (status == 'Completed')? btnVisibility = false : btnVisibility = true,
                           child: Container(
                               height: 30,
                               width: 80,
                               decoration: BoxDecoration(
-                                color: btnColor,
+                                color: (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,
                                 border: Border(),
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
@@ -215,10 +216,11 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                                   ),
                                 ],
                               ),
-                              child: Center(child:
-                              Text("${startBtn }",  style: Styles.poppinsFont12_600))),
+                              child: Center(
+                                  child: Text("${(status == 'Initiated')? startBtn : (status == 'In Progress') ? endBtn : (status == 'Completed') ? btnVisibility : startBtn }",  style: TextStyle(color:Colors.white)))),
                         ),
                       ),
+
                       InkWell(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>OtManagementDetailsScreen(

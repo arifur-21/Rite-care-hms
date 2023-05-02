@@ -122,8 +122,6 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
                   }),
             ),
 
-
-
             const SizedBox(
               width: 10,
             )
@@ -163,7 +161,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
           width: Get.width * 0.8 ,
             child: ResuableTextField(
                 controllerValue: otListVM.surgeryNoteController.value,
-                hintText: "Need Blood")),
+                hintText: "Test")),
       ),
       actions: [
         Padding(
@@ -211,7 +209,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
             width: Get.width * 0.8 ,
             child: ResuableTextField(
                 controllerValue: otListVM.surgeryNoteController.value,
-                hintText: "Need Blood")),
+                hintText: "Test")),
       ),
       actions: [
         Padding(

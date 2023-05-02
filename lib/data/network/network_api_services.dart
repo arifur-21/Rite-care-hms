@@ -13,7 +13,7 @@ class NetworkApiServices extends BaseApServices {
 
   LoginPreference loginPreference = LoginPreference();
   var token;
-  var referesh;
+  var refereshToken;
 
 
   ///get search patien data by id
@@ -75,16 +75,10 @@ class NetworkApiServices extends BaseApServices {
 
   @override
   Future postApi(var data, String url) async {
-    if (kDebugMode) {
-      print('user data $data');
-    }
     dynamic responseJson;
-
     try {
       final response = await http.post(Uri.parse(url), body: data).timeout(
-          Duration(seconds: 10));
-
-      ///body: jsonEncode(data)
+          Duration(seconds: 30));
       responseJson = returnResponse(response);
     } on SocketException {
       throw InternetException("");
@@ -124,7 +118,7 @@ class NetworkApiServices extends BaseApServices {
 
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
-      referesh = value.refreshToken;
+      refereshToken = value.refreshToken;
     });
     dynamic responseJson;
 
@@ -193,8 +187,16 @@ class NetworkApiServices extends BaseApServices {
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
-        print("object res ${responseJson.length}");
         return responseJson;
+
+      /*case 401:
+      //refresh token and call getUser again
+        final response = http.post(Uri.https('https://mobileapp.rite-hms.com/auth/token'),
+            headers: {'grant_type': 'refresh_token', 'refresh_token': '$refereshToken'});
+       dynamic responseJson = jsonDecode(response.body);
+        token = jsonDecode(responseJson)['token'];
+        refereshToken = jsonDecode(responseJson)['refresh_token'];
+       return;*/
       case 400:
         throw InvalidUrlException;
       default:

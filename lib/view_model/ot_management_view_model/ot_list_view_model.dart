@@ -84,6 +84,28 @@ class OtListViewModel extends GetxController{
     });
   }
 
+  /// operation Schedule status
+  void operationScheduleStatus(dynamic statusId, dynamic status){
+    print("opSchedule ${statusId}");
+    print("opSchedule status ${status}");
+    Map data =  {
+      "Id": 50423,
+      "SurgeryTypeId": 39,
+      "PatientId": 760288,
+      "SurgeryStatus": {
+        "Id": statusId,
+        "Name": status,
+      },
+
+    };
+    _api.postOperationScheduleStatus(data).then((value){
+      Utils.snakBar("status", 'note surgery successfully');
+    }).onError((error, stackTrace) {
+      Utils.snakBar("Error", error.toString());
+      print("error occured : ${error.toString()}");
+    });
+  }
+
   //edit surgery note
   void editSurgeryNote(dynamic noteId, dynamic id){
     print("vm edit noteId ${noteId}");

@@ -47,6 +47,7 @@ dependencies:
   image_cropper: ^3.0.1
   image_picker: ^0.8.5+3
   permission_handler: ^10.2.0
+  http_interceptor: ^1.0.1
 
 
 
