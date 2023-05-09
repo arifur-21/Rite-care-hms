@@ -1,6 +1,10 @@
 import 'package:ritecare_hms/resources/app_url/app_url.dart';
 
 import '../data/network/network_api_services.dart';
+import '../model/lab_test_model/lab_test_list_model.dart';
+import '../model/lab_test_model/lab_test_list_status_model.dart';
+import '../model/lab_test_model/simple_list_models.dart';
+import '../model/lab_test_model/status_model.dart';
 import '../model/ot_management_model/ot_list_model.dart';
 import '../model/ot_mangement_model/surgery_note_model.dart';
 import '../model/register/blood_group_model/BloodGroupModel.dart';
@@ -12,44 +16,42 @@ class Repository{
 
   ////////////////// post api start ////////////
   Future<dynamic> loginApi(var data)async{
-    dynamic response = await _apiServices.postApi(data, AppUrl.loginApi);
+    dynamic response = await _apiServices.postLoginApi(data, AppUrl.loginApi);
     return response;
 
   }
 
   Future<dynamic> registerPatient(data)async{
-    dynamic response = await _apiServices.patientRegistration(data, AppUrl.registerPatientApi);
+    dynamic response = await _apiServices.postApiData(data, AppUrl.registerPatientApi);
     return response;
   }
   Future<dynamic> registrationUpdate(data)async{
-    dynamic response = await _apiServices.postApi(data, AppUrl.registerUpdateApi);
+    dynamic response = await _apiServices.postApiData(data, AppUrl.registerUpdateApi);
     return response;
   }
   /// post surgery note
   Future<dynamic> postSurgeryNote(var data)async{
-    dynamic response = await _apiServices.postSurgeryNote(data, AppUrl.surgeryNoteUrl);
+    dynamic response = await _apiServices.postApiData(data, AppUrl.surgeryNoteUrl);
     return response;
   }
 
   /// post operation schedule status
   Future<dynamic> postOperationScheduleStatus(var data)async{
-    dynamic response = await _apiServices.postSurgeryNote(data, AppUrl.operationScheduleStatusUrl);
+    dynamic response = await _apiServices.postApiData(data, AppUrl.operationScheduleStatusUrl);
     return response;
   }
 
   /// edit surgery note
   Future<dynamic> editSurgeryNote(var data)async{
-    dynamic response = await _apiServices.postSurgeryNote(data, AppUrl.surgeryNoteUrl);
+    dynamic response = await _apiServices.postApiData(data, AppUrl.surgeryNoteUrl);
     return response;
   }
 
   ///  surgery note delete
   Future<dynamic> surgeryNoteDelete(data)async{
-    dynamic response = await _apiServices.postSurgeryNote(data, AppUrl.surgeryNoteDeleteUrl);
+    dynamic response = await _apiServices.postApiData(data, AppUrl.surgeryNoteDeleteUrl);
     return response;
   }
-
-
 
   // post api  end //
 
@@ -70,10 +72,20 @@ class Repository{
     dynamic response = await _apiServices.getApiData("https://mobileapp.rite-hms.com/OT/GetOperationScheduleList?pageNumber=1&pageSize=150&startDate=${startDate}&endDate=${endDate}&patientId=0&isMobileApp=true");
     return OtScheduleModel.fromJson(response);
   }
+
+  //get lab test list data
+  Future<LabTestListModel> getLabTestListApi()async{
+    dynamic response = await _apiServices.getApiData(AppUrl.labTestListUrl);
+    return LabTestListModel.fromJson(response);
+  }
+
+
   //get object list data end //
 
 
   ////////// get list of data start ///////////////
+
+
 
   //get surgery note data
    List<SurgeryNoteModel> getSurgeryNoteData = [];
@@ -90,7 +102,37 @@ class Repository{
     return getSurgeryNoteData;
   }
 
+  //get sample list filter status
+  List<StatusListModel> getSampleStatus = [];
+  Future<List<StatusListModel>> getSampleListFilterStatusData()async{
 
-////////// get list of data start ///////////////
+    dynamic response = await _apiServices.getListOfApiData(AppUrl.sampleListFilterStatusUrl);
+    print("response sampel list filter status ${response.toString()}");
+
+    getSampleStatus.clear();
+    for(Map i in response){
+      StatusListModel data =  StatusListModel.fromJson(i);
+      getSampleStatus.add(data);
+    }
+    return getSampleStatus;
+  }
+
+  //get lab test list filter status
+  List<LabTestListStatusModel> getLabTestStatus = [];
+  Future<List<LabTestListStatusModel>> getLabTestListFilterStatusData()async{
+
+    dynamic response = await _apiServices.getListOfApiData(AppUrl.labTestListFilterStatusUrl);
+    print("response sampel list filter status ${response.toString()}");
+
+    getLabTestStatus.clear();
+    for(Map i in response){
+      LabTestListStatusModel data =  LabTestListStatusModel.fromJson(i);
+      getLabTestStatus.add(data);
+    }
+    return getLabTestStatus;
+  }
+
+
+////////// get list of data end ///////////////
 
 }

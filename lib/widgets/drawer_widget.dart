@@ -216,96 +216,96 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 children: [
                   SizedBox(height: 10,),
 
-                  _drawerSublistWidget(
-                      subTitle: "Summary",
-                      onTap: (){},
-                      image: 'assets/icons/lab_test.png'),
-                  Divider(height: 2,color: Colors.grey,),
-                ],
+                  ExpansionTile(
 
-              ),
-              ExpansionTile(
+                    title: Row(
+                      children: [
+                        Container(
+                          height: 25,
+                          width: 25,
+                          decoration: BoxDecoration(
 
-                title: Row(
-                  children: [
-                    Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
-
-                        image: DecorationImage(
-                            image: AssetImage('assets/icons/appointment.png')
+                            image: DecorationImage(
+                                image: AssetImage('assets/icons/appointment.png')
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(width: 15,),
+                        Text("OT Scheduling", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isOtSchedulingToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
+                      ],
                     ),
-                    SizedBox(width: 15,),
-                    Text("OT Scheduling", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isOtSchedulingToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
-                  ],
-                ),
-                trailing: Icon(
-                  isOtSchedulingToggle
-                      ? Icons.remove_outlined : Icons.add, size: 30,
-                  color: isOtSchedulingToggle ? Colors.red : Styles.drawerListColor,
-                ),
-                onExpansionChanged: (bool expand){
-                  setState(() {
-                    isOtSchedulingToggle = expand;
-                  });
-                },
-                children: [
-                  SizedBox(height: 10,),
+                    trailing: Icon(
+                      isOtSchedulingToggle
+                          ? Icons.remove_outlined : Icons.add, size: 30,
+                      color: isOtSchedulingToggle ? Colors.red : Styles.drawerListColor,
+                    ),
+                    onExpansionChanged: (bool expand){
+                      setState(() {
+                        isOtSchedulingToggle = expand;
+                      });
+                    },
+                    children: [
+                      SizedBox(height: 10,),
 
-                  _drawerSublistWidget(
-                      subTitle: "Summary",
-                      onTap: (){},
-                      image: 'assets/icons/lab_test.png'),
-                  Divider(height: 2,color: Colors.grey,),
-                ],
+                      _drawerSublistWidget(
+                          subTitle: "Summary",
+                          onTap: (){},
+                          image: 'assets/icons/lab_test.png'),
+                      Divider(height: 2,color: Colors.grey,),
+                    ],
 
-              ),
+                  ),
 
-              ExpansionTile(
+                  ExpansionTile(
 
-                title: Row(
-                  children: [
-                    Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
+                    title: Row(
+                      children: [
+                        Container(
+                          height: 25,
+                          width: 25,
+                          decoration: BoxDecoration(
 
-                        image: DecorationImage(
-                            image: AssetImage('assets/icons/appointment.png')
+                            image: DecorationImage(
+                                image: AssetImage('assets/icons/appointment.png')
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(width: 15,),
+                        Text("OT Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isOtManagementToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
+                      ],
                     ),
-                    SizedBox(width: 15,),
-                    Text("OT Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400,color: isOtManagementToggle ? Colors.red: Styles.drawerListColor,fontFamily: 'Poppins'),)
-                  ],
-                ),
-                trailing: Icon(
-                  isOtManagementToggle
-                      ? Icons.remove_outlined : Icons.add, size: 30,
-                  color: isOtManagementToggle ? Colors.red : Styles.drawerListColor,
-                ),
-                onExpansionChanged: (bool expand){
-                  setState(() {
-                    isOtManagementToggle = expand;
-                  });
-                },
-                children: [
-                  SizedBox(height: 10,),
+                    trailing: Icon(
+                      isOtManagementToggle
+                          ? Icons.remove_outlined : Icons.add, size: 30,
+                      color: isOtManagementToggle ? Colors.red : Styles.drawerListColor,
+                    ),
+                    onExpansionChanged: (bool expand){
+                      setState(() {
+                        isOtManagementToggle = expand;
+                      });
+                    },
+                    children: [
+                      SizedBox(height: 10,),
 
-                  _drawerSublistWidget(
-                      subTitle: "OT List",
-                      onTap: (){
-                        //Get.toNamed(RoutesName.otManagementScreen);
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtManagementScreen()));
-                      },
-                      image: 'assets/icons/lab_test.png'),
+                      _drawerSublistWidget(
+                          subTitle: "OT List",
+                          onTap: (){
+                            //Get.toNamed(RoutesName.otManagementScreen);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>OtManagementScreen()));
+                          },
+                          image: 'assets/icons/lab_test.png'),
+                      Divider(height: 2,color: Colors.grey,),
+                    ],
+
+                  ),
+
                   Divider(height: 2,color: Colors.grey,),
                 ],
 
               ),
+
+
+
 
               ExpansionTile(
 

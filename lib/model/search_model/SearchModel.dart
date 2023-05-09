@@ -1441,9 +1441,8 @@ class Gender {
     data['Code'] = this.code;
     data['TypeName'] = this.typeName;
     data['User'] = this.user;
-    if (this.bloodDonors != null) {
-     // data['BloodDonors'] = this.bloodDonors!.map((v) => v.toJson()).toList();
-    }
+   /* if (this.bloodDonors != null) {data['BloodDonors'] = this.bloodDonors!.map((v) => v.toJson()).toList();
+    }*/
     data['Id'] = this.id;
     data['Active'] = this.active;
     data['UserId'] = this.userId;

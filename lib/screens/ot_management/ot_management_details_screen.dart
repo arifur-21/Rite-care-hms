@@ -58,7 +58,6 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
               child: FutureBuilder(
                 future: otListVM.getSurgerNoteData(),
                   builder: (context, snapShot){
-
                     return   Obx((){
                       switch(otListVM.rxRequestStatus.value){
                         case Status.LOADING:
@@ -69,7 +68,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
                           return Text(otListVM.error.value.toString());
 
                         case Status.SUCCESS:
-                          if(otListVM.surgeryNoteItem == null){
+                          if(otListVM.surgeryNoteItem.value.length == 0){
                             print("data not found");
                             return Text("data not found");
                           }

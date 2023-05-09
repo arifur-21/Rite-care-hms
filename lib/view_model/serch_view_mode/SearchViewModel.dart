@@ -64,8 +64,8 @@ class SearchViewModel extends GetxController{
     return patientListItem;
   }
   Future<List<SearchModel>> searchPatientOfficalNo()async{
-    setRxRequestStatus(Status.LOADING);
-    _api.getPatientByOccicialNo(patientOfficialNumberController.value.text).then((value) {
+     setRxRequestStatus(Status.LOADING);
+   await _api.getPatientByOccicialNo(patientOfficialNumberController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatient(value);
     }).onError((error, stackTrace){

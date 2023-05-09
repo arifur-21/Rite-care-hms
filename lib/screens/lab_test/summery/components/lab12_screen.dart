@@ -55,7 +55,7 @@ class _Lab12ScreenState extends State<Lab12Screen> {
                     Text("IMAGING DETAIL",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                     InkWell(
                         onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientSummeryScreen()));
+                       //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientSummeryScreen()));
                         },
                         child: Icon(Icons.cancel_presentation, size: 40,color: Colors.white,)),
                   ],

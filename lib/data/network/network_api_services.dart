@@ -13,7 +13,7 @@ class NetworkApiServices extends BaseApServices {
 
   LoginPreference loginPreference = LoginPreference();
   var token;
-  var refereshToken;
+  dynamic refresh_token;
 
 
   ///get search patien data by id
@@ -21,6 +21,7 @@ class NetworkApiServices extends BaseApServices {
   Future getPatientById(String id) async {
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
+      refresh_token = value.refreshToken!;
     });
     dynamic responseJson;
     try {
@@ -48,6 +49,7 @@ class NetworkApiServices extends BaseApServices {
   Future getApiData(String url) async{
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
+      refresh_token = value.refreshToken!;
     });
 
     dynamic responseJson;
@@ -71,27 +73,12 @@ class NetworkApiServices extends BaseApServices {
     return responseJson;
   }
 
-
-
-  @override
-  Future postApi(var data, String url) async {
-    dynamic responseJson;
-    try {
-      final response = await http.post(Uri.parse(url), body: data).timeout(
-          Duration(seconds: 30));
-      responseJson = returnResponse(response);
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    return responseJson;
-  }
-
   @override
   Future<List> getListOfApiData(String url) async {
+
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
+      refresh_token = value.refreshToken!;
     });
     dynamic responseJson;
     try {
@@ -112,13 +99,30 @@ class NetworkApiServices extends BaseApServices {
     return responseJson;
   }
 
-////post  Surggery note
+  /// login api
   @override
-  Future postSurgeryNote(dynamic postData, String url) async {
+  Future postLoginApi(dynamic data, String url) async {
+    dynamic responseJson;
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: data).timeout(
+          Duration(seconds: 30));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw InternetException("");
+    } on RequestTimeOut {
+      throw RequestTimeOut('');
+    }
+    return responseJson;
+  }
+
+  //post api
+  @override
+  Future postApiData(dynamic postData, String url) async {
 
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
-      refereshToken = value.refreshToken;
+      refresh_token = value.refreshToken!;
     });
     dynamic responseJson;
 
@@ -132,10 +136,9 @@ class NetworkApiServices extends BaseApServices {
             'cache-control': 'no-cache'
           }
 
-      ).timeout(Duration(seconds: 10));
-
-      ///body: jsonEncode(data)
+      ).timeout(Duration(seconds: 30));
       responseJson = returnResponse(response);
+      print(response.body);
     } on SocketException {
       throw InternetException("");
     } on RequestTimeOut {
@@ -146,57 +149,50 @@ class NetworkApiServices extends BaseApServices {
 
   }
 
-  ///register patient
-  @override
-  Future patientRegistration(registerData, String url) async {
+  Future<void> regenerateToken() async{
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
+      refresh_token = value.refreshToken!;
     });
 
-    if (kDebugMode) {
-      print('patient data1 : $registerData');
-    }
     dynamic responseJson;
 
-    try {
       final response = await http.post(
-          Uri.parse(url),
-          body: jsonEncode(registerData),
+          Uri.parse('https://mobileapp.rite-hms.com/auth/token'),
           headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'cache-control': 'no-cache'
-          }
+            'grant_type': 'refresh_token',
+          },
+        body: {
+      'grant_type': 'refresh_token',
+      'refresh_token': '${refresh_token}',
+      },
+      );
+      //print("refresh token ${response.body}");
+      if(response.statusCode == 200){
+        final json = jsonDecode(response.body);
+        final accessToken = json['access_token'];
+        print(accessToken);
+        return accessToken;
+      }else{
+        throw Exception('Failed to refresh access token');
+      }
+      print("token response ${response.body}");
+      token = response.body;
 
-      ).timeout(Duration(seconds: 10));
-
-      ///body: jsonEncode(data)
-      responseJson = returnResponse(response);
-    } on SocketException {
-      throw InternetException("");
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
     return responseJson;
   }
 
-
-
-
+  //// api exception handler
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
-
-      /*case 401:
-      //refresh token and call getUser again
-        final response = http.post(Uri.https('https://mobileapp.rite-hms.com/auth/token'),
-            headers: {'grant_type': 'refresh_token', 'refresh_token': '$refereshToken'});
-       dynamic responseJson = jsonDecode(response.body);
-        token = jsonDecode(responseJson)['token'];
-        refereshToken = jsonDecode(responseJson)['refresh_token'];
-       return;*/
+      case 401:
+        throw InvalidUrlException();
+     /* case 401:
+     print("object unAuthorize");
+       return regenerateToken();*/
       case 400:
         throw InvalidUrlException;
       default:
@@ -205,9 +201,6 @@ class NetworkApiServices extends BaseApServices {
                 response.statusCode.toString());
     }
   }
-
-
-
 
 
 }

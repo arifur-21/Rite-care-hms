@@ -15,8 +15,8 @@ abstract class BaseApServices{
 
 
   ////post api
-  Future<dynamic> postApi(dynamic data, String url);
+  Future<dynamic> postLoginApi(dynamic data, String url);
 
-  Future<dynamic> postSurgeryNote(dynamic postData, String url);
+  Future<dynamic> postApiData(dynamic postData, String url);
 
 }

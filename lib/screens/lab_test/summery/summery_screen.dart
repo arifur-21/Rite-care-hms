@@ -1,22 +1,25 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
-import 'package:shimmer/shimmer.dart';
-import '../../../model/lab_test_model/summery_model.dart';
+import 'package:ritecare_hms/widgets/resuable_header.dart';import '../../../data/app_exceptions.dart';
+import '../../../data/response/status.dart';
+import '../../../model/lab_test_model/lab_test_list_model.dart';
+import '../../../model/lab_test_model/simple_list_models.dart';
 import '../../../model/patinet_list_model/patient_list_model.dart';
-import '../../../resources/app_url/app_url.dart';
-import '../../../shere_preference/login_preference.dart';
 import '../../../view_model/summery_view_model/summery_view_model.dart';
 import '../../../widgets/app_bar_widget.dart';
 import '../../../widgets/drawer_widget.dart';
 
 import '../../../widgets/filter_button.dart';
 import '../../../widgets/popup_button_widget.dart';
-import 'components/expandable_summery_list_item_widget.dart';
+import '../sample_list/components/sample_filter_widget.dart';
+import '../summery/components/expandable_summery_list_item_widget.dart';
+
 import 'package:http/http.dart' as http;
+
 
 class PatientSummeryScreen extends StatefulWidget {
   const PatientSummeryScreen({Key? key}) : super(key: key);
@@ -26,39 +29,17 @@ class PatientSummeryScreen extends StatefulWidget {
 }
 
 class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
+
+  var colors = Styles.primaryColor;
+
   final summeryVM = Get.put(SummeryViewModel());
-  LoginPreference loginPreference = LoginPreference();
-  var token;
-
-  Future<SummeryModel> getPatientsList()async {
-    var data;
-
-    loginPreference.getToken().then((value){
-      token = value.accessToken!;
-    });
-
-    final response = await http.get(Uri.parse('https://mobileapp.rite-hms.com/Item/GetPatientInvoicebyMedicalType?id=0&statusid=0&medicalTypeID=62&DateStart=2023-04-06&DateEnd=2023-04-06&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null&itemId=undefined'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'cache-control': 'no-cache'
-        }
-    );
-    data  = jsonDecode(response.body) ;
-    if(response.statusCode == 200){
-      print("data ${data.toString()}");
-      return SummeryModel.fromJson(data);
-    }else{
-      return SummeryModel.fromJson(data);
-    }
-  }
-
-
+  dynamic statusId;
+  String? status ='';
 
 
   @override
   void initState() {
-    getPatientsList();
+    summeryVM.getSummeryListData();
     super.initState();
   }
 
@@ -66,160 +47,172 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: DrawerWidget(),
+
+        child:DrawerWidget(),
       ),
+
       appBar: AppBar(
         backgroundColor: Styles.primaryColor,
         actions: [
           AppBarWidget(),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
 
-            Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  FilterContainerBtn(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Styles.primaryColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            )
-                          ]),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("DATE", style: Styles.poppinsFont12_500),
-                          Text("INV.NO", style: Styles.poppinsFont12_500),
-                          Text("STATUS", style: Styles.poppinsFont12_500),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+
+      body: Column(
+        children: [
+          Container(
+            child: Column(
+              children: [
+
+                SizedBox(height: 10,),
+
+                SampleListFilterWidget(
+                  textField1HintText: 'Labtest Name',
+                  textField2HintText: 'Inv.No',
+                  onClick: (){
+                    summeryVM.getSummeryListData();
+                    Navigator.pop(context);
+                  },
+
+                ),
+
+                SizedBox(height: 10,),
+
+                ResuableHeader(leadingText: 'Date', titleText: 'Inv.No', tralingText: 'Status',),
+              ],
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
-                                width: 2, color: Styles.primaryColor),
-                          ),
-                          child: ExpansionTile(
-                            trailing: Container(
-                                height: 25,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  border: Border(),
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 3,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
+          ),
+          SizedBox(height: 10,),
+
+          Expanded(
+            child: Obx((){
+              switch(summeryVM.rxRequestStatus.value){
+                case Status.LOADING:
+                  return Center(child:  CircularProgressIndicator(),);
+
+                case Status.ERROR:
+                  print("error ${summeryVM.error.value.toString()}");
+                  return Text(summeryVM.error.value.toString());
+
+                case Status.SUCCESS:
+                  if(summeryVM.summeryListItem.value.items?.length == 0){
+                    return Text("Item not found, please select date");
+                  }else{
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: summeryVM.summeryListItem.value.items?.length,
+                        itemBuilder: (context, index){
+                          statusId = summeryVM.summeryListItem.value.items?[index].labStatusId;
+                          print("sample status id ${statusId}");
+
+                          if(statusId == 1){
+                            status = "Pending";
+                          }
+                          else if(statusId == 2){
+                            status = "Completed";
+                          }
+                          else if(statusId == 3){
+                            status = "Delivered";
+                          }
+                          else if(statusId == 4){
+                            status = "Collected";
+                          }else{
+                            status = "Printed";
+                          }
+
+                          return  Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                    width: 2, color:  (statusId == 1)? Colors.red : (statusId == 2)? Colors.green : (statusId == 3)? Colors.orange : (statusId == 4)? Colors.blue : Colors.yellow),
+                              ),
+                              child: ExpansionTile(
+                                trailing: Container(
+                                    height: 25,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: (statusId == 1)? Colors.red : (statusId == 2)? Colors.green : (statusId == 3)? Colors.orange : (statusId == 4)? Colors.blue : Colors.yellow,
+                                      border: Border(),
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 3,
+                                          blurRadius: 7,
+                                          offset: Offset(
+                                              0, 3), // changes position of shadow
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                child: Center(
-                                    child: Text("Collection",
-                                        style: Styles.poppinsFont12_600))),
-                            title: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
+                                    child: Center(
+                                        child: Text("${status}",
+                                            style: Styles.poppinsFont12_600)
+                                    )),
+                                title: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("12-34-0202",
-                                        style: Styles.poppinsFontBlack12),
-                                    Text("1000330",
-                                        style: Styles.poppinsFontBlack12),
-                                  ],
-                                )
-                              ],
-                            ),
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "PATIENT :",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Styles.textGreen),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Abdur Rahim ",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
+                                      children: [
+                                        Text("${summeryVM.summeryListItem.value.items?[index].invoiceDate}",
+                                            style: Styles.poppinsFontBlack12),
+                                        Text("${summeryVM.summeryListItem.value.items?[index].invoiceNo}",
+                                            style: Styles.poppinsFontBlack12),
+                                      ],
+                                    )
                                   ],
                                 ),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "PATIENT :",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              color: Styles.textGreen),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "${summeryVM.summeryListItem.value.items?[index].patient?.firstName}",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ExpandableSummeryListItem(
+                                    title: "CBC",
+                                    category: "Hematoloty",
+                                    name: summeryVM.summeryListItem.value.items?[index].patient?.firstName,
+                                    statusId: statusId,
+                                    status:  status,
+                                    itemName: summeryVM.summeryListItem.value.items?[index]. ,
+                                  )
+
+                                ],
                               ),
-                              ExpandableSummeryListItem(
-                                title: "CBC",
-                                category: "Hematoloty",
-                                name: "Abdul Ali",
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    })),
+                            ),
+                          );
 
+                        });
+                  }
 
-            Expanded(
-                child: FutureBuilder(
-                  future: getPatientsList(),
-              builder: (context, snapShot){
-
-                if(!snapShot.hasData){
-                  return Text("data not found");
-                }else{
-                  return Text("data found");
-                }
-              },
-            ))
-
-
-          ],
-        ),
+              }
+            }),
+          )
+        ],
       ),
     );
   }
+
+
 }
+
+

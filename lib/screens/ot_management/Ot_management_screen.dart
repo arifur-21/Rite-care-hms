@@ -34,7 +34,6 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
   dynamic statusId;
   dynamic status;
 
-  Map<dynamic, dynamic> btnStatus = {'start' : 101, 'end': 102};
 
   @override
   void initState() {
@@ -78,21 +77,27 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                 return Center(child: Text(otListVM.error.value.toString()));
 
               case Status.SUCCESS:
-                return Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                      itemCount: otListVM.otScheduleList.value.items?.length,
-                      itemBuilder: (context, index){
-                        return  otListWidget(
-                          title: otListVM.otScheduleList.value.items?[index]?.item?.name,
-                          name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
-                          status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
-                          surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
-                          indexNum : index,
-                          noteId: otListVM.otScheduleList.value.items?[index]?.id
-                        );
-                      }),
-                );
+                if(otListVM.otScheduleList.value.items?.length == 0){
+                  print("ot length ${otListVM.otScheduleList.value.items?.length}");
+                  return Center(child: Text("Item not found, Please select date"));
+                }else{
+                  return Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: otListVM.otScheduleList.value.items?.length,
+                        itemBuilder: (context, index){
+                          return  otListWidget(
+                              title: otListVM.otScheduleList.value.items?[index]?.item?.name,
+                              name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
+                              status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
+                              surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
+                              indexNum : index,
+                              noteId: otListVM.otScheduleList.value.items?[index]?.id
+                          );
+                        }),
+                  );
+                }
+
             }
           }),
 
@@ -103,7 +108,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
 
   Widget otListWidget({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}){
 
-    return Padding(
+    return status == 'Pending' ? SizedBox()  :  Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
             height: 125,
@@ -167,35 +172,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
 
                       InkWell(
                         onTap: (){
-                          setState(() {
-                            print(indexNum);
-                            if(status == 'Initiated'){
-                              statusId = 103;
-                              status = 'In Progress';
-                              print("init${statusId}");
-                              dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
-                              aItem?.surgeryStatus?.name = "In Progress";
-                              print("items1 ${aItem}");
-                            }
-                          if(status == 'In Progress'){
-                           statusId = 104;
-                           status = 'Completed';
-                            print("progressId ${statusId}");
-                            dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
-                            aItem?.surgeryStatus?.name = "Completed";
-                            if(btnVisibility == true){
-                              btnVisibility = false;
-                            }else{
-                              btnVisibility = true;
-                            }
-                          }
-                          if(status == 'Completed'){
-                              dynamic id = otListVM.otScheduleList.value.items?[indexNum!].surgeryStatus?.id;
-                              print("com${id}");
-                          }
-                          });
-
-                          otListVM.operationScheduleStatus(statusId,status);
+                          _showDialog(status: status, title: title, name: name, surgeryType: surgeryType, indexNum: indexNum, noteId: noteId);
                         },
                         child: Visibility(
                           visible: (status == 'Completed')? btnVisibility = false : btnVisibility = true,
@@ -378,5 +355,84 @@ Widget otListHeaderWidget(){
       ),
     );
 }
+
+  _showDialog({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+
+            builder: (context, setState) => AlertDialog(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                      onTap:(){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.cancel_presentation, size: 30, color: Colors.red,)),
+                ],
+              ),
+
+              content: Container(
+                height: 120,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Text("Do you want to change status"),
+                  SizedBox(height: 10,),
+                  Text(" ${status}", style: TextStyle(color: Colors.red,fontSize: 20, fontWeight: FontWeight.w800),),
+                ],),
+              ),
+
+              actions: [
+                InkWell(
+                  onTap: (){
+
+                      if(status == 'Initiated'){
+                        print("onclick11");
+                        statusId = 103;
+                        status = 'In Progress';
+                        print("init${statusId}");
+                        dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
+                        aItem?.surgeryStatus?.name = "In Progress";
+                        print("items1 ${aItem}");
+                      }
+                      else if(status == 'In Progress'){
+                        statusId = 104;
+                        status = 'Completed';
+                        print("progressId ${statusId}");
+                        dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
+                        aItem?.surgeryStatus?.name = "Completed";
+                        if(btnVisibility == true){
+                          btnVisibility = false;
+                        }else{
+                          btnVisibility = true;
+                        }
+                      }
+                      else if(status == 'Completed'){
+                        dynamic id = otListVM.otScheduleList.value.items?[indexNum!].surgeryStatus?.id;
+                        print("com${id}");
+                      }
+
+                      setState(() {
+                        otListVM.operationScheduleStatus(statusId,status, noteId);
+                        otListVM.getSchedule();
+                          });
+                      Navigator.pop(context);
+
+
+                  },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Confrom', style: TextStyle(fontSize: 20),),
+                    )),
+
+              ],
+            ),
+          );
+        });
+  }
 
 }

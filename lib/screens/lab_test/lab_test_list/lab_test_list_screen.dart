@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:ritecare_hms/view_model/lab_test_view_model/lab_test_list_view_model.dart';
 import 'package:ritecare_hms/widgets/filter_button.dart';
 import 'package:ritecare_hms/screens/lab_test/lab_test_list/components/lab_list1_card_list.dart';
 
@@ -27,10 +28,11 @@ class LatTestListScreen extends StatefulWidget {
 
 class _LatTestListScreenState extends State<LatTestListScreen> {
 
-  final labTestListVM = Get.put(SummeryViewModel());
+  //final labTestListVM = Get.put(SummeryViewModel());
+  final labTestListVm = Get.put(LabTestListViewModel());
   @override
   void initState() {
-  labTestListVM.getLabTestListData();
+    labTestListVm.getLabTestListData();
     super.initState();
   }
 
@@ -50,24 +52,30 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
       body: Column(
         children: [
           SizedBox(height: 20,),
-          LabTestListFilterWidget(),
+          LabTestListFilterWidget(
+            textField1HintText: 'Labtest Name',
+            onClick: () {
+
+            },),
+
+
           SizedBox(height: 20,),
 
           ResuableHeader(leadingText: 'Test Name', titleText: 'Code', tralingText: 'Category',),
 
       Expanded(
         child: Obx((){
-          switch(labTestListVM.rxRequestStatus.value){
+          switch(labTestListVm.rxRequestStatus.value){
             case Status.LOADING:
               return Center(child:  CircularProgressIndicator(),);
 
             case Status.ERROR:
-              print("error ${labTestListVM.error.value.toString()}");
-              return Text(labTestListVM.error.value.toString());
+              print("error ${labTestListVm.error.value.toString()}");
+              return Text(labTestListVm.error.value.toString());
 
             case Status.SUCCESS:
               return ListView.builder(
-                itemCount: labTestListVM.labtestListData.value.items?.length,
+                itemCount: labTestListVm.labtestListData.value.items?.length,
                   itemBuilder: (context, index){
                 return   Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -75,19 +83,19 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
                             LabTestListDetailsScreen(
-                              code: labTestListVM.labtestListData.value.items![index].code,
-                              testName: labTestListVM.labtestListData.value.items![index].name,
-                              category: labTestListVM.labtestListData.value.items![index].itemCategory!.name,
-                              reportSerialNO: labTestListVM.labtestListData.value.items![index].labItemSerialNo,
-                              labReportGroup: labTestListVM.labtestListData.value.items![index].labReportGroup,
-                              chargePrice: labTestListVM.labtestListData.value.items![index].salePrice,
-                              refferCommission: labTestListVM.labtestListData.value.items![index].itemCategory!.referralCommission,
+                              code: labTestListVm.labtestListData.value.items![index].code,
+                              testName: labTestListVm.labtestListData.value.items![index].name,
+                              category: labTestListVm.labtestListData.value.items![index].itemCategory!.name,
+                              reportSerialNO: labTestListVm.labtestListData.value.items![index].labItemSerialNo,
+                              labReportGroup: labTestListVm.labtestListData.value.items![index].labReportGroup,
+                              chargePrice: labTestListVm.labtestListData.value.items![index].salePrice,
+                              refferCommission: labTestListVm.labtestListData.value.items![index].itemCategory!.referralCommission,
                             ) ));
                       },
-                      title: "${labTestListVM.labtestListData.value.items?[index].name}",
-                      code: labTestListVM.labtestListData.value.items?[index].code,
-                      category:labTestListVM.labtestListData.value.items?[index].itemCategory!.name,
-                      price:labTestListVM.labtestListData.value.items?[index].salePrice),
+                      title: "${labTestListVm.labtestListData.value.items?[index].name}",
+                      code: labTestListVm.labtestListData.value.items?[index].code,
+                      category:labTestListVm.labtestListData.value.items?[index].itemCategory!.name,
+                      price:labTestListVm.labtestListData.value.items?[index].salePrice),
                 );
               });
           }

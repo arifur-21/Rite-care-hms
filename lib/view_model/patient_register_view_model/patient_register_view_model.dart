@@ -295,8 +295,8 @@ class PatientRegisterViewModel extends GetxController{
 
 
 
-  void BloodGroup(){
-    print("test1");
+  Future? BloodGroup(){
+    print("blood group vm");
     _api.getBloodGroup().then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatientBlood(value);

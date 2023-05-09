@@ -28,6 +28,9 @@ class _PatientListScreenState extends State<PatientListScreen> {
   dynamic totalAmount;
 
 
+
+
+
   @override
   void initState() {
     patinetListVM.getPatientList();
@@ -49,14 +52,47 @@ class _PatientListScreenState extends State<PatientListScreen> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
 
               SizedBox(height: 10,),
 
-        PatientListFilterWidget(totalPayment: totalAmount),
-
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: Get.width * 0.4,
+              height: 80,
+              child: Card(
+                color: Colors.greenAccent,
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person, size: 40,),
+                      SizedBox(width: 10,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Total Patient :"),
+                          SizedBox(height: 6,),
+                          Text("${totalAmount}"),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            PatientListFilterWidget(),
+          ],
+        ),
+            SizedBox(height: 20,),
 
         Expanded(
           child: Obx((){
@@ -81,7 +117,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
                           PatientCartListViewWidgets(
                               patientId: patinetListVM.patientList.value.items![index].id.toString(),
                               PatientName: patinetListVM.patientList.value.items![index].firstName.toString(),
-                              DateOfBirth: patinetListVM.patientList.value.items![index].dOB.toString(),
+                              DateOfBirth: patinetListVM.patientList.value.items![index].dOB,
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(
                                     builder: (context)=>PatientInfoScreen(

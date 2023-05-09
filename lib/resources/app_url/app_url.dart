@@ -23,6 +23,8 @@ class AppUrl{
    static const String getGenderUrl =  '$base_url/Gender/GetAllAsync';
    static const String surgeryNoteDeleteUrl =  '$base_url/OT/DeleteSurgeryNote';
    static const String operationScheduleStatusUrl =  '$base_url/OT/SaveOperationSchedule';
+   static const String sampleListFilterStatusUrl =  '$base_url/Item/GetAllLabStatus';
+   static const String labTestListFilterStatusUrl =  '$base_url/Item/loadLabTestCategories?medicalTypeID=62';
 
 
 

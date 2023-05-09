@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:ritecare_hms/model/lab_test_model/summery_model.dart';
 import 'package:ritecare_hms/model/search_model/SearchModel.dart';
 import 'package:ritecare_hms/resources/app_url/app_url.dart';
 
@@ -34,19 +35,22 @@ class SearchRepository{
   /// get user profile
   Future<UserProfileModel> getUserProfile()async{
     dynamic response = await _apiServices.getApiData(AppUrl.userProfile);
+
+    print("response repo ${response}");
     return UserProfileModel.fromJson(response);
   }
 
-  //get lab test list data
-  Future<LabTestListModel> getLabTestListApi()async{
-    dynamic response = await _apiServices.getApiData(AppUrl.labTestListUrl);
-    return LabTestListModel.fromJson(response);
-  }
 
   //get sample list data
-  Future<SampleTest> getSampleListData(dynamic startDate, dynamic endDate)async{
+  Future<SampleTest> getSampleListData(startDate, endDate,pStatusId)async{
     dynamic response = await _apiServices.getApiData('https://mobileapp.rite-hms.com/Item/GetInvoiceSampleIDByMedicalType?id=775925&statusid=0&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null');
     return SampleTest.fromJson(response);
+  }
+
+  //get summery list data
+  Future<SummeryModel> getSummeryListData(startDate, endDate,pStatusId)async{
+    dynamic response = await _apiServices.getApiData('https://mobileapp.rite-hms.com/Item/GetPatientInvoicebyMedicalType?id=0&statusid=0&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null&itemId=undefined');
+    return SummeryModel.fromJson(response);
   }
 
   /// get patient list
@@ -59,7 +63,6 @@ class SearchRepository{
 
   List<SearchModel> searchData =[];
   Future<List<SearchModel>> getPatientByOccicialNo(String id)async{
-
     dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetPatientByServiceId?serviceNumber=${id}&oldData=false');
     print("responsesf111 ${response.toString()}");
 
@@ -99,30 +102,5 @@ class SearchRepository{
     }
     return searchDataOfficial;
   }
-
-
-/// get sample test status repo
-  List<StatusListModel> statusList =[];
-  Future<List<StatusListModel>> getSampleTestStatus()async{
-
-    dynamic response = await _apiServices.getListOfApiData(AppUrl.getAlLabStatusUrl);
-    print("response sample status repo ${response.toString()}");
-
-    statusList.clear();
-    for(Map i in response){
-      StatusListModel data =  StatusListModel.fromJson(i);
-      statusList.add(data);
-
-    }
-
-    return statusList;
-
-  }
-
-
-
-
-
-
 
 }

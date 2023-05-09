@@ -41,7 +41,7 @@ class OtListViewModel extends GetxController{
 
 
   /// get ot schedule
-  void getSchedule(){
+  Future<void>? getSchedule(){
     _api.getOtSchedule(startDate, endDate).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setOtSchedule(value);
@@ -85,17 +85,33 @@ class OtListViewModel extends GetxController{
   }
 
   /// operation Schedule status
-  void operationScheduleStatus(dynamic statusId, dynamic status){
+  void operationScheduleStatus(dynamic statusId, dynamic status, dynamic noteId){
     print("opSchedule ${statusId}");
     print("opSchedule status ${status}");
-    Map data =  {
-      "Id": 50423,
+    print("note id ${noteId}");
+    Map data = {
+      "Id": noteId,
       "SurgeryTypeId": 39,
-      "PatientId": 760288,
+      "PatientId": 260647,
+      "SurgeryItemId": 321154,
+      "SurgeryStatusId": statusId,
+      "UserId": 30515,
+      "Active": true,
+      "BranchId": 33,
+      "TenantId": 25,
+      "RoomId": 50334,
+      "SurgeryScheduleDate": "2023-04-17T00:00:00",
+      "StartTime": "14:35:00",
+      "EndTime": "00:00:00",
+      "IsApproved": false,
+      "ApprovedUserId": 0,
+      "SurgeryServiceProviderMaps": null,
       "SurgeryStatus": {
         "Id": statusId,
         "Name": status,
-      },
+        "UserId": 2,
+        "Active": true
+      }
 
     };
     _api.postOperationScheduleStatus(data).then((value){

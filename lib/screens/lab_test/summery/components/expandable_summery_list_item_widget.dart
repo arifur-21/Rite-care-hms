@@ -11,9 +11,14 @@ class ExpandableSummeryListItem extends StatefulWidget {
   final String? category;
   final String? name;
   final VoidCallback? onPressed;
+  final dynamic? statusId;
+  final String? status;
+  bool btnVisibility = false;
+  final String? itemName;
 
 
-  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed});
+
+  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed, this.statusId, this.status, this.itemName});
 
   @override
   State<ExpandableSummeryListItem> createState() => _ExpandableSummeryListItemState();
@@ -23,10 +28,11 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
   @override
   Widget build(BuildContext context) {
     return   Container(
-      height: 200,
+      height: 220,
       child:  ListView.separated(
-          itemCount: 4,
+          itemCount: 2,
           itemBuilder: (context, index){
+
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Container(
@@ -55,7 +61,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                               height: 24,
                               width: 100,
                               decoration: BoxDecoration(
-                                  color: Styles.primaryColor,
+                                  color: (widget.statusId == 1)? Colors.red : (widget.statusId == 2)? Colors.green : (widget.statusId == 3)? Colors.orange : (widget.statusId == 4)? Colors.blue : Colors.yellow,
                                   border: Border(),
                                   borderRadius: BorderRadius.circular(50),
                                 boxShadow: [
@@ -67,7 +73,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                   ),
                                 ],
                               ),
-                              child: Center(child: Text("Complete", style: Styles.poppinsFont12_600))
+                              child: Center(child: Text("${widget.status}", style: Styles.poppinsFont12_600))
 
                           ),
                           Row(
@@ -78,13 +84,16 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                 onTap: (){
 
                                 },
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage('assets/icons/edit.png')
+                                child: Visibility(
+                                  visible: (widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                  child: Container(
+                                    height: 25,
+                                    width: 25,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage('assets/icons/edit.png')
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -96,13 +105,16 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                   Navigator.pop(context);
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Lab12Screen()));
                                 },
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage('assets/icons/file.png')
+                                child: Visibility(
+                                  visible: (widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                  child: Container(
+                                    height: 25,
+                                    width: 25,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage('assets/icons/file.png')
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -113,13 +125,16 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                 onTap: (){
 
                                 },
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage('assets/icons/check.png')
+                                child: Visibility(
+                                  visible:(widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                  child: Container(
+                                    height: 25,
+                                    width: 25,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage('assets/icons/check.png')
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -130,13 +145,16 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                 onTap: (){
 
                                 },
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage('assets/icons/printer.png')
+                                child: Visibility(
+                                  visible: (widget.statusId == 3) ? widget.btnVisibility = true : (widget.statusId == 4) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = true : widget.btnVisibility = false,
+                                  child: Container(
+                                    height: 25,
+                                    width: 25,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage('assets/icons/printer.png')
+                                      ),
                                     ),
                                   ),
                                 ),

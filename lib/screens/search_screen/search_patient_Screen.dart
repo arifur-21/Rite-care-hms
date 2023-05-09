@@ -137,7 +137,7 @@ class _PatientSearchState extends State<PatientSearch> {
 
                       ResuableTextField(
                           onTap: (){
-                            if(_formKey.currentState!.validate()){
+                            if(_formKey2.currentState!.validate()){
                               searchVM.searchPatient();
                             }
                             searchVM.patientCellNoController.value.clear();
@@ -233,83 +233,84 @@ class _PatientSearchState extends State<PatientSearch> {
               ),
 
 
-              Obx((){
-                switch(searchVM.rxRequestStatus.value){
-                  case Status.LOADING:
-                    if(searchVM.patientListItem.value.isNotEmpty && searchVM.error.value.isNotEmpty){
-                      return Center(child: CircularProgressIndicator());
-                    }else{
-                      return SizedBox();
-                    }
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  Obx((){
+                    switch(searchVM.rxRequestStatus.value){
+                      case Status.LOADING:
+                        if(searchVM.patientListItem.value.isNotEmpty && searchVM.error.value.isNotEmpty){
+                          return Center(child: CircularProgressIndicator());
+                        }else{
+                          return SizedBox();
+                        }
 
 
-                  case Status.ERROR:
-                  print("error ${searchVM.error.value.toString()}");
-                    return Text(searchVM.error.value.toString());
+                      case Status.ERROR:
+                      print("error ${searchVM.error.value.toString()}");
+                        return Text(searchVM.error.value.toString());
 
-                  case Status.SUCCESS:
-                    
-                      if(searchVM.patientListItem.value.isEmpty){
-                        print("data not found");
-                        return Center(
-                          child: Column(
-                            children: [
-                              Text("data not found Please Registration", style: TextStyle(fontSize: 16, color: Colors.red),),
-                              SizedBox(height: 10,),
-                              RoundedButton(
-                                width: Get.width * 0.4,
-                                  title: "Registration",
-                                  color: Styles.primaryColor,
-                                  onTap: (){
+                      case Status.SUCCESS:
 
-                              }),
-                            ],
-                          ),
-                        );
-                      }
-                      else{
-                        return Column(
-                          children: [
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: searchVM.patientListItem.value.length,
-                                itemBuilder: (context, index){
-                                  print("item ${searchVM.patientListItem[index].id.toString()}");
-                                  return InkWell(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(
-                                          builder: (context)=> PatientInfoScreen(
-                                            name:searchVM.patientListItem[index].firstName,
-                                            serviceId: searchVM.patientListItem[index].serviceId,
-                                            cellNOId: searchVM.patientListItem[index].phoneNumber,
-                                            officalNoId: searchVM.patientListItem[index].serviceId,
-                                            patientId: searchVM.patientListItem[index].id,
-                                            gender: searchVM.patientListItem[index].gender,
-                                            email: searchVM.patientListItem[index].email,
-                                            dateOfBirth: searchVM.patientListItem[index].dOB,
-                                            bloodGroup: searchVM.patientListItem[index].bloodGroup,
-                                            mobile: searchVM.patientListItem[index].phoneNumber,
-                                            emergencyContact: searchVM.patientListItem[index].emergencyNumber,
-                                            emergencyRelation: searchVM.patientListItem[index].emergencyContactRelation,
-                                            // address: snapshot.data![index]?['ServiceId'],
-                                          )));
-                                    },
-                                    child: SearchlistWidget(
-                                      id: index+1,
-                                      name: ' ${searchVM.patientListItem[index]?.firstName.toString()}',
-                                      relation: ' ${searchVM.patientListItem[index].relationship?.name}',
-                                    ),
-                                  );
-                                }),
-                          ],
-                        );
-                      }
+                          if(searchVM.patientListItem.value.isEmpty){
+                            print("data not found");
+                            return Center(
+                              child: Column(
+                                children: [
+                                  Text("data not found Please Registration", style: TextStyle(fontSize: 16, color: Colors.red),),
+                                  SizedBox(height: 10,),
+                                  RoundedButton(
+                                    width: Get.width * 0.4,
+                                      title: "Registration",
+                                      color: Styles.primaryColor,
+                                      onTap: (){
 
-
-
-
-                    }
-              }),
+                                  }),
+                                ],
+                              ),
+                            );
+                          }
+                          else{
+                            return Column(
+                              children: [
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: searchVM.patientListItem.value.length,
+                                    itemBuilder: (context, index){
+                                      print("item ${searchVM.patientListItem[index].id.toString()}");
+                                      return InkWell(
+                                        onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(
+                                              builder: (context)=> PatientInfoScreen(
+                                                name:searchVM.patientListItem[index].firstName,
+                                                serviceId: searchVM.patientListItem[index].serviceId,
+                                                cellNOId: searchVM.patientListItem[index].phoneNumber,
+                                                officalNoId: searchVM.patientListItem[index].serviceId,
+                                                patientId: searchVM.patientListItem[index].id,
+                                                gender: searchVM.patientListItem[index].gender,
+                                                email: searchVM.patientListItem[index].email,
+                                                dateOfBirth: searchVM.patientListItem[index].dOB,
+                                                bloodGroup: searchVM.patientListItem[index].bloodGroup,
+                                                mobile: searchVM.patientListItem[index].phoneNumber,
+                                                emergencyContact: searchVM.patientListItem[index].emergencyNumber,
+                                                emergencyRelation: searchVM.patientListItem[index].emergencyContactRelation,
+                                                // address: snapshot.data![index]?['ServiceId'],
+                                              )));
+                                        },
+                                        child: SearchlistWidget(
+                                          id: index+1,
+                                          name: ' ${searchVM.patientListItem[index]?.firstName.toString()}',
+                                          relation: ' ${searchVM.patientListItem[index].relationship?.name}',
+                                        ),
+                                      );
+                                    }),
+                              ],
+                            );
+                          }
+                        }
+                  }),
+                ],
+              ),
 
 
             ],

@@ -4,10 +4,19 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 
+import '../../../../data/response/status.dart';
 import '../../../../view_model/summery_view_model/summery_view_model.dart';
+import '../../../../widgets/end_date_calendar_widget.dart';
+import '../../../../widgets/start_date_calendar_widget.dart';
+import '../../../../widgets/resueable_filter_text_filed_widget.dart';
 
 class SampleListFilterWidget extends StatefulWidget {
-  const SampleListFilterWidget({Key? key}) : super(key: key);
+  String textField1HintText;
+  String textField2HintText;
+  final VoidCallback  onClick;
+
+
+  SampleListFilterWidget({required this.textField1HintText, required this.textField2HintText, required this.onClick});
 
   @override
   State<SampleListFilterWidget> createState() => _SampleListFilterWidgetState();
@@ -18,19 +27,15 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
   final summeryVm = Get.put(SummeryViewModel());
 
 
-  dynamic formattedDate;
-  dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
- // String endDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
-
-
-
-  TextEditingController dateController = TextEditingController();
-  TextEditingController sampleIdController = TextEditingController();
-  TextEditingController invoNoController = TextEditingController();
-
   // this variable holds the selected items
   final List<String> _selectedItems = [];
   bool isCheckeds = false;
+
+  @override
+  void initState() {
+    summeryVm.getSampleListFilterStatus();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +96,6 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
               children: [
                 InkWell(
                   onTap: () {
-                   // _showAlertDialog1();
                     _showDialog();
                   },
                   child: Container(
@@ -116,7 +120,6 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                           ),
                           SizedBox(width: 20,),
                           Text("Filter", style: Styles.poppinsFont14_600),
-
                         ],
                       )
                   ),
@@ -155,10 +158,8 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                     ExpansionTile(
                       leading: Text("Status", style: Styles.poppinsFontBlack12_400),
                       title: Text(""),
-
                       children: [
                         SizedBox(height: 10,),
-
                         Divider(height: 2, color: Colors.grey,),
                         SizedBox(height: 5,),
                         Column(
@@ -170,32 +171,48 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                                     Container(
                                       width: 200,
                                       height: 150,
-                                      child: Expanded(
-                                        child: FutureBuilder(
-                                            future: summeryVm.getSampleTestStatus(),
-                                            builder: (context, snapshot) {
-                                              return ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: summeryVm.statusList.length,
-                                                  itemBuilder: (context, index) {
-                                                    print("data${summeryVm.statusList[index].name}");
-                                                    return ListTile(
-                                                      title: Padding(
-                                                        padding: const EdgeInsets
-                                                            .all(8.0),
-                                                        child: InkWell(
-                                                            onTap: () {
-                                                              summeryVm.statusId = summeryVm.statusList[index].id;
-                                                              print("item = ${summeryVm.statusList[index].id}");
-                                                            },
-                                                            child: Text("${summeryVm
-                                                                .statusList[index]
-                                                                .name}")),
-                                                      ),
-                                                    );
-                                                  });
-                                            }),
-                                      ),
+                                      child:  FutureBuilder(
+                                        future: summeryVm.getSampleListFilterStatus(),
+                                          builder: (context, snapshot){
+                                          return Obx((){
+                                            switch(summeryVm.rxRequestStatus.value){
+                                              case Status.LOADING:
+                                                return Center(child:  CircularProgressIndicator(),);
+
+                                              case Status.ERROR:
+                                                print("error ${summeryVm.error.value.toString()}");
+                                                return Text(summeryVm.error.value.toString());
+
+                                              case Status.SUCCESS:
+                                                if(summeryVm.sampleListFilterStatus.value.length == 0){
+                                                  print("data not found");
+                                                  return Text("data not found");
+                                                }
+                                                else{
+                                                  return  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount: summeryVm.sampleListFilterStatus.value.length,
+                                                      itemBuilder: (context, index) {
+                                                        print("summery data length ${summeryVm.sampleListFilterStatus.value.length}");
+                                                        return ListTile(
+                                                          title: Padding(
+                                                            padding: const EdgeInsets
+                                                                .all(8.0),
+                                                            child: InkWell(
+                                                                onTap: () {
+                                                                  summeryVm.statusId = summeryVm.sampleListFilterStatus[index].id;
+                                                                  print("item = ${summeryVm.sampleListFilterStatus[index].id}");
+                                                                },
+                                                                child: Text("${summeryVm.sampleListFilterStatus[index].name}")),
+                                                          ),
+                                                        );
+                                                      });
+                                                }
+                                            }
+                                          });
+                                      }),
+
+
                                     ),
                                   ],
                                 )
@@ -212,147 +229,17 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                 ),
               ),
               actions: [
-                Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(6)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
 
-
-                      Text('${summeryVm.startDate}', style: Styles.poppinsFontBlack12_400),
-                      InkWell(
-                          onTap: () async{
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(), //get today's date
-                              firstDate:DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101),
-                            );
-
-                            if(pickedDate != null ){
-                              print(pickedDate);  //get the picked date in the format => 2022-07-04 00:00:00.000
-                              formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                              print(formattedDate); //formatted date output using intl package =>  2022-07-04
-                              //You can format date as per your need
-
-                              setState(() {
-                                summeryVm.startDate  = formattedDate!;//set foratted date to TextField value.
-                                print("${summeryVm.startDate}");
-                              });
-                            }else{
-                              print("Date is not selected");
-                            }
-                          },
-                          child: Icon(Icons.calendar_month_outlined, size: 30,)),
-                    ],
-                  ),
-                ),
+                StartDateCalendarWidget(),
                 SizedBox(height: 10,),
-
-                Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(6)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-
-                      Text('${summeryVm.endDate}', style: Styles.poppinsFontBlack12_400),
-                      InkWell(
-                          onTap: () async{
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(), //get today's date
-                              firstDate:DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101),
-                            );
-
-                            if(pickedDate != null ){
-                              print(pickedDate);  //get the picked date in the format => 2022-07-04 00:00:00.000
-                              formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                              print(formattedDate); //formatted date output using intl package =>  2022-07-04
-                              //You can format date as per your need
-
-                              setState(() {
-                                summeryVm.endDate  = formattedDate!;//set foratted date to TextField value.
-                                print("${summeryVm.endDate}");
-                              });
-                            }else{
-                              print("Date is not selected");
-                            }
-                          },
-                          child: Icon(Icons.calendar_month_outlined, size: 30,)),
-                    ],
-                  ),
-                ),
-
+                EndDateCalendarWidget(),
                 SizedBox(height: 10,),
 
                 Column(
                   children: [
-                    Container(
-                      height: 40,
-                      child: TextFormField(
-                        controller: summeryVm.sampleIdController.value,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          label: Text("Sample Id"),
-                          labelStyle: TextStyle(fontFamily: 'IstokWeb',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2, color: Styles.greyColor),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2, color: Styles.greyColor),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-
-                        ),
-                      ),
-                    ),
+                    ResueableFilterTextFieldWidget(controllerValue: summeryVm.sampleIdController.value, hintText: widget.textField1HintText,),
                     SizedBox(height: 10,),
-
-                    Container(
-                      height: 40,
-                      child: TextFormField(
-                        controller: summeryVm.invoNumController.value,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          label: Text("Invo.No"),
-                          labelStyle: TextStyle(fontFamily: 'IstokWeb',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2, color: Styles.greyColor),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2, color: Styles.greyColor),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-
-                        ),
-                      ),
-                    ),
+                    ResueableFilterTextFieldWidget(controllerValue: summeryVm.invoNumController.value, hintText: widget.textField2HintText,),
                   ],
                 ),
 
@@ -372,11 +259,7 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
 
                       ),
                       child: InkWell(
-                          onTap: () {
-                            print("value ${_selectedItems}");
-                            print("value11 ${summeryVm.statusList.length}");
-
-                          },
+                          onTap: widget.onClick ,
                           child: Center(
                               child: Text(
                                 "Go", style: TextStyle(fontWeight: FontWeight.bold,
@@ -391,9 +274,6 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
           );
         });
   }
-
-
-
 
 
   void _cancel() {
