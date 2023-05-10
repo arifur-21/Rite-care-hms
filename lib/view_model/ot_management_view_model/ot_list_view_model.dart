@@ -41,8 +41,8 @@ class OtListViewModel extends GetxController{
 
 
   /// get ot schedule
-  Future<void>? getSchedule(){
-    _api.getOtSchedule(startDate, endDate).then((value) {
+  Future getSchedule() async{
+   await _api.getOtSchedule(startDate, endDate).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setOtSchedule(value);
     }).onError((error, stackTrace){
@@ -77,7 +77,7 @@ class OtListViewModel extends GetxController{
       "SurgeryId": noteId
     };
     _api.postSurgeryNote(data).then((value){
-      Utils.snakBar("ot surgery", 'note surgery successfully');
+      Utils.snakBar("Ot", 'successfully');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
       print("error occured : ${error.toString()}");

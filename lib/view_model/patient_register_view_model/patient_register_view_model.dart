@@ -295,12 +295,12 @@ class PatientRegisterViewModel extends GetxController{
 
 
 
-  Future? BloodGroup(){
+  Future bloodGroup()async{
     print("blood group vm");
-    _api.getBloodGroup().then((value) {
-      setRxRequestStatus(Status.SUCCESS);
+  await  _api.getBloodGroup().then((value) {
+     // setRxRequestStatus(Status.SUCCESS);
       setPatientBlood(value);
-      print("blood group ${value.data?.length}");
+      print("blood group ${value.data}");
     }).onError((error, stackTrace){
       setRxRequestStatus(Status.ERROR);
       setError(error.toString());

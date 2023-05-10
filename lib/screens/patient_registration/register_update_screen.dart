@@ -412,7 +412,7 @@ class _RegisterUpdateScreenState extends State<RegisterUpdateScreen> {
             onTap: (){
               setState(() {
                 isOpen = !isOpen;
-                registerVM.BloodGroup();
+                registerVM.bloodGroup();
               });
             },
             child: Container(

@@ -25,8 +25,9 @@ class LabTestListViewModel extends GetxController{
 
 
   /// get lab test list data
-  void getLabTestListData(){
-    _repository.getLabTestListApi().then((value) {
+  void getLabTestListData({labStatus}) async{
+    print("status ${labStatus}");
+   await _repository.getLabTestListApi(labStatus).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setLabTestList(value);
     }).onError((error, stackTrace){
@@ -37,9 +38,8 @@ class LabTestListViewModel extends GetxController{
   }
 
   //get lab test list filter status
-  Future<List<LabTestListStatusModel>> getLabTestListStatusData({dynamic labStatus})async{
-    print("status lab ${labStatus}");
-     //setRxRequestStatus(Status.LOADING);
+  Future<List<LabTestListStatusModel>> getLabTestListStatusData()async{
+   //  setRxRequestStatus(Status.LOADING);
     await  _repository.getLabTestListFilterStatusData().then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setlabTestListFilterStatus(value);

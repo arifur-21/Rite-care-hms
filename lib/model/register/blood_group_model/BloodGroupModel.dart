@@ -1,4 +1,3 @@
-
 class BloodGroupModel {
   String? status;
   List<Data>? data;
@@ -28,24 +27,44 @@ class BloodGroupModel {
 class Data {
   dynamic? id;
   dynamic? name;
-
+  dynamic? description;
+  dynamic? code;
+  dynamic? userId;
+  dynamic? typeName;
+  bool? active;
+  dynamic? user;
 
   Data(
       {this.id,
         this.name,
-      });
+        this.description,
+        this.code,
+        this.userId,
+        this.typeName,
+        this.active,
+        this.user});
 
-  Data.fromJson(Map<dynamic, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
     name = json['Name'];
-
+    description = json['Description'];
+    code = json['Code'];
+    userId = json['UserId'];
+    typeName = json['TypeName'];
+    active = json['Active'];
+    user = json['User'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['Id'] = this.id;
     data['Name'] = this.name;
-
+    data['Description'] = this.description;
+    data['Code'] = this.code;
+    data['UserId'] = this.userId;
+    data['TypeName'] = this.typeName;
+    data['Active'] = this.active;
+    data['User'] = this.user;
     return data;
   }
 }

@@ -81,8 +81,8 @@ flutter:
     - assets/images/note.png
     - assets/images/filter.png
     - assets/icons/roundcross.png
-    -
     - assets/images/delete.png
+    #- assets/images/correct.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

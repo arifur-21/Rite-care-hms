@@ -1,15 +1,16 @@
 
 class LoginTokenModel {
-  String? accessToken;
-  String? tokenType;
-  int? expiresIn;
-  String? refreshToken;
+  dynamic? accessToken;
+  dynamic? tokenType;
+  dynamic? expiresIn;
+  dynamic? refreshToken;
 
 
   LoginTokenModel(
       {this.accessToken, this.tokenType, this.expiresIn, this.refreshToken});
 
   LoginTokenModel.fromJson(Map<String, dynamic> json) {
+    print("test moel1");
     accessToken = json['access_token'];
     tokenType = json['token_type'];
     expiresIn = json['expires_in'];
@@ -26,4 +27,42 @@ class LoginTokenModel {
 
     return data;
   }
+
 }
+
+
+/*import 'dart:convert';
+
+class LoginTokenModel {
+  dynamic? accessToken;
+  dynamic? tokenType;
+  dynamic? expiresIn;
+  dynamic? refreshToken;
+
+
+  LoginTokenModel({this.accessToken, this.tokenType, this.expiresIn,
+      this.refreshToken});
+
+  factory LoginTokenModel.fromJson(Map<String, dynamic> jsonData) =>
+      LoginTokenModel(
+        accessToken: jsonData['accessToken'],
+        tokenType: jsonData['tokenType'],
+        expiresIn: jsonData['expiresIn'],
+        refreshToken: jsonData['refreshToken'],
+      );
+}
+
+  Map<String, dynamic> toMap(LoginTokenModel model) =>
+<String, dynamic> {
+'accessToken': model.accessToken,
+'tokenType': model.tokenType,
+'expiresIn': model.expiresIn,
+'refreshToken': model.refreshToken,
+};
+
+ String serialize(LoginTokenModel model) =>
+json.encode(LoginTokenModel.toMap(model));
+
+ LoginTokenModel deserialize(String json) =>
+LoginTokenModel.fromJson(jsonDecode(json));*/
+

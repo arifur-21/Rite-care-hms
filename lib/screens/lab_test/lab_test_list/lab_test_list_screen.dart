@@ -74,30 +74,35 @@ class _LatTestListScreenState extends State<LatTestListScreen> {
               return Text(labTestListVm.error.value.toString());
 
             case Status.SUCCESS:
-              return ListView.builder(
-                itemCount: labTestListVm.labtestListData.value.items?.length,
-                  itemBuilder: (context, index){
-                return   Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: LabList1CardList(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
-                            LabTestListDetailsScreen(
-                              code: labTestListVm.labtestListData.value.items![index].code,
-                              testName: labTestListVm.labtestListData.value.items![index].name,
-                              category: labTestListVm.labtestListData.value.items![index].itemCategory!.name,
-                              reportSerialNO: labTestListVm.labtestListData.value.items![index].labItemSerialNo,
-                              labReportGroup: labTestListVm.labtestListData.value.items![index].labReportGroup,
-                              chargePrice: labTestListVm.labtestListData.value.items![index].salePrice,
-                              refferCommission: labTestListVm.labtestListData.value.items![index].itemCategory!.referralCommission,
-                            ) ));
-                      },
-                      title: "${labTestListVm.labtestListData.value.items?[index].name}",
-                      code: labTestListVm.labtestListData.value.items?[index].code,
-                      category:labTestListVm.labtestListData.value.items?[index].itemCategory!.name,
-                      price:labTestListVm.labtestListData.value.items?[index].salePrice),
-                );
-              });
+              if(labTestListVm.labtestListData.value.items?.length == 0){
+                return Text("item not found");
+              }else{
+                return ListView.builder(
+                    itemCount: labTestListVm.labtestListData.value.items?.length,
+                    itemBuilder: (context, index){
+                      return   Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: LabList1CardList(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
+                                  LabTestListDetailsScreen(
+                                    code: labTestListVm.labtestListData.value.items![index].code,
+                                    testName: labTestListVm.labtestListData.value.items![index].name,
+                                    category: labTestListVm.labtestListData.value.items![index].itemCategory!.name,
+                                    reportSerialNO: labTestListVm.labtestListData.value.items![index].labItemSerialNo,
+                                    labReportGroup: labTestListVm.labtestListData.value.items![index].labReportGroup,
+                                    chargePrice: labTestListVm.labtestListData.value.items![index].salePrice,
+                                    refferCommission: labTestListVm.labtestListData.value.items![index].itemCategory!.referralCommission,
+                                  ) ));
+                            },
+                            title: "${labTestListVm.labtestListData.value.items?[index].name}",
+                            code: labTestListVm.labtestListData.value.items?[index].code,
+                            category:labTestListVm.labtestListData.value.items?[index].itemCategory!.name,
+                            price:labTestListVm.labtestListData.value.items?[index].salePrice),
+                      );
+                    });
+              }
+
           }
         }),
       )

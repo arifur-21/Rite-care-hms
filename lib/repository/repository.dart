@@ -64,7 +64,6 @@ class Repository{
 
   Future<GenderModel> getGender()async{
     dynamic response = await _apiServices.getApiData(AppUrl.getGenderUrl);
-    print("id response ${response}");
     return GenderModel.fromJson(response);
   }
   /// get ot schdule
@@ -74,8 +73,8 @@ class Repository{
   }
 
   //get lab test list data
-  Future<LabTestListModel> getLabTestListApi()async{
-    dynamic response = await _apiServices.getApiData(AppUrl.labTestListUrl);
+  Future<LabTestListModel> getLabTestListApi(dynamic labStatus)async{
+    dynamic response = await _apiServices.getApiData('https://mobileapp.rite-hms.com/Item/GetLabItemsByMedicalType?medicalTypeID=62&pageNumber=1&pageSize=25&categoryId=${labStatus}&searchTerm=&allData=undefined&ItemId=0&isLabItemSerialNo=false');
     return LabTestListModel.fromJson(response);
   }
 
@@ -92,9 +91,7 @@ class Repository{
   Future<List<SurgeryNoteModel>> getSurgeryNote(dynamic id)async{
 
     dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/OT/GetSurgeryNotes?surgeryId=${id}');
-    print("response ${response.toString()}");
-
-    getSurgeryNoteData.clear();
+       getSurgeryNoteData.clear();
     for(Map i in response){
       SurgeryNoteModel data =  SurgeryNoteModel.fromJson(i);
       getSurgeryNoteData.add(data);
@@ -105,10 +102,7 @@ class Repository{
   //get sample list filter status
   List<StatusListModel> getSampleStatus = [];
   Future<List<StatusListModel>> getSampleListFilterStatusData()async{
-
     dynamic response = await _apiServices.getListOfApiData(AppUrl.sampleListFilterStatusUrl);
-    print("response sampel list filter status ${response.toString()}");
-
     getSampleStatus.clear();
     for(Map i in response){
       StatusListModel data =  StatusListModel.fromJson(i);
@@ -120,10 +114,7 @@ class Repository{
   //get lab test list filter status
   List<LabTestListStatusModel> getLabTestStatus = [];
   Future<List<LabTestListStatusModel>> getLabTestListFilterStatusData()async{
-
     dynamic response = await _apiServices.getListOfApiData(AppUrl.labTestListFilterStatusUrl);
-    print("response sampel list filter status ${response.toString()}");
-
     getLabTestStatus.clear();
     for(Map i in response){
       LabTestListStatusModel data =  LabTestListStatusModel.fromJson(i);

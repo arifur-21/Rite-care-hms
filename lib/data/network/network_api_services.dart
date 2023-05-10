@@ -7,6 +7,7 @@ import 'package:ritecare_hms/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:ritecare_hms/resources/app_url/app_url.dart';
 import 'package:ritecare_hms/shere_preference/login_preference.dart';
+import '../../model/login_model/login_token_model.dart';
 import '../app_exceptions.dart';
 
 class NetworkApiServices extends BaseApServices {
@@ -19,9 +20,11 @@ class NetworkApiServices extends BaseApServices {
   ///get search patien data by id
   @override
   Future getPatientById(String id) async {
+
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
       refresh_token = value.refreshToken!;
+
     });
     dynamic responseJson;
     try {
@@ -41,24 +44,33 @@ class NetworkApiServices extends BaseApServices {
     } on RequestTimeOut {
       throw RequestTimeOut('');
     }
+
     return responseJson;
   }
 
   ///// get object list data
   @override
   Future getApiData(String url) async{
+ dynamic tokens;
+    print("network token1134 ${tokens}");
     loginPreference.getToken().then((value) {
-      token = value.accessToken!;
+
+      tokens = value.accessToken!;
+
       refresh_token = value.refreshToken!;
+      print("value token ${value}");
+      print("value1 token ${tokens}");
+
     });
 
+print("token access ${tokens}");
     dynamic responseJson;
 
     try {
       final response = await http.get(
           Uri.parse(url),
           headers: {
-            'Authorization': 'Bearer $token',
+            'Authorization': 'Bearer $tokens',
             'Content-Type': 'application/json',
             'cache-control': 'no-cache'
           }
@@ -70,12 +82,14 @@ class NetworkApiServices extends BaseApServices {
     } on RequestTimeOut {
       throw RequestTimeOut('');
     }
+
     return responseJson;
+
   }
 
   @override
   Future<List> getListOfApiData(String url) async {
-
+    print("network token1 ${token}");
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
       refresh_token = value.refreshToken!;
@@ -149,7 +163,7 @@ class NetworkApiServices extends BaseApServices {
 
   }
 
-  Future<void> regenerateToken() async{
+  Future regenerateToken() async{
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
       refresh_token = value.refreshToken!;
@@ -170,9 +184,15 @@ class NetworkApiServices extends BaseApServices {
       //print("refresh token ${response.body}");
       if(response.statusCode == 200){
         final json = jsonDecode(response.body);
+        /*LoginTokenModel loginTokenModel = LoginTokenModel(
+            accessToken: json,
+        );*/
+
+        //loginPreference.saveToken(loginTokenModel);
+
         final accessToken = json['access_token'];
         print(accessToken);
-        return accessToken;
+        return LoginTokenModel.fromJson(accessToken);
       }else{
         throw Exception('Failed to refresh access token');
       }
@@ -188,9 +208,9 @@ class NetworkApiServices extends BaseApServices {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
-      case 401:
-        throw InvalidUrlException();
-     /* case 401:
+      /*case 401:
+        throw InvalidUrlException();*/
+      /*case 401:
      print("object unAuthorize");
        return regenerateToken();*/
       case 400:

@@ -422,7 +422,7 @@ class _RegistrFullFormState extends State<RegistrFullForm> {
             onTap: (){
               setState(() {
                 isOpen = !isOpen;
-                registerVM.BloodGroup();
+                registerVM.bloodGroup();
               });
             },
             child: Container(

@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ritecare_hms/model/lab_test_model/summery_model.dart';
 import 'package:ritecare_hms/screens/lab_test/summery/components/lab12_screen.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/widgets/reusable_icon_containter.dart';
@@ -14,11 +15,12 @@ class ExpandableSummeryListItem extends StatefulWidget {
   final dynamic? statusId;
   final String? status;
   bool btnVisibility = false;
-  final String? itemName;
+   String? itemName;
+   dynamic? itemLength;
+   List<dynamic>? summeryList = [];
 
 
-
-  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed, this.statusId, this.status, this.itemName});
+  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed, this.statusId, this.status, this.itemName, this.itemLength, this.summeryList});
 
   @override
   State<ExpandableSummeryListItem> createState() => _ExpandableSummeryListItemState();
@@ -28,9 +30,9 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
   @override
   Widget build(BuildContext context) {
     return   Container(
-      height: 220,
-      child:  ListView.separated(
-          itemCount: 2,
+      height: 150,
+      child:  ListView.builder(
+          itemCount: widget.itemLength,
           itemBuilder: (context, index){
 
             return Padding(
@@ -49,7 +51,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                         children: [
                           Text(widget.title.toString(), style: Styles.poppinsFontBlack12_500),
                           Text(widget.category.toString(),style: Styles.poppinsFontBlack12_300),
-                          Text(widget.name.toString(),style: Styles.poppinsFontBlack12_300)
+                          Text("name",style: Styles.poppinsFontBlack12_300)
                         ],),
                       SizedBox(height: 20,),
 
@@ -61,7 +63,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                               height: 24,
                               width: 100,
                               decoration: BoxDecoration(
-                                  color: (widget.statusId == 1)? Colors.red : (widget.statusId == 2)? Colors.green : (widget.statusId == 3)? Colors.orange : (widget.statusId == 4)? Colors.blue : Colors.yellow,
+                                  color: (widget.statusId == 1)? Colors.red : (widget.statusId == 2)? Colors.green : (widget.statusId == 3)? Colors.orange : (widget.statusId == 4)? Colors.blue : Colors.indigo,
                                   border: Border(),
                                   borderRadius: BorderRadius.circular(50),
                                 boxShadow: [
@@ -85,7 +87,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
 
                                 },
                                 child: Visibility(
-                                  visible: (widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                  visible: (widget.statusId == 1) ? widget.btnVisibility = false : (widget.statusId == 4) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = true : widget.btnVisibility = false,
                                   child: Container(
                                     height: 25,
                                     width: 25,
@@ -106,7 +108,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Lab12Screen()));
                                 },
                                 child: Visibility(
-                                  visible: (widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                  visible: (widget.statusId == 1) ? widget.btnVisibility = false : (widget.statusId == 2) ? widget.btnVisibility = true : (widget.statusId == 4) ? widget.btnVisibility = true :  widget.btnVisibility = false,
                                   child: Container(
                                     height: 25,
                                     width: 25,
@@ -126,14 +128,14 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
 
                                 },
                                 child: Visibility(
-                                  visible:(widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                  visible:(widget.statusId == 1) ? widget.btnVisibility = false : (widget.statusId == 2) ? widget.btnVisibility = true :  widget.btnVisibility = false,
                                   child: Container(
                                     height: 25,
                                     width: 25,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage('assets/icons/check.png')
+                                          image: AssetImage('assets/icons/correct.png')
                                       ),
                                     ),
                                   ),
@@ -146,7 +148,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
 
                                 },
                                 child: Visibility(
-                                  visible: (widget.statusId == 3) ? widget.btnVisibility = true : (widget.statusId == 4) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = true : widget.btnVisibility = false,
+                                  visible: (widget.statusId == 3) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = false : widget.btnVisibility = false,
                                   child: Container(
                                     height: 25,
                                     width: 25,
@@ -170,9 +172,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                 ),
               ),
             );
-          }, separatorBuilder: (BuildContext context, int index) {
-            return Container();
-      },),
+          }, ),
     );
   }
 }

@@ -20,6 +20,8 @@ import '../summery/components/expandable_summery_list_item_widget.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'components/summery_list_filter_widget.dart';
+
 
 class PatientSummeryScreen extends StatefulWidget {
   const PatientSummeryScreen({Key? key}) : super(key: key);
@@ -35,6 +37,8 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
   final summeryVM = Get.put(SummeryViewModel());
   dynamic statusId;
   String? status ='';
+  bool btnVisibility = false;
+
 
 
   @override
@@ -67,11 +71,11 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
 
                 SizedBox(height: 10,),
 
-                SampleListFilterWidget(
+                SummeryListFilterWidget(
                   textField1HintText: 'Labtest Name',
                   textField2HintText: 'Inv.No',
                   onClick: (){
-                    summeryVM.getSummeryListData();
+                   // summeryVM.getSummeryListData();
                     Navigator.pop(context);
                   },
 
@@ -96,7 +100,7 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
                   return Text(summeryVM.error.value.toString());
 
                 case Status.SUCCESS:
-                  if(summeryVM.summeryListItem.value.items?.length == 0){
+                  if(summeryVM.summeryListItem.value.items?.length == 0 || summeryVM.summeryListItem.value.items?.length == null){
                     return Text("Item not found, please select date");
                   }else{
                     return ListView.builder(
@@ -104,7 +108,6 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
                         itemCount: summeryVM.summeryListItem.value.items?.length,
                         itemBuilder: (context, index){
                           statusId = summeryVM.summeryListItem.value.items?[index].labStatusId;
-                          print("sample status id ${statusId}");
 
                           if(statusId == 1){
                             status = "Pending";
@@ -127,14 +130,14 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
-                                    width: 2, color:  (statusId == 1)? Colors.red : (statusId == 2)? Colors.green : (statusId == 3)? Colors.orange : (statusId == 4)? Colors.blue : Colors.yellow),
+                                    width: 2, color:  (statusId == 1)? Colors.red : (statusId == 2)? Colors.green : (statusId == 3)? Colors.orange : (statusId == 4)? Colors.blue : Colors.indigo),
                               ),
                               child: ExpansionTile(
                                 trailing: Container(
                                     height: 25,
                                     width: 100,
                                     decoration: BoxDecoration(
-                                      color: (statusId == 1)? Colors.red : (statusId == 2)? Colors.green : (statusId == 3)? Colors.orange : (statusId == 4)? Colors.blue : Colors.yellow,
+                                      color: (statusId == 1)? Colors.red : (statusId == 2)? Colors.green : (statusId == 3)? Colors.orange : (statusId == 4)? Colors.blue : Colors.indigo,
                                       border: Border(),
                                       borderRadius: BorderRadius.circular(50),
                                       boxShadow: [
@@ -187,14 +190,165 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
                                       ],
                                     ),
                                   ),
+
+                           /* Container(
+                              height: 150,
+                              child:  ListView.builder(
+                                itemCount: summeryVM.summeryListItem.value.items?[index].patientServices?.length ,
+                                itemBuilder: (context, index){
+
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(2),
+                                        border: Border.all(width: 2, color: Styles.primaryColor),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text('title', style: Styles.poppinsFontBlack12_500),
+                                                Text('category',style: Styles.poppinsFontBlack12_300),
+                                                Text('dr.name',style: Styles.poppinsFontBlack12_300)
+                                              ],),
+                                            SizedBox(height: 20,),
+
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+
+                                                Container(
+                                                    height: 24,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                      color: (statusId == 1)? Colors.red : (statusId == 2)? Colors.green : (statusId == 3)? Colors.orange : (statusId == 4)? Colors.blue : Colors.yellow,
+                                                      border: Border(),
+                                                      borderRadius: BorderRadius.circular(50),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey.withOpacity(0.5),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 7,
+                                                          offset: Offset(0, 3), // changes position of shadow
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: Center(child: Text("${status}", style: Styles.poppinsFont12_600))
+
+                                                ),
+                                                Row(
+
+                                                  children: [
+
+                                                    InkWell(
+                                                      onTap: (){
+
+                                                      },
+                                                      child: Visibility(
+                                                       // visible: (widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                                        child: Container(
+                                                          height: 25,
+                                                          width: 25,
+                                                          decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: AssetImage('assets/icons/edit.png')
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 12,),
+
+                                                    InkWell(
+                                                      onTap: (){
+                                                        Navigator.pop(context);
+                                                       // Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Lab12Screen()));
+                                                      },
+                                                      child: Visibility(
+                                                     //   visible: (widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                                        child: Container(
+                                                          height: 25,
+                                                          width: 25,
+                                                          decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: AssetImage('assets/icons/file.png')
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(width: 12,),
+                                                    InkWell(
+                                                      onTap: (){
+
+                                                      },
+                                                      child: Visibility(
+                                                       // visible:(widget.statusId == 1) ? widget.btnVisibility = false :  widget.btnVisibility = false,
+                                                        child: Container(
+                                                          height: 25,
+                                                          width: 25,
+                                                          decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: AssetImage('assets/icons/check.png')
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(width: 12,),
+                                                    InkWell(
+                                                      onTap: (){
+
+                                                      },
+                                                      child: Visibility(
+                                                      //  visible: (widget.statusId == 3) ? widget.btnVisibility = true : (widget.statusId == 4) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = true : widget.btnVisibility = false,
+                                                        child: Container(
+                                                          height: 25,
+                                                          width: 25,
+                                                          decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: AssetImage('assets/icons/printer.png')
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                  ],
+                                                )
+
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }, ),
+                            )*/
+
+
                                   ExpandableSummeryListItem(
                                     title: "CBC",
                                     category: "Hematoloty",
                                     name: summeryVM.summeryListItem.value.items?[index].patient?.firstName,
                                     statusId: statusId,
                                     status:  status,
-                                    itemName: summeryVM.summeryListItem.value.items?[index]. ,
+                                    itemLength: summeryVM.summeryListItem.value.items?[index].patientServices?.length,
+                                    itemName: summeryVM.summeryListItem.value.items?[index].patientServices?[0].item?.name,
                                   )
+
+
 
                                 ],
                               ),

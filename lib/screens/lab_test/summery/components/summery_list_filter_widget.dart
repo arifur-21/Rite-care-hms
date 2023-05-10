@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
-import 'package:ritecare_hms/view_model/lab_test_view_model/lab_test_list_view_model.dart';
 
 import '../../../../data/response/status.dart';
 import '../../../../view_model/summery_view_model/summery_view_model.dart';
@@ -11,30 +10,31 @@ import '../../../../widgets/end_date_calendar_widget.dart';
 import '../../../../widgets/start_date_calendar_widget.dart';
 import '../../../../widgets/resueable_filter_text_filed_widget.dart';
 
-class LabTestListFilterWidget extends StatefulWidget {
+class SummeryListFilterWidget extends StatefulWidget {
   String textField1HintText;
+  String textField2HintText;
   final VoidCallback  onClick;
 
 
-  LabTestListFilterWidget({required this.textField1HintText, required this.onClick});
+  SummeryListFilterWidget({required this.textField1HintText, required this.textField2HintText, required this.onClick});
 
   @override
-  State<LabTestListFilterWidget> createState() => _LabTestListFilterWidgetState();
+  State<SummeryListFilterWidget> createState() => _SummeryListFilterWidgetState();
 }
 
-class _LabTestListFilterWidgetState extends State<LabTestListFilterWidget> {
+class _SummeryListFilterWidgetState extends State<SummeryListFilterWidget> {
 
-  final labTestListVM = Get.put(LabTestListViewModel());
+  final summeryVm = Get.put(SummeryViewModel());
 
 
   // this variable holds the selected items
   final List<String> _selectedItems = [];
   bool isCheckeds = false;
-  dynamic? itemId;
+  dynamic statusId = 0;
 
   @override
   void initState() {
-    labTestListVM.getLabTestListStatusData();
+    summeryVm.getSampleListFilterStatus();
     super.initState();
   }
 
@@ -171,48 +171,48 @@ class _LabTestListFilterWidgetState extends State<LabTestListFilterWidget> {
                                   children: [
                                     Container(
                                       width: 200,
-                                      height: 200,
+                                      height: 150,
                                       child:  FutureBuilder(
-                                          future: labTestListVM.getLabTestListStatusData(),
+                                        future: summeryVm.getSampleListFilterStatus(),
                                           builder: (context, snapshot){
-                                            return Obx((){
-                                              switch(labTestListVM.rxRequestStatus.value){
-                                                case Status.LOADING:
-                                                  return Center(child:  CircularProgressIndicator(),);
+                                          return Obx((){
+                                            switch(summeryVm.rxRequestStatus.value){
+                                              case Status.LOADING:
+                                                return Center(child:  CircularProgressIndicator(),);
 
-                                                case Status.ERROR:
-                                                  print("error ${labTestListVM.error.value.toString()}");
-                                                  return Text(labTestListVM.error.value.toString());
+                                              case Status.ERROR:
+                                                print("error ${summeryVm.error.value.toString()}");
+                                                return Text(summeryVm.error.value.toString());
 
-                                                case Status.SUCCESS:
-                                                  if(labTestListVM.labTestListFilterStatus.value.length == 0){
-                                                    print("data not found");
-                                                    return Text("data not found");
-                                                  }
-                                                  else{
-                                                    return  ListView.builder(
-                                                        shrinkWrap: true,
-                                                        itemCount: labTestListVM.labTestListFilterStatus.value.length,
-                                                        itemBuilder: (context, index) {
-                                                          print("summery data length ${labTestListVM.labTestListFilterStatus.value.length}");
-                                                          return ListTile(
-                                                            title: Padding(
-                                                              padding: const EdgeInsets
-                                                                  .all(8.0),
-                                                              child: InkWell(
-                                                                  onTap: () {
-                                                                   // summeryVm.statusId = summeryVm.sampleListFilterStatus[index].id;
-                                                                    print("lab test status = ${labTestListVM.labTestListFilterStatus[index].id}");
-                                                                    itemId = labTestListVM.labTestListFilterStatus[index].id!;
-                                                                  },
-                                                                  child: Text("${labTestListVM.labTestListFilterStatus[index].name}")),
-                                                            ),
-                                                          );
-                                                        });
-                                                  }
-                                              }
-                                            });
-                                          }),
+                                              case Status.SUCCESS:
+                                                if(summeryVm.sampleListFilterStatus.value.length == 0){
+                                                  print("data not found");
+                                                  return Text("data not found");
+                                                }
+                                                else{
+                                                  return  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount: summeryVm.sampleListFilterStatus.value.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return ListTile(
+                                                          title: Padding(
+                                                            padding: const EdgeInsets
+                                                                .all(8.0),
+                                                            child: InkWell(
+                                                                onTap: () {
+                                                                  statusId = summeryVm.sampleListFilterStatus[index].id;
+
+                                                                  print("status id filter ui = $statusId");
+                                                                },
+                                                                child: Text("${summeryVm.sampleListFilterStatus[index].name}")),
+                                                          ),
+                                                        );
+                                                      });
+                                                }
+                                            }
+                                          });
+                                      }),
 
 
                                     ),
@@ -232,11 +232,16 @@ class _LabTestListFilterWidgetState extends State<LabTestListFilterWidget> {
               ),
               actions: [
 
+                StartDateCalendarWidget(),
+                SizedBox(height: 10,),
+                EndDateCalendarWidget(),
+                SizedBox(height: 10,),
 
                 Column(
                   children: [
-                   ResueableFilterTextFieldWidget(controllerValue: labTestListVM.labTestStatusController.value, hintText: widget.textField1HintText,),
-
+                    ResueableFilterTextFieldWidget(controllerValue: summeryVm.sampleIdController.value, hintText: widget.textField1HintText,),
+                    SizedBox(height: 10,),
+                    ResueableFilterTextFieldWidget(controllerValue: summeryVm.invoNumController.value, hintText: widget.textField2HintText,),
                   ],
                 ),
 
@@ -256,8 +261,9 @@ class _LabTestListFilterWidgetState extends State<LabTestListFilterWidget> {
 
                       ),
                       child: InkWell(
-                          onTap: (){
-                            labTestListVM.getLabTestListData(labStatus: itemId);
+                          onTap:(){
+
+                            summeryVm.getSummeryListData(statusId: statusId);
                             Navigator.pop(context);
                           },
                           child: Center(

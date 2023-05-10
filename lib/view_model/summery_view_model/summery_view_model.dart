@@ -29,7 +29,7 @@ class SummeryViewModel{
   dynamic list = [];
   dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
   dynamic endDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
-  dynamic statusId =''.obs;
+
 
   final sampleIdController = TextEditingController().obs;
   final invoNumController = TextEditingController().obs;
@@ -53,22 +53,27 @@ class SummeryViewModel{
 
 
   /// get sample list data
-  Future<void> getSampleListData()async {
-    print(" post sample status id ${statusId}");
+  Future<void> getSampleListData({ dynamic statusId = 0})async {
+
+    print("test1");
+    print(" sample status id ${statusId}");
+    setRxRequestStatus(Status.LOADING);
    await _api.getSampleListData(startDate, endDate, statusId).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setSampleList(value);
+      print("sample list length vm ${value.items?.length}");
     }).onError((error, stackTrace){
       setRxRequestStatus(Status.ERROR);
       setError(error.toString());
+
       print("viewModel error ${error.toString()}");
     });
   }
 
-  /// get sample list data
-  Future<void> getSummeryListData()async {
-    print(" post sample status id ${statusId}");
-    print(" sumery start date ${startDate}");
+  /// get summery list data
+  Future<void> getSummeryListData({statusId = 0})async {
+    print(" summery status id vm ${statusId}");
+    setRxRequestStatus(Status.LOADING);
     await _api.getSummeryListData(startDate, endDate, statusId).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setSummeryList(value);
@@ -82,17 +87,13 @@ class SummeryViewModel{
 
   //get sample and summery list filter status
   Future<List<StatusListModel>> getSampleListFilterStatus()async{
-    print("sample status id ${statusId}");
-    print("sample status paId ${sampleIdController.value.text}");
    // setRxRequestStatus(Status.LOADING);
    await  _repository.getSampleListFilterStatusData().then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setSampleListFilterStatus(value);
-      print("sample status ${value}");
     }).onError((error, stackTrace){
       setRxRequestStatus(Status.ERROR);
       setError(error.toString());
-      print("sample list filter status ${error.toString()}");
     });
     return sampleListFilterStatus;
   }

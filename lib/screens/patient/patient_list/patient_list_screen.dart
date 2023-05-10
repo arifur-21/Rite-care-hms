@@ -27,10 +27,6 @@ class _PatientListScreenState extends State<PatientListScreen> {
   final patinetListVM = Get.put(PatientListViewModel());
   dynamic totalAmount;
 
-
-
-
-
   @override
   void initState() {
     patinetListVM.getPatientList();
@@ -105,12 +101,14 @@ class _PatientListScreenState extends State<PatientListScreen> {
                 return Text(patinetListVM.error.value.toString());
 
               case Status.SUCCESS:
-                totalAmount = patinetListVM.patientList.value.total;
+
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: patinetListVM.patientList.value.items!.length ,
                     itemBuilder: (context, index){
+                      totalAmount = patinetListVM.patientList.value.total;
                     print("item ${patinetListVM.patientList.value.items![index].firstName}");
+
                     return
                       Column(
                         children: [

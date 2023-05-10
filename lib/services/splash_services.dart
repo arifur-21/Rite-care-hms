@@ -19,7 +19,7 @@ class SplashServices{
     userPreference.getToken().then((value){
       print("services access ${value.accessToken}");
       print("services refresh ${value.refreshToken}");
-      if(value.accessToken!.isEmpty || value.accessToken.toString() == 'null') {
+      if(value.accessToken.isEmpty || value.accessToken.toString() == 'null') {
         Get.to(SignInScreen());
       }else{
         Get.to(HomeScreen());

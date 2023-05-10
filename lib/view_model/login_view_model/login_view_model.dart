@@ -37,6 +37,7 @@ class LoginViewModel extends GetxController{
 
     _api.loginApi(data).then((value){
       loading.value = false;
+      print("access token login ${value}");
 
       LoginTokenModel loginTokenModel = LoginTokenModel(
         accessToken: value['access_token'],

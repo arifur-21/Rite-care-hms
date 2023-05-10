@@ -330,7 +330,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
             onTap: () {
               setState(() {
                 isOpen = !isOpen;
-                  registerVM.BloodGroup();
+                  registerVM.bloodGroup();
               });
             },
             child: Container(

@@ -94,6 +94,8 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
                                                       InkWell(
                                                           onTap: (){
                                                             showEditAlertDialog(context, index);
+
+                                                            //Navigator.pop(context);
                                                           },
                                                           child: Icon(Icons.edit, size: 30,)),
                                                       SizedBox(width: 10,),
@@ -102,6 +104,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
                                                           otListVM.deleteSurgeryNote(
                                                               otListVM.surgeryNoteItem[index].surgeryId,
                                                               otListVM.surgeryNoteItem[index].id);
+                                                          otListVM.getSurgerNoteData();
                                                       },
                                                           child: Icon(Icons.delete, size: 30,)),
                                                     ],
@@ -149,6 +152,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
           Text("Add Note"),
           InkWell(
               onTap: (){
+                otListVM.getSurgerNoteData();
                 Navigator.pop(context);
               },
               child: Icon(Icons.cancel_presentation, size: 30, color: Colors.red,))
@@ -217,7 +221,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
               onTap: (){
 
                 otListVM.editSurgeryNote(widget.noteId, otListVM.surgeryNoteItem[index].id);
-             //   otListVM.getSurgerNoteData();
+                otListVM.getSurgerNoteData();
                 Navigator.pop(context);
 
              //   print("note ${note}");

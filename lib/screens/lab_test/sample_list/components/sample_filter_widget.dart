@@ -16,6 +16,7 @@ class SampleListFilterWidget extends StatefulWidget {
   final VoidCallback  onClick;
 
 
+
   SampleListFilterWidget({required this.textField1HintText, required this.textField2HintText, required this.onClick});
 
   @override
@@ -30,6 +31,7 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
   // this variable holds the selected items
   final List<String> _selectedItems = [];
   bool isCheckeds = false;
+  dynamic statusId = 0;
 
   @override
   void initState() {
@@ -39,95 +41,97 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            //bar code ui
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 42,
-                  width: 100,
-                  padding: const EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(6),
-                          bottomLeft: Radius.circular(6))
-                  ),
-                  child: Text(
-                    "INV NO",
-                    style: Styles.poppinsFont14_600,
-                  ),
-                ),
-
-                Container(
+    return SingleChildScrollView(
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              //bar code ui
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
                     height: 42,
-                    width: 40,
-
+                    width: 100,
+                    padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
                         border: Border.all(),
                         borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(6),
-                            bottomRight: Radius.circular(6))
+                            topLeft: Radius.circular(6),
+                            bottomLeft: Radius.circular(6))
                     ),
-                    child: Container(
-                      height: 22,
-                      width: 22,
-                      decoration: BoxDecoration(
+                    child: Text(
+                      "INV NO",
+                      style: Styles.poppinsFont14_600,
+                    ),
+                  ),
 
-                        image: DecorationImage(
-                            image: AssetImage('assets/icons/qrcode.png')
-                        ),
-                      ),
-                    )
-
-                ),
-              ],
-            ),
-
-            ///filter container
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    _showDialog();
-                  },
-                  child: Container(
+                  Container(
                       height: 42,
-                      width: 140,
-                      padding: const EdgeInsets.all(12.0),
+                      width: 40,
+
                       decoration: BoxDecoration(
                           border: Border.all(),
-                          borderRadius: BorderRadius.circular(6)
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(6),
+                              bottomRight: Radius.circular(6))
                       ),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 26,
-                            width: 26,
-                            decoration: BoxDecoration(
+                      child: Container(
+                        height: 22,
+                        width: 22,
+                        decoration: BoxDecoration(
 
-                              image: DecorationImage(
-                                  image: AssetImage('assets/icons/filter.png')
+                          image: DecorationImage(
+                              image: AssetImage('assets/icons/qrcode.png')
+                          ),
+                        ),
+                      )
+
+                  ),
+                ],
+              ),
+
+              ///filter container
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      _showDialog();
+                    },
+                    child: Container(
+                        height: 42,
+                        width: 140,
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(6)
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 26,
+                              width: 26,
+                              decoration: BoxDecoration(
+
+                                image: DecorationImage(
+                                    image: AssetImage('assets/icons/filter.png')
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: 20,),
-                          Text("Filter", style: Styles.poppinsFont14_600),
-                        ],
-                      )
+                            SizedBox(width: 20,),
+                            Text("Filter", style: Styles.poppinsFont14_600),
+                          ],
+                        )
+                    ),
                   ),
-                ),
 
-              ],
-            ),
-          ],),
+                ],
+              ),
+            ],),
+        ),
       ),
     );
   }
@@ -193,15 +197,16 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                                                       shrinkWrap: true,
                                                       itemCount: summeryVm.sampleListFilterStatus.value.length,
                                                       itemBuilder: (context, index) {
-                                                        print("summery data length ${summeryVm.sampleListFilterStatus.value.length}");
+
                                                         return ListTile(
                                                           title: Padding(
                                                             padding: const EdgeInsets
                                                                 .all(8.0),
                                                             child: InkWell(
                                                                 onTap: () {
-                                                                  summeryVm.statusId = summeryVm.sampleListFilterStatus[index].id;
-                                                                  print("item = ${summeryVm.sampleListFilterStatus[index].id}");
+                                                                  statusId = summeryVm.sampleListFilterStatus[index].id;
+
+                                                                  print("status id filter ui = ${summeryVm.sampleListFilterStatus[index].id}");
                                                                 },
                                                                 child: Text("${summeryVm.sampleListFilterStatus[index].name}")),
                                                           ),
@@ -259,7 +264,10 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
 
                       ),
                       child: InkWell(
-                          onTap: widget.onClick ,
+                          onTap: (){
+                            summeryVm.getSampleListData(statusId: statusId);
+                            Navigator.pop(context);
+                          },
                           child: Center(
                               child: Text(
                                 "Go", style: TextStyle(fontWeight: FontWeight.bold,

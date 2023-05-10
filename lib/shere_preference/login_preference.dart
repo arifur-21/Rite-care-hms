@@ -10,8 +10,8 @@ class LoginPreference {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString('access_token', responseModel.accessToken.toString());
     sp.setString('refresh_token', responseModel.refreshToken.toString());
-  //  sp.setString('expires_in', responseModel.expiresIn.toString());
-
+    sp.setString('expires_in', responseModel.expiresIn.toString());
+    sp.setString('token_type', responseModel.expiresIn.toString());
 
     return true;
   }
@@ -20,14 +20,19 @@ class LoginPreference {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token =  sp.getString('access_token');
     String? refreshToken =  sp.getString('refresh_token');
-    dynamic? expiresToken =  sp.getString('expires_in');
+    dynamic? expire =  sp.getString('expires_in');
+    dynamic? type = sp.getString('token_type');
+
+    print("pre token get ${token}");
 
     return LoginTokenModel(
         accessToken: token,
-       refreshToken: refreshToken,
-        //expiresIn: expiresToken
-
+        refreshToken: refreshToken,
+        expiresIn: expire,
+        tokenType: type
     );
+
+
   }
 
   Future<bool> removeLoginToken() async{
