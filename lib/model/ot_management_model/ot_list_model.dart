@@ -7,12 +7,13 @@ class OtScheduleModel {
   OtScheduleModel({this.items, this.totalItems});
 
   OtScheduleModel.fromJson(Map<String, dynamic> json) {
-    print("from json");
+
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
         items!.add(new Items.fromJson(v));
       });
+      //items = json['items'].map<Items>((j) => Items.fromJson(j).toList();
     }
     totalItems = json['totalItems'];
   }

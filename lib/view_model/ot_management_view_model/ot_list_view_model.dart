@@ -55,7 +55,7 @@ class OtListViewModel extends GetxController{
   //get surgery not data
   Future<List<SurgeryNoteModel>> getSurgerNoteData()async{
     setRxRequestStatus(Status.LOADING);
-    _api.getSurgeryNote(id).then((value) {
+   await _api.getSurgeryNote(id).then((value) {
       print("note ${value}");
       setRxRequestStatus(Status.SUCCESS);
       setSurgeryNote(value);
@@ -70,13 +70,13 @@ class OtListViewModel extends GetxController{
 
 
   //surgery note post
-  void surgeryNotePost(dynamic noteId){
+  void surgeryNotePost(dynamic noteId) async{
     print("vm noteId ${noteId}");
     Map data =   {
       "Note": surgeryNoteController.value.text,
       "SurgeryId": noteId
     };
-    _api.postSurgeryNote(data).then((value){
+   await _api.postSurgeryNote(data).then((value){
       Utils.snakBar("Ot", 'successfully');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
@@ -85,7 +85,7 @@ class OtListViewModel extends GetxController{
   }
 
   /// operation Schedule status
-  void operationScheduleStatus(dynamic statusId, dynamic status, dynamic noteId){
+  void operationScheduleStatus(dynamic statusId, dynamic status, dynamic noteId)async{
     print("opSchedule ${statusId}");
     print("opSchedule status ${status}");
     print("note id ${noteId}");
@@ -114,7 +114,7 @@ class OtListViewModel extends GetxController{
       }
 
     };
-    _api.postOperationScheduleStatus(data).then((value){
+   await _api.postOperationScheduleStatus(data).then((value){
       Utils.snakBar("status", 'note surgery successfully');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
@@ -123,7 +123,7 @@ class OtListViewModel extends GetxController{
   }
 
   //edit surgery note
-  void editSurgeryNote(dynamic noteId, dynamic id){
+  void editSurgeryNote(dynamic noteId, dynamic id) async{
     print("vm edit noteId ${noteId}");
     print("vm  edti noteId ${id}");
     Map data =   {
@@ -131,8 +131,8 @@ class OtListViewModel extends GetxController{
       "SurgeryId": noteId,
       "Id": id,
     };
-    _api.postSurgeryNote(data).then((value){
-      Utils.snakBar("ot surgery", 'note surgery successfully');
+   await _api.postSurgeryNote(data).then((value){
+      Utils.snakBar("Update", 'Update successfully');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
       print("error occured : ${error.toString()}");
@@ -140,7 +140,7 @@ class OtListViewModel extends GetxController{
   }
 
   //delete surgery Note
-  void deleteSurgeryNote(dynamic noteId, dynamic id){
+  void deleteSurgeryNote(dynamic noteId, dynamic id) async{
     print("vm delete noteId ${noteId}");
     print("vm delete Id ${id}");
     Map data = {
@@ -150,8 +150,8 @@ class OtListViewModel extends GetxController{
       "Note": "Bloodd",
       "SurgeryId": noteId
     };
-    _api.surgeryNoteDelete(data).then((value){
-      Utils.snakBar("ot surgery", 'note surgery successfully');
+   await _api.surgeryNoteDelete(data).then((value){
+      Utils.snakBar("Delete", 'Delete successfully');
     }).onError((error, stackTrace) {
       Utils.snakBar("Error", error.toString());
       print("error occured : ${error.toString()}");

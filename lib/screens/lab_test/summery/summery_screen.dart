@@ -345,7 +345,7 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
                                     statusId: statusId,
                                     status:  status,
                                     itemLength: summeryVM.summeryListItem.value.items?[index].patientServices?.length,
-                                    itemName: summeryVM.summeryListItem.value.items?[index].patientServices?[0].item?.name,
+                                    summeryList: summeryVM.summeryListItem.value.items?[index].patientServices,
                                   )
 
 

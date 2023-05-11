@@ -15,12 +15,12 @@ class ExpandableSummeryListItem extends StatefulWidget {
   final dynamic? statusId;
   final String? status;
   bool btnVisibility = false;
-   String? itemName;
    dynamic? itemLength;
-   List<dynamic>? summeryList = [];
+
+   List<PatientServices>? summeryList;
 
 
-  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed, this.statusId, this.status, this.itemName, this.itemLength, this.summeryList});
+  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed, this.statusId, this.status, this.itemLength, this.summeryList});
 
   @override
   State<ExpandableSummeryListItem> createState() => _ExpandableSummeryListItemState();
@@ -32,7 +32,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
     return   Container(
       height: 150,
       child:  ListView.builder(
-          itemCount: widget.itemLength,
+          itemCount: widget.summeryList?.length,
           itemBuilder: (context, index){
 
             return Padding(
@@ -49,9 +49,9 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.title.toString(), style: Styles.poppinsFontBlack12_500),
-                          Text(widget.category.toString(),style: Styles.poppinsFontBlack12_300),
-                          Text("name",style: Styles.poppinsFontBlack12_300)
+                          Text("${widget.summeryList![index].item?.name}", style: Styles.poppinsFontBlack12_500),
+                          Text("${widget.summeryList![index].doctorName}",style: Styles.poppinsFontBlack12_300),
+                          Text("${widget.summeryList![index].item?.itemCategory?.name}",style: Styles.poppinsFontBlack12_300)
                         ],),
                       SizedBox(height: 20,),
 

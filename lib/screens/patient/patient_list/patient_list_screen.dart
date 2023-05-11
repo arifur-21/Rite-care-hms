@@ -29,7 +29,8 @@ class _PatientListScreenState extends State<PatientListScreen> {
 
   @override
   void initState() {
-    patinetListVM.getPatientList();
+   patinetListVM.getPatientList();
+
     super.initState();
   }
 
@@ -91,7 +92,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
             SizedBox(height: 20,),
 
         Expanded(
-          child: Obx((){
+          child: Obx ((){
             switch(patinetListVM.rxRequestStatus.value){
               case Status.LOADING:
                 return Center(child:  CircularProgressIndicator(),);
@@ -102,7 +103,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
 
               case Status.SUCCESS:
 
-                return ListView.builder(
+                return ListView.builder (
                   shrinkWrap: true,
                   itemCount: patinetListVM.patientList.value.items!.length ,
                     itemBuilder: (context, index){

@@ -10,7 +10,6 @@ class LoginTokenModel {
       {this.accessToken, this.tokenType, this.expiresIn, this.refreshToken});
 
   LoginTokenModel.fromJson(Map<String, dynamic> json) {
-    print("test moel1");
     accessToken = json['access_token'];
     tokenType = json['token_type'];
     expiresIn = json['expires_in'];

@@ -33,6 +33,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +69,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
                           return Text(otListVM.error.value.toString());
 
                         case Status.SUCCESS:
-                          if(otListVM.surgeryNoteItem.value.length == 0){
+                          if(otListVM.surgeryNoteItem.value.length == 0 || otListVM.surgeryNoteItem.value.length == null || otListVM.surgeryNoteItem.value.length == ""){
                             print("data not found");
                             return Text("data not found");
                           }
@@ -91,7 +92,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
                                                   Text("${otListVM.surgeryNoteItem[index].note}"),
                                                   Row(
                                                     children: [
-                                                      InkWell(
+                                                      InkWell (
                                                           onTap: (){
                                                             showEditAlertDialog(context, index);
 
@@ -104,6 +105,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
                                                           otListVM.deleteSurgeryNote(
                                                               otListVM.surgeryNoteItem[index].surgeryId,
                                                               otListVM.surgeryNoteItem[index].id);
+
                                                           otListVM.getSurgerNoteData();
                                                       },
                                                           child: Icon(Icons.delete, size: 30,)),
@@ -173,7 +175,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
               onTap: (){
                 otListVM.surgeryNotePost(widget.noteId);
                 otListVM.getSurgerNoteData();
-                Navigator.pop(context);
+               Navigator.pop(context);
               },
               child: Icon(Icons.save, size: 40, color: Styles.primaryColor,)),
         )
@@ -198,7 +200,7 @@ class _OtManagementDetailsScreenState extends State<OtManagementDetailsScreen> {
         children: [
 
 
-          Text("Add Note"),
+          Text("Update Note"),
           InkWell(
               onTap: (){
                 Navigator.pop(context);

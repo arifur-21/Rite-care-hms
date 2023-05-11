@@ -23,8 +23,8 @@ class PatientListViewModel{
   void setError(String _value) => error.value = _value;
 
   /// get patient list view model
-  Future? getPatientList(){
-    _api.getPatientList().then((value) {
+  Future? getPatientList() async{
+   await _api.getPatientList().then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatientList(value);
       print("patient lit${value}");

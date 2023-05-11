@@ -80,7 +80,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                     return Center(child: Text(otListVM.error.value.toString()));
 
                   case Status.SUCCESS:
-                    if(otListVM.otScheduleList.value.items?.length == 0 ){
+                    if(otListVM.otScheduleList.value.items?.length == 0 || otListVM.otScheduleList.value.items?.length == "" || otListVM.otScheduleList.value.items?.length == null){
                       print("ot length ${otListVM.otScheduleList.value.items?.length}");
                       return Center(child: Text("Item not found, Please select date"));
                     }else{
@@ -362,7 +362,7 @@ Widget otListHeaderWidget(){
     );
 }
 
-  _showDialog({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}) async {
+  _showDialog  ({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}) async {
     await showDialog(
         context: context,
         builder: (context) {
@@ -393,36 +393,21 @@ Widget otListHeaderWidget(){
               ),
 
               actions: [
-                InkWell(
+                InkWell (
                   onTap: (){
-
+                    setState(() {
                       if(status == 'Initiated'){
-                        print("onclick11");
                         statusId = 103;
                         status = 'In Progress';
-                        print("init${statusId}");
-                        dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
-                        aItem?.surgeryStatus?.name = "In Progress";
-                        print("items1 ${aItem}");
                       }
                       else if(status == 'In Progress'){
                         statusId = 104;
                         status = 'Completed';
-                        print("progressId ${statusId}");
-                        dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
-                        aItem?.surgeryStatus?.name = "Completed";
-                        if(btnVisibility == true){
-                          btnVisibility = false;
-                        }else{
-                          btnVisibility = true;
-                        }
-                      }
-                      else if(status == 'Completed'){
-                        dynamic id = otListVM.otScheduleList.value.items?[indexNum!].surgeryStatus?.id;
-                        print("com${id}");
-                      }
 
-                      setState(() {
+                      }
+                      else {
+                        Text("item not found");
+                      }
                         otListVM.operationScheduleStatus(statusId,status, noteId);
                         otListVM.getSchedule();
                           });

@@ -13,7 +13,7 @@ import '../app_exceptions.dart';
 class NetworkApiServices extends BaseApServices {
 
   LoginPreference loginPreference = LoginPreference();
-  var token;
+  dynamic token;
   dynamic refresh_token;
 
 
@@ -21,8 +21,8 @@ class NetworkApiServices extends BaseApServices {
   @override
   Future getPatientById(String id) async {
 
-    loginPreference.getToken().then((value) {
-      token = value.accessToken!;
+    loginPreference.getToken().then((value) async {
+      token = await value.accessToken!;
       refresh_token = value.refreshToken!;
 
     });
@@ -51,26 +51,28 @@ class NetworkApiServices extends BaseApServices {
   ///// get object list data
   @override
   Future getApiData(String url) async{
- dynamic tokens;
-    print("network token1134 ${tokens}");
-    loginPreference.getToken().then((value) {
 
-      tokens = value.accessToken!;
+
+   await loginPreference.getToken().then((value) {
+
+      token = value.accessToken!;
 
       refresh_token = value.refreshToken!;
-      print("value token ${value}");
-      print("value1 token ${tokens}");
+
+      print("value1 token ${token}");
 
     });
 
-print("token access ${tokens}");
+ print("token access123 ${token}");
+
     dynamic responseJson;
 
     try {
+      print("object");
       final response = await http.get(
           Uri.parse(url),
           headers: {
-            'Authorization': 'Bearer $tokens',
+            'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
             'cache-control': 'no-cache'
           }
@@ -94,6 +96,9 @@ print("token access ${tokens}");
       token = value.accessToken!;
       refresh_token = value.refreshToken!;
     });
+
+
+
     dynamic responseJson;
     try {
       final response = await http.get(

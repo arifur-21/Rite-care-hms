@@ -26,11 +26,18 @@ class PatientCartListViewWidgets extends StatefulWidget {
 
 class _PatientCartListViewWidgetsState extends State<PatientCartListViewWidgets> {
 
-  final DateTime now = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
-  
+
+  final DateFormat formatter = DateFormat("'dd-MM-YYYY'");
+
+  final formattedDate = DateFormat('MMM d, yyyy').format(DateTime.now());
+  DateTime? dateTime;
+
   @override
   void initState() {
+    String unixTimestamp = "/Date(260647200000)/";
+    int timestampInMilliseconds = int.parse(unixTimestamp.replaceAll(RegExp(r'[^0-9]'), '')); // extract the numeric value from the string
+  dateTime = DateTime.fromMillisecondsSinceEpoch(timestampInMilliseconds);
+    print("sdfsdfv${dateTime.toString()}");
 
     super.initState();
   }
@@ -54,12 +61,12 @@ class _PatientCartListViewWidgetsState extends State<PatientCartListViewWidgets>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Patient Id", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
+                      Text("Patient Id", style:  TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Styles.textGreen)),
                       SizedBox(height: 10,),
-                      Text("Patient Name", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
+                      Text("Patient Name", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Styles.textGreen),),
                       SizedBox(height: 10,),
 
-                      Text("Date of Birth", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Styles.textGreen),),
+                      Text("Date of Birth", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Styles.textGreen),),
 
                     ],
                   ),
@@ -71,12 +78,12 @@ class _PatientCartListViewWidgetsState extends State<PatientCartListViewWidgets>
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.patientId, style: TextStyle( fontSize: 16, color: Styles.textGreen),),
+                    Text(widget.patientId, style: TextStyle( fontSize: 14, color: Styles.textGreen),),
                     SizedBox(height: 10,),
 
-                    Text(widget.PatientName, style: TextStyle( fontSize: 16, color: Styles.textGreen),),
+                    Text(widget.PatientName, style: TextStyle( fontSize: 14, color: Styles.textGreen),),
                     SizedBox(height: 10,),
-                    Text("${widget.DateOfBirth}", style: TextStyle(fontSize: 16, color: Styles.textGreen),),
+                    Text("${dateTime}", style: TextStyle(fontSize: 14, color: Styles.textGreen),),
                   ],)),
             Expanded(
                 flex: 1,
@@ -96,4 +103,7 @@ class _PatientCartListViewWidgetsState extends State<PatientCartListViewWidgets>
       ),
     );
   }
+
+
+
 }

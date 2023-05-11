@@ -23,7 +23,7 @@ class LoginPreference {
     dynamic? expire =  sp.getString('expires_in');
     dynamic? type = sp.getString('token_type');
 
-    print("pre token get ${token}");
+   // print("pre token get ${token}");
 
     return LoginTokenModel(
         accessToken: token,
