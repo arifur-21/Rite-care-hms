@@ -30,7 +30,6 @@ class _PatientListScreenState extends State<PatientListScreen> {
   @override
   void initState() {
    patinetListVM.getPatientList();
-
     super.initState();
   }
 

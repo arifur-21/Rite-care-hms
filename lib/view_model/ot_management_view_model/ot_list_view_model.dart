@@ -17,10 +17,6 @@ import '../../utils/utils.dart';
 class OtListViewModel extends GetxController{
 
   final _api = Repository();
-  final _repo = Repository();
-  LoginPreference loginPreference = LoginPreference();
-  var token;
-  dynamic id;
 
   final surgeryNoteController = TextEditingController().obs;
 
@@ -38,10 +34,11 @@ class OtListViewModel extends GetxController{
 
   dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
   dynamic endDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
-
+dynamic id;
 
   /// get ot schedule
-  Future getSchedule() async{
+  void getSchedule() async{
+    setRxRequestStatus(Status.LOADING);
    await _api.getOtSchedule(startDate, endDate).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setOtSchedule(value);

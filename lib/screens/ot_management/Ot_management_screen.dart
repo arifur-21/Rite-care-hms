@@ -25,7 +25,6 @@ class OtManagementScreen extends StatefulWidget {
 class _OtManagementScreenState extends State<OtManagementScreen> {
 
   final otListVM = Get.put(OtListViewModel());
-  final userProfileVM = Get.put(UserProfileViewModel());
 
   dynamic startBtn = 'Start';
   dynamic endBtn = 'End';
@@ -37,7 +36,7 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
 
   @override
   void initState() {
-   // otListVM.getSchedule();
+    otListVM.getSchedule();
     super.initState();
   }
 
@@ -67,44 +66,41 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
 
           ResuableHeader(leadingText: "Surgery", titleText: "Patient", tralingText: "Status"),
 
-          FutureBuilder(
-            future: otListVM.getSchedule(),
-              builder: (context, snapstho){
-              return  Obx((){
-                switch(otListVM.rxRequestStatus.value){
-                  case Status.LOADING:
-                    return Center(child:  CircularProgressIndicator(),);
+      Expanded(
+        child: Obx((){
+          switch(otListVM.rxRequestStatus.value){
+            case Status.LOADING:
+              return Center(child:  CircularProgressIndicator(),);
 
-                  case Status.ERROR:
-                    print("error ${otListVM.error.value.toString()}");
-                    return Center(child: Text(otListVM.error.value.toString()));
+            case Status.ERROR:
+              print("error ${otListVM.error.value.toString()}");
+              return Center(child: Text(otListVM.error.value.toString()));
 
-                  case Status.SUCCESS:
-                    if(otListVM.otScheduleList.value.items?.length == 0 || otListVM.otScheduleList.value.items?.length == "" || otListVM.otScheduleList.value.items?.length == null){
-                      print("ot length ${otListVM.otScheduleList.value.items?.length}");
-                      return Center(child: Text("Item not found, Please select date"));
-                    }else{
-                      return Expanded(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount:  otListVM.otScheduleList.value.items?.length,
-                            itemBuilder: (context, index){
-                              return  otListWidget(
-                                  title: otListVM.otScheduleList.value.items?[index]?.item?.name,
-                                  name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
-                                  status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
-                                  surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
-                                  indexNum : index,
-                                  noteId: otListVM.otScheduleList.value.items?[index]?.id
-                              );
-                            }),
-                      );
-                    }
+            case Status.SUCCESS:
+              if(otListVM.otScheduleList.value.items?.length == 0 || otListVM.otScheduleList.value.items?.length == "" || otListVM.otScheduleList.value.items?.length == null){
+                print("ot length ${otListVM.otScheduleList.value.items?.length}");
+                return Center(child: Text("Item not found, Please select date"));
+              }else{
+                return Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:  otListVM.otScheduleList.value.items?.length,
+                      itemBuilder: (context, index){
+                        return  otListWidget(
+                            title: otListVM.otScheduleList.value.items?[index]?.item?.name,
+                            name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
+                            status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
+                            surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
+                            indexNum : index,
+                            noteId: otListVM.otScheduleList.value.items?[index]?.id
+                        );
+                      }),
+                );
+              }
 
-                }
-              });
-
-          })
+          }
+        }),
+      )
 
 
         ],

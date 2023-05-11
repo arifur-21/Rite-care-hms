@@ -49,7 +49,7 @@ class PatientRegisterViewModel extends GetxController{
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void setPatientBlood(BloodGroupModel _value) => bloodGroupList.value = _value;
-  void serGender(GenderModel _value) => genderList.value = _value;
+  void setGender(GenderModel _value) => genderList.value = _value;
   void setError(String _value) => error.value = _value;
 
 
@@ -297,8 +297,9 @@ class PatientRegisterViewModel extends GetxController{
 
   Future bloodGroup()async{
     print("blood group vm");
-  await  _api.getBloodGroup().then((value) {
-     // setRxRequestStatus(Status.SUCCESS);
+    setRxRequestStatus(Status.LOADING);
+   await _api.getBloodGroup().then((value) {
+      setRxRequestStatus(Status.SUCCESS);
       setPatientBlood(value);
       print("blood group ${value.data}");
     }).onError((error, stackTrace){
@@ -309,10 +310,10 @@ class PatientRegisterViewModel extends GetxController{
   }
 
 
-  void getGender(){
-    _api.getGender().then((value) {
+  void getGender() async{
+   await _api.getGender().then((value) {
       setRxRequestStatus(Status.SUCCESS);
-      serGender(value);
+      setGender(value);
       print('erer${value}');
     }).onError((error, stackTrace){
       setRxRequestStatus(Status.ERROR);

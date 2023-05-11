@@ -130,59 +130,18 @@ class _PatientListFilterWidgetState extends State<PatientListFilterWidget> {
                                     Container(
                                       width: 200,
                                       height: 150,
-                                      child:
-                                      FutureBuilder(
+                                      child: FutureBuilder(
                                           future: registerVm.bloodGroup(),
-                                          builder: (context, snapshot){
-                                            if(snapshot.hasError){
-                                              return Text("error dat");
-                                            }else{
-                                              return ListView.builder(
-                                                  itemBuilder: (context, index){
-                                                Text("${snapshot.data[index].d}");
-                                              });
-                                                Text("data");
-                                            }
-                                            return  Expanded(
-                                              child: Obx((){
-                                                switch(registerVm.rxRequestStatus.value){
-                                                  case Status.LOADING:
-                                                    return Center(child:  CircularProgressIndicator(),);
+                                          builder: (context, snapShot){
+                                   return ListView.builder(
+                                     itemCount: 4,
+                                       itemBuilder: (context, index){
 
-                                                  case Status.ERROR:
-                                                    print("error ${registerVm.error.value.toString()}");
-                                                    return Text(registerVm.error.value.toString());
+                                       return Text("data");
+                                       });
+                                      }),
 
-                                                  case Status.SUCCESS:
-                                                    if(registerVm.bloodGroupList.value.length == 0){
-                                                      print("data not found");
-                                                      return Text("data not found");
-                                                    }
-                                                    else{
-                                                      return Text('data'); ListView.builder(
-                                                          shrinkWrap: true,
-                                                          itemCount: registerVm.bloodGroupList.value.length,
-                                                          itemBuilder: (context, index) {
-                                                            print("blood length ${registerVm.bloodGroupList.value.length}");
-                                                            return ListTile(
-                                                              title: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .all(8.0),
-                                                                child: InkWell(
-                                                                    onTap: () {
-                                                                      // summeryVm.statusId = summeryVm.sampleListFilterStatus[index].id;
-                                                                      print("lab test status = ${registerVm.bloodGroupList[index].id}");
-                                                                      //  itemId = registerVm.bloodGroupList[index].id!;
-                                                                    },
-                                                                    child: Text("${registerVm.bloodGroupList[index].name}")),
-                                                              ),
-                                                            );
-                                                          });
-                                                    }
-                                                }
-                                              }),
-                                            );
-                                          })
+
 
                                     ),
                                   ],
