@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ritecare_hms/model/ot_management_model/ot_list_model.dart';
-import 'package:ritecare_hms/model/ot_mangement_model/surgery_note_model.dart';
+import 'package:ritecare_hms/model/ot_management_model/surgery_note_model.dart';
 
 import '../../data/response/status.dart';
 import '../../repository/repository.dart';

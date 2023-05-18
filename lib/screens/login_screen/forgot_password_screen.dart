@@ -7,6 +7,7 @@ import 'package:ritecare_hms/utils/screen_main_padding.dart';
 
 import '../../resources/routes/routes.dart';
 import '../../utils/color_styles.dart';
+import '../../view_model/login_view_model/login_view_model.dart';
 import '../../widgets/rite_image_container_widget.dart';
 import '../../widgets/rounded_button.dart';
 import '../languages/Widgets/language_toggle_btn_widget.dart';
@@ -20,7 +21,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
-  TextEditingController sendEmailController = TextEditingController();
+  final loginVm = Get.put(LoginViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(height: 30,),
 
               ResueableEmailTextFieldWidget(
-                emailController: sendEmailController,
+                emailController: loginVm.forgotPassEmail.value,
                 hintText: "email_hint".tr,
               ),
 
@@ -77,8 +78,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   }),
                   RoundedButton(
                       width: Get.width * 0.4,
-                      title: "submit_btn".tr, color: Styles.textGreen, onTap: (){
-                    Get.toNamed(RoutesName.emailLinkSendScreen);
+                      title: "submit_btn".tr, color: Styles.textGreen,
+                      onTap: (){
+
+                        loginVm.forgotPassword();
+                  //  Get.toNamed(RoutesName.emailLinkSendScreen);
 
                   }),
                 ],),

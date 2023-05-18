@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -7,9 +8,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ritecare_hms/model/register/rank_model.dart';
 
 import 'package:ritecare_hms/widgets/reuseable_text_filed.dart';
 import 'package:ritecare_hms/widgets/rounded_button.dart';
+import '../../data/response/status.dart';
 import '../../model/register/gender_model.dart';
 import '../../utils/color_styles.dart';
 import '../../utils/screen_main_padding.dart';
@@ -32,7 +35,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
 
 
 
-  List<String> serviceTypeList = ['','Uniform', 'RE', 'CNE'];
+  List<String> serviceTypeList = ['Uniform', 'RE', 'CNE'];
   List<String> genderList = ['Male', 'Female', 'Third Gender'];
   List<String> bloodGroupList = [
     'A(+VE)',
@@ -44,10 +47,11 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
     'AB(+VE)',
     'AB(-VE)',
   ];
+  dynamic rank;
 
   final registerVM = Get.put(PatientRegisterViewModel());
   final _formKey = GlobalKey<FormState>();
-
+  TextEditingController _searchController = TextEditingController();
   File? imageFile;
 
   dynamic selectBloodGroup = 'Select Blood Group';
@@ -71,7 +75,13 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
   bool isRelation = false;
   bool isServiceType = false;
 
+  var _suggestionTextController = TextEditingController();
 
+  @override
+  void initState() {
+    registerVM.getRankData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,235 +96,377 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(ScreenMainPadding.screenPadding),
-          child: Column(
-            children: [
-              ReuseableHeaderContainerWidget(
-                titleText: '',
-                leadingText: 'Patient Registration',
-                tralingIcon: "assets/icons/cancel.png",
-                onTap: () {
-                  Get.back();
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(ScreenMainPadding.screenPadding),
+              child: Column(
                 children: [
-                  RoundedButton(
-                    width: Get.width * 0.4,
-                    title: 'Full Form',
-                    color: Colors.greenAccent,
+                  ReuseableHeaderContainerWidget(
+                    titleText: '',
+                    leadingText: 'Patient Registration',
+                    tralingIcon: "assets/icons/cancel.png",
                     onTap: () {
-                      //    Navigator.pop(context);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => RegistrFullForm()));
+                      Get.back();
                     },
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Stack(
-                children: [
-                  Positioned(
-                    child: imageFile == null
-                        ? Container(
-                            height: 180,
-                            width: 180,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(150),
-                              border: Border.all(width: 1, color: Colors.grey),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image:
-                                      AssetImage('assets/images/profile.png')),
-                            ),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(150),
-                                border:
-                                    Border.all(width: 2, color: Colors.grey)),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(150.0),
-                                child: Image.file(
-                                  imageFile!,
-                                  height: 180,
-                                  width: 180,
-                                  fit: BoxFit.fill,
-                                )),
-                          ),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Positioned(
-                    top: 140,
-                    right: 30,
-                    child: InkWell(
-                        onTap: () async {
-                          Map<Permission, PermissionStatus> statuses = await [
-                            Permission.storage,
-                            Permission.camera,
-                          ].request();
-                          if (statuses[Permission.storage]!.isGranted &&
-                              statuses[Permission.camera]!.isGranted) {
-                            showImagePicker(context);
-                          } else {
-                            print('no permission provided');
-                            print('no ${imageFile.toString()}');
-                          }
-                        },
-                        child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                border:
-                                    Border.all(width: 1, color: Colors.grey),
-                                color: Colors.white),
-                            child: Icon(Icons.add_a_photo_rounded, size: 25))),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Form(
-                  key: _formKey,
-                  child: Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      RegisterValidateTextField(
-                        textController: registerVM.personalController.value,
-                        hintText: 'Personal/offical NO',
-                        errorText: "enter your personal/offical number",
+                      RoundedButton(
+                        width: Get.width * 0.4,
+                        title: 'Full Form',
+                        color: Colors.greenAccent,
+                        onTap: () {
+                          //    Navigator.pop(context);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => RegistrFullForm()));
+                        },
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      serviceTypeWidget(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      patientRelationWidget(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      patientPrefix(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      patientStatusWidget(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      ResuableTextField(
-                          controllerValue: registerVM.rankController.value,
-                          hintText: "RANK"),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Is Retired",
-                            style: TextStyle(
-                                fontSize: 16, color: Styles.drawerListColor),
-                          ),
-                          Checkbox(
-                            checkColor: Colors.greenAccent,
-                            value: isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isChecked = value!;
-                                print(isChecked);
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      ResuableTextField(
-                          controllerValue: registerVM.uniController.value,
-                          hintText: "UNIT"),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      RegisterValidateTextField(
-                        textController: registerVM.firstNameController.value,
-                        hintText: "First Name",
-                        errorText: "enter your name",
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                     genderWidget(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      bloodGroupWidget(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      RegisterValidateTextField(
-                        textController: registerVM.phoneNumberController.value,
-                        hintText: "Phone Number",
-                        errorText: "enter your phone",
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      ResuableTextField(
-                          controllerValue: registerVM.emailController.value,
-                          hintText: "EMAIL"),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      DateOfBrithWidget(),
-                      SizedBox(
-                        height: 30,
-                      ),
-
                     ],
-                  )),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Stack(
+                    children: [
+                      Positioned(
+                        child: imageFile == null
+                            ? Container(
+                                height: 180,
+                                width: 180,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(150),
+                                  border: Border.all(width: 1, color: Colors.grey),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:
+                                          AssetImage('assets/images/profile.png')),
+                                ),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(150),
+                                    border:
+                                        Border.all(width: 2, color: Colors.grey)),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(150.0),
+                                    child: Image.file(
+                                      imageFile!,
+                                      height: 180,
+                                      width: 180,
+                                      fit: BoxFit.fill,
+                                    )),
+                              ),
+                      ),
+                      Positioned(
+                        top: 140,
+                        right: 30,
+                        child: InkWell(
+                            onTap: () async {
+                              Map<Permission, PermissionStatus> statuses = await [
+                                Permission.storage,
+                                Permission.camera,
+                              ].request();
+                              if (statuses[Permission.storage]!.isGranted &&
+                                  statuses[Permission.camera]!.isGranted) {
+                                showImagePicker(context);
+                              } else {
+                                print('no permission provided');
+                                print('no ${imageFile.toString()}');
+                              }
+                            },
+                            child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    border:
+                                        Border.all(width: 1, color: Colors.grey),
+                                    color: Colors.white),
+                                child: Icon(Icons.add_a_photo_rounded, size: 25))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+
+                  Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          RegisterValidateTextField(
+                            textController: registerVM.personalController.value,
+                            hintText: 'Personal/offical NO',
+                            errorText: "enter your personal/offical number",
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          serviceTypeWidget(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          patientRelationWidget(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          patientPrefix(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          patientStatusWidget(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          FutureBuilder(
+                              future: registerVM.getRankData(),
+                              builder: (contxt, data){
+                                return  Autocomplete<RankModel>(
+
+                                  optionsBuilder: (TextEditingValue textValue){
+                                    if(textValue.text.isEmpty){
+                                      return List.empty();
+                                    }
+
+                                    return  registerVM.rankListItem.where((value) => value.name.toLowerCase()
+                                        .contains(textValue.text.toLowerCase())).toList();
+                                  },
+
+                                  fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
+                                      FocusNode focusNode,
+                                      VoidCallback onFieldSubmitted) {
+                                    return TextField(
+
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: "Rank",
+                                        labelStyle: TextStyle(color: Styles.primaryColor,fontFamily: 'IstokWeb', fontWeight: FontWeight.w700, fontSize: 17),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 2, color: Styles.drawerListColor),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 2, color: Styles.drawerListColor),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                      ),
+
+
+                                      controller: textEditingController,
+                                      focusNode: focusNode,
+                                      onSubmitted: (String value) {
+
+                                      },
+                                    );
+                                  },
+
+
+                                  optionsViewBuilder: (BuildContext context, Function onSelect, Iterable<RankModel> dataList){
+                                    return Material(
+                                      child: ListView.builder(
+                                          itemCount: dataList.length,
+                                          itemBuilder: (context, index){
+                                            RankModel data = dataList.elementAt(index);
+                                            return InkWell(
+                                              onTap: ()=> onSelect(data),
+                                              child: ListTile(
+                                                title: Text("${data.name}"),
+                                              ),
+                                            );
+
+                                          }),
+                                    );
+                                  },
+                                  displayStringForOption: (RankModel rank)=> '${rank.name}',
+                                  onSelected: (selectedValue){
+                                    print("select value ${selectedValue.name}");
+                                  },
+                                );
+
+                              }),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Is Retired",
+                                style: TextStyle(
+                                    fontSize: 16, color: Styles.drawerListColor),
+                              ),
+                              Checkbox(
+                                checkColor: Colors.greenAccent,
+                                value: isChecked,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isChecked = value!;
+                                    print(isChecked);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          FutureBuilder(
+                              future: registerVM.getUnitData(),
+                              builder: (contxt, data){
+                                return   Autocomplete<RankModel>(
+
+
+                                  optionsBuilder: (TextEditingValue textValue){
+                                    if(textValue.text.isEmpty){
+                                      return List.empty();
+                                    }
+
+                                    return  registerVM.unitListItem.where((value) => value?.name.toLowerCase()
+                                        .contains(textValue.text.toLowerCase())).toList();
+                                  },
+
+                                  fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
+                                      FocusNode focusNode,
+                                      VoidCallback onFieldSubmitted) {
+                                    return TextField(
+
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: "Unit",
+                                        labelStyle: TextStyle(color: Styles.primaryColor,fontFamily: 'IstokWeb', fontWeight: FontWeight.w700, fontSize: 17),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 2, color: Styles.drawerListColor),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 2, color: Styles.drawerListColor),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                      ),
+                                      controller: textEditingController,
+                                      focusNode: focusNode,
+                                      onSubmitted: (String value) {
+
+                                      },
+                                    );
+                                  },
+
+
+                                  optionsViewBuilder: (BuildContext context, Function onSelect, Iterable<RankModel> dataList){
+                                    return Material(
+                                      child: ListView.builder(
+                                          itemCount: dataList.length,
+                                          itemBuilder: (context, index){
+                                            RankModel data = dataList.elementAt(index);
+                                            return InkWell(
+                                              onTap: ()=> onSelect(data),
+                                              child: ListTile(
+                                                title: Text("${data.name}"),
+                                              ),
+                                            );
+
+                                          }),
+                                    );
+                                  },
+                                  displayStringForOption: (RankModel rank)=> '${rank.name}',
+                                  onSelected: (selectedValue){
+                                    print("select value ${selectedValue.name}");
+                                  },
+                                );
+                              }),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          RegisterValidateTextField(
+                            textController: registerVM.firstNameController.value,
+                            hintText: "First Name",
+                            errorText: "enter your name",
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                         genderWidget(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          bloodGroupWidget(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          RegisterValidateTextField(
+                            textController: registerVM.phoneNumberController.value,
+                            hintText: "Phone Number",
+                            errorText: "enter your phone",
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          ResuableTextField(
+                              controllerValue: registerVM.emailController.value,
+                              hintText: "EMAIL"),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          DateOfBrithWidget(),
+                          SizedBox(
+                            height: 30,
+                          ),
+
+                        ],
+                      )),
 
 
 
-              RoundedButton(
-                  width: Get.width * 0.4,
-                  title: "Register",
-                  color: Styles.primaryColor,
-                  onTap: () {
-                    if (selectGender.isEmpty) {
-                      print("gender null");
-                    }
 
-                    if (_formKey.currentState!.validate()) {
-                      registerVM.registerPatient(
-                          service: selectServiceType,
-                          status: selectPatientStatus,
-                          gender: selectGender,
-                          blood: selectBloodGroup,
-                          relation: selectPatientRelation,
-                          prefix: selectPatientFrefix,
-                          imageUrl: imageFile,
-                          dateOfBrith: dateOfBirth,
-                          isRetired: isChecked,
-                          prefixId: frefixId,
-                          relationId: relationId,
-                          statusId: statusId
+                  RoundedButton(
+                      width: Get.width * 0.4,
+                      title: "Register",
+                      color: Styles.primaryColor,
+                      onTap: () {
 
-                      );
-                    }
-                  }),
 
-             // WidgetDropDown(),
-            ],
-          ),
+                        if (_formKey.currentState!.validate()) {
+                          if(selectServiceType == 'Select Service Type'){
+                            selectServiceType = '';
+                          }
+                          if(selectPatientRelation == 'Selected Patient Relation'){
+                            selectPatientRelation = '';
+                          }
+                          if(selectPatientFrefix == 'Selected Patient Prefix'){
+                            selectPatientFrefix = '';
+                          }
+                          if(selectPatientStatus == 'Selected Patient Status'){
+                            selectPatientStatus = '';
+                          }
+                          registerVM.registerPatient(
+                              service: selectServiceType,
+                              status: selectPatientStatus,
+                              gender: selectGender,
+                              blood: selectBloodGroup,
+                              relation: selectPatientRelation,
+                              prefix: selectPatientFrefix,
+                              imageUrl: imageFile,
+                              dateOfBrith: dateOfBirth,
+                              isRetired: isChecked,
+                              prefixId: frefixId,
+                              relationId: relationId,
+                              statusId: statusId
+
+                          );
+                        }
+                      }),
+
+
+                 // WidgetDropDown(),
+                ],
+              ),
+            ),
+
+          ],
         ),
       ),
     );
@@ -339,7 +491,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     border:
-                        Border.all(width: 2, color: Styles.drawerListColor)),
+                        Border.all(width: 2, color: Styles.primaryColor)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -347,13 +499,13 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                     children: [
                       Text(
                         selectBloodGroup,
-                        style: TextStyle(color: Styles.drawerListColor),
+                        style: TextStyle(color: Styles.primaryColor),
                       ),
                       Icon(
                         isOpen
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up,
-                        color: Styles.drawerListColor,
+                        color: Styles.primaryColor,
                       ),
                     ],
                   ),
@@ -423,14 +575,14 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 height: 60,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(width: 2,color: Styles.drawerListColor)
+                    border: Border.all(width: 2,color: Styles.primaryColor)
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(selectGender , style: TextStyle(color: Styles.drawerListColor),),
+                      Text(selectGender , style: TextStyle(color: Styles.primaryColor),),
                       Icon(isGender ? Icons.keyboard_arrow_down_outlined : Icons.keyboard_arrow_up,color: Styles.drawerListColor,),
                     ],
                   ),
@@ -495,7 +647,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     border:
-                        Border.all(width: 2, color: Styles.drawerListColor)),
+                        Border.all(width: 2, color: Styles.primaryColor)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -503,13 +655,13 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                     children: [
                       Text(
                         selectServiceType,
-                        style: TextStyle(color: Styles.drawerListColor),
+                        style: TextStyle(color: Styles.primaryColor),
                       ),
                       Icon(
                         isServiceType
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up,
-                        color: Styles.drawerListColor,
+                        color: Styles.primaryColor,
                       ),
                     ],
                   ),
@@ -581,7 +733,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     border:
-                        Border.all(width: 2, color: Styles.drawerListColor)),
+                        Border.all(width: 2, color: Styles.primaryColor)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -589,13 +741,13 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                     children: [
                       Text(
                         selectPatientFrefix,
-                        style: TextStyle(color: Styles.drawerListColor),
+                        style: TextStyle(color: Styles.primaryColor),
                       ),
                       Icon(
                         isPrefix
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up,
-                        color: Styles.drawerListColor,
+                        color: Styles.primaryColor,
                       ),
                     ],
                   ),
@@ -690,7 +842,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     border:
-                        Border.all(width: 2, color: Styles.drawerListColor)),
+                        Border.all(width: 2, color: Styles.primaryColor)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -698,13 +850,13 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                     children: [
                       Text(
                         selectPatientStatus,
-                        style: TextStyle(color: Styles.drawerListColor),
+                        style: TextStyle(color: Styles.primaryColor),
                       ),
                       Icon(
                         isStutus
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up,
-                        color: Styles.drawerListColor,
+                        color: Styles.primaryColor,
                       ),
                     ],
                   ),
@@ -800,7 +952,7 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     border:
-                        Border.all(width: 2, color: Styles.drawerListColor)),
+                        Border.all(width: 2, color: Styles.primaryColor)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -808,13 +960,13 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
                     children: [
                       Text(
                         selectPatientRelation,
-                        style: TextStyle(color: Styles.drawerListColor),
+                        style: TextStyle(color: Styles.primaryColor),
                       ),
                       Icon(
                         isRelation
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up,
-                        color: Styles.drawerListColor,
+                        color: Styles.primaryColor,
                       ),
                     ],
                   ),
@@ -899,12 +1051,12 @@ class _RegistrShortFormState extends State<RegistrShortForm> {
       height: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(width: 2, color: Styles.drawerListColor)),
+          border: Border.all(width: 2, color: Styles.primaryColor)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('Select Date :   ${dateOfBirth.toString()}',
-              style: TextStyle(fontSize: 16, color: Styles.drawerListColor)),
+              style: TextStyle(fontSize: 16, color: Styles.primaryColor)),
           InkWell(
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(

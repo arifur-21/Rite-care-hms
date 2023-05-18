@@ -20,10 +20,21 @@ class PatientListFilterWidget extends StatefulWidget {
 }
 
 class _PatientListFilterWidgetState extends State<PatientListFilterWidget> {
+  List<String> bloodGroupList = [
+    'A(+VE)',
+    'A(-VE)',
+    'B(+VE)',
+    'B(-VE)',
+    'O(+VE)',
+    'O(-VE)',
+    'AB(+VE)',
+    'AB(-VE)',
+  ];
 
   final summeryVm = Get.put(SummeryViewModel());
   final registerVm = Get.put(PatientRegisterViewModel());
 
+  dynamic bloodGroup;
 
   // this variable holds the selected items
   final List<String> _selectedItems = [];
@@ -130,18 +141,25 @@ class _PatientListFilterWidgetState extends State<PatientListFilterWidget> {
                                     Container(
                                       width: 200,
                                       height: 150,
-                                      child: FutureBuilder(
-                                          future: registerVm.bloodGroup(),
-                                          builder: (context, snapShot){
-                                   return ListView.builder(
-                                     itemCount: 4,
-                                       itemBuilder: (context, index){
+                                      child:
 
-                                       return Text("data");
-                                       });
-                                      }),
+                                      ListView(
+                                        shrinkWrap: true,
+                                        children: bloodGroupList.map((e) => Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(12.0),
+                                              child: InkWell(
+                                                  onTap: (){
+                                                    bloodGroup = e.toString();
+                                                    print("blood ${bloodGroup}");
+                                                  },
+                                                  child: Text("${e.toString()}")),
 
-
+                                            ),
+                                          ],
+                                        )).toList(),
+                                      ),
 
                                     ),
                                   ],
@@ -161,7 +179,6 @@ class _PatientListFilterWidgetState extends State<PatientListFilterWidget> {
               actions: [
 
                 StartDateCalendarWidget(),
-
                 SizedBox(height: 10,),
                 EndDateCalendarWidget(),
                 SizedBox(height: 10,),
@@ -190,7 +207,6 @@ class _PatientListFilterWidgetState extends State<PatientListFilterWidget> {
                       ),
                       child: InkWell(
                           onTap: () {
-
 
                           },
                           child: Center(

@@ -6,9 +6,10 @@ import '../model/lab_test_model/lab_test_list_status_model.dart';
 import '../model/lab_test_model/simple_list_models.dart';
 import '../model/lab_test_model/status_model.dart';
 import '../model/ot_management_model/ot_list_model.dart';
-import '../model/ot_mangement_model/surgery_note_model.dart';
+import '../model/ot_management_model/surgery_note_model.dart';
 import '../model/register/blood_group_model/BloodGroupModel.dart';
 import '../model/register/gender_model.dart';
+import '../model/register/rank_model.dart';
 
 class Repository{
 
@@ -20,6 +21,13 @@ class Repository{
     return response;
 
   }
+
+  Future<dynamic> forgotPassword(dynamic data)async{
+    dynamic response = await _apiServices.postLoginApi(data, AppUrl.forgotPassword);
+    return response;
+
+  }
+
 
   Future<dynamic> registerPatient(data)async{
     dynamic response = await _apiServices.postApiData(data, AppUrl.registerPatientApi);
@@ -122,6 +130,34 @@ class Repository{
     }
     return getLabTestStatus;
   }
+
+
+
+  /// register rank
+  List<RankModel> rankList =[];
+  Future<List<RankModel>> getRankListData()async{
+    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetAllRankList?search=ma');
+    rankList.clear();
+    for(Map i in response){
+      RankModel data =  RankModel.fromJson(i);
+      rankList.add(data);
+    }
+    return rankList;
+  }
+
+  /// register unit
+  List<RankModel> unitList =[];
+  Future<List<RankModel>> getUnitListData()async{
+    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetAllUnitList?search=am');
+    unitList.clear();
+    for(Map i in response){
+      RankModel data =  RankModel.fromJson(i);
+      unitList.add(data);
+    }
+    return unitList;
+  }
+
+
 
 
 ////////// get list of data end ///////////////

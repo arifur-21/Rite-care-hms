@@ -1,5 +1,13 @@
+
+
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ritecare_hms/screens/lab_test/summery/summery_screen.dart';
 
 import '../../../../utils/color_styles.dart';
@@ -15,6 +23,9 @@ class Lab12Screen extends StatefulWidget {
 }
 
 class _Lab12ScreenState extends State<Lab12Screen> {
+
+  File? imageFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,130 +39,244 @@ class _Lab12ScreenState extends State<Lab12Screen> {
         backgroundColor: Styles.primaryColor,
         actions: [
           AppBarWidget(),
-          _popUpMenu()
-
-          ///popup menu item
-
-
+              ///popup menu item
         ],
 
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(2)
-              ),
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("IMAGING DETAIL",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-                    InkWell(
-                        onTap: (){
-                       //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientSummeryScreen()));
-                        },
-                        child: Icon(Icons.cancel_presentation, size: 40,color: Colors.white,)),
-                  ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Styles.primaryColor,
+                  borderRadius: BorderRadius.circular(2)
+                ),
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("IMAGING DETAIL",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                      InkWell(
+                          onTap: (){
+                         //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PatientSummeryScreen()));
+                          },
+                          child: Icon(Icons.cancel_presentation, size: 40,color: Colors.white,)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20,),
-            Column(
-              children: [
-                Text("Upload New Image",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.grey) ),
-                SizedBox(height: 10,),
-                Text("Max File size is 10MB", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey),)
-              ],
-            ),
-            SizedBox(height: 20,),
+              SizedBox(height: 20,),
+              Column(
+                children: [
+                  Text("Upload New Image",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.grey) ),
+                  SizedBox(height: 10,),
+                  Text("Max File size is 10MB", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey),)
+                ],
+              ),
+              SizedBox(height: 20,),
 
-            Column(
-              children: [
-                Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.green, width: 2)
+
+
+              Stack(
+                children: [
+                  Positioned(
+                    child: imageFile == null
+                        ? Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(width: 1, color: Colors.grey),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image:
+                            AssetImage('assets/images/profile.png'), ),
+                      ),
+                    )
+                        : Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border:
+                          Border.all(width: 2, color: Colors.grey)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            imageFile!,
+                            height: 180,
+                            width: 180,
+                            fit: BoxFit.fill,
+                          )),
+                    ),
                   ),
-                  child: Icon(Icons.person, size: 150,color: Colors.green,),
-                )
-              ],
-            ),
-            SizedBox(height: 10,),
-            Text("Take a Image",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.grey)),
-            SizedBox(height: 50,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RoundedButton(title: "SELECT FILE", onTap: (){},color: Colors.green,),
-                RoundedButton(title: "UPLOAD", onTap: (){},color: Colors.green,),
-              ],
-            )
 
-          ],
+                ],
+              ),
+      SizedBox(height: 29,),
+
+      RoundedButton(width: Get.width * 0.6, title: 'Take/Upload image', color: Styles.primaryColor,  onTap: () async {
+      Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+      Permission.camera,
+      ].request();
+      if (statuses[Permission.storage]!.isGranted &&
+      statuses[Permission.camera]!.isGranted) {
+      showImagePicker(context);
+      } else {
+      print('no permission provided');
+      print('no ${imageFile.toString()}');
+      }
+      },
+
+      ),
+
+
+            ],
+          ),
         ),
       ),
     );
   }
 
 
-  Widget _popUpMenu(){
-    return   PopupMenuButton(
-        icon: Icon(Icons.more_vert_outlined, size: 35,),
-        itemBuilder: (context) =>
-        [
-          PopupMenuItem(
 
-              child: Container(
-                margin: EdgeInsets.all(10),
-                child: Column(
+  final picker = ImagePicker();
+
+  void showImagePicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return Card(
+            color: Styles.primaryColor,
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 5.2,
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                            width: 25,
-                            height: 25,
-                            color: Styles.primaryColor,
-                            child: InkWell(
-                                onTap: (){
-                                //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LabList16Widget()));
-                                },
-                                child: Icon(Icons.person, color: Colors.white,size: 25,))
-                        ),
-                        SizedBox(width: 10,),
-                        Text("Profile",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Styles.primaryColor))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            width: 25,
-                            height: 25,
-                            color: Styles.primaryColor,
-                            child: InkWell(
-                                onTap: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Lab12Screen()));
-                                },
-                                child: Icon(Icons.login_outlined, color: Colors.white,size: 20,))),
-                        SizedBox(width: 10,),
-                        Text("Logout", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Styles.primaryColor),)
-                      ],
-                    ),
+                    Expanded(
+                        child: InkWell(
+                          child: Column(
+                            children: const [
+                              Icon(
+                                Icons.image,
+                                size: 60.0,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 12.0),
+                              Text(
+                                "Gallery",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            _imgFromGallery();
+                            Navigator.pop(context);
+                          },
+                        )),
+                    Expanded(
+                        child: InkWell(
+                          child: SizedBox(
+                            child: Column(
+                              children: const [
+                                Icon(
+                                  Icons.camera_alt,
+                                  size: 60.0,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(height: 12.0),
+                                Text(
+                                  "Camera",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            _imgFromCamera();
+                            Navigator.pop(context);
+                          },
+                        ))
                   ],
-                ),
-              )),
-
-        ]);
+                )),
+          );
+        });
   }
+
+  _imgFromGallery() async {
+    await picker
+        .pickImage(source: ImageSource.gallery, imageQuality: 50)
+        .then((value) {
+      if (value != null) {
+        _cropImage(File(value.path));
+      }
+    });
+  }
+
+  _imgFromCamera() async {
+    await picker
+        .pickImage(source: ImageSource.camera, imageQuality: 50)
+        .then((value) {
+      if (value != null) {
+        _cropImage(File(value.path));
+      }
+    });
+  }
+
+  _cropImage(File imgFile) async {
+    final croppedFile = await ImageCropper().cropImage(
+        sourcePath: imgFile.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ]
+            : [
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio5x3,
+          CropAspectRatioPreset.ratio5x4,
+          CropAspectRatioPreset.ratio7x5,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: "Image Cropper",
+              toolbarColor: Styles.primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: "Image Cropper",
+          )
+        ]);
+    if (croppedFile != null) {
+      imageCache.clear();
+      setState(() {
+        imageFile = File(croppedFile.path);
+        print("object ${imageFile}");
+      });
+      // reload();
+    }
+  }
+
 }

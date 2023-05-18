@@ -126,7 +126,7 @@ Widget labTestItemDetails({ dynamic data, dynamic categoroy}){
           children: [
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     children: [
                       Expanded(

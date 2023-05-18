@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:intl/intl.dart';
 import 'package:ritecare_hms/model/patinet_list_model/patient_list_model.dart';
 
 import '../../data/response/status.dart';
@@ -22,9 +23,14 @@ class PatientListViewModel{
   void setPatientList(PatientListModel _value) => patientList.value = _value;
   void setError(String _value) => error.value = _value;
 
+  dynamic startDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
+  dynamic endDate = DateFormat("yyyy-MM-dd").format(DateTime.now()).obs;
+
   /// get patient list view model
-  Future? getPatientList() async{
-   await _api.getPatientList().then((value) {
+  void getPatientList() async{
+    print("pataiten date ${startDate}");
+   // setRxRequestStatus(Status.LOADING);
+   await _api.getPatientList(startDate, endDate).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatientList(value);
       print("patient lit${value}");

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ritecare_hms/model/register/rank_model.dart';
 import 'package:ritecare_hms/model/search_model/SearchModel.dart';
 import 'package:ritecare_hms/repository/search_repository/SearchRepository.dart';
 
@@ -21,6 +22,7 @@ class SearchViewModel extends GetxController{
   final rxRequestStatus = Status.LOADING.obs;
   final patientList = SearchModel().obs;
   final patientListItem = <SearchModel>[].obs;
+
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
@@ -35,12 +37,11 @@ class SearchViewModel extends GetxController{
 
 
 
-  void searchPatient(){
-    _api.getSearch(patienidController.value.text).then((value) {
+  void searchPatient() async{
+   await _api.getSearch(patienidController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
-      List<SearchModel> slist =[];
+      List<SearchModel> slist = [];
       slist.add(value);
-
       setPatient(slist);
       print("value${value}");
     }).onError((error, stackTrace){
@@ -63,6 +64,7 @@ class SearchViewModel extends GetxController{
 
     return patientListItem;
   }
+
   Future<List<SearchModel>> searchPatientOfficalNo()async{
      setRxRequestStatus(Status.LOADING);
    await _api.getPatientByOccicialNo(patientOfficialNumberController.value.text).then((value) {
@@ -89,6 +91,9 @@ class SearchViewModel extends GetxController{
 
     return patientListItem;
   }
+
+
+
 
 
   // get patient cell number

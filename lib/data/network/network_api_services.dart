@@ -56,19 +56,11 @@ class NetworkApiServices extends BaseApServices {
    await loginPreference.getToken().then((value) {
 
       token = value.accessToken!;
-
       refresh_token = value.refreshToken!;
-
-      print("value1 token ${token}");
-
     });
-
- print("token access123 ${token}");
-
     dynamic responseJson;
 
     try {
-      print("object");
       final response = await http.get(
           Uri.parse(url),
           headers: {
@@ -91,13 +83,10 @@ class NetworkApiServices extends BaseApServices {
 
   @override
   Future<List> getListOfApiData(String url) async {
-    print("network token1 ${token}");
     loginPreference.getToken().then((value) {
       token = value.accessToken!;
       refresh_token = value.refreshToken!;
     });
-
-
 
     dynamic responseJson;
     try {
@@ -111,7 +100,7 @@ class NetworkApiServices extends BaseApServices {
       ).timeout(Duration(seconds: 30));
       responseJson = returnResponse(response);
     } on SocketException {
-      throw InternetException("No Internet");
+      throw InternetException("");
     } on RequestTimeOut {
       throw RequestTimeOut('Request Time Out');
     }
@@ -189,15 +178,19 @@ class NetworkApiServices extends BaseApServices {
       //print("refresh token ${response.body}");
       if(response.statusCode == 200){
         final json = jsonDecode(response.body);
-        /*LoginTokenModel loginTokenModel = LoginTokenModel(
+      /*  LoginTokenModel loginTokenModel = LoginTokenModel(
             accessToken: json,
-        );*/
-
-        //loginPreference.saveToken(loginTokenModel);
+        );
+*/
+      //  loginPreference.saveToken(loginTokenModel);
 
         final accessToken = json['access_token'];
         print(accessToken);
-        return LoginTokenModel.fromJson(accessToken);
+        LoginTokenModel loginTokenModel = LoginTokenModel(
+          accessToken: accessToken,
+        );
+
+        return loginTokenModel;
       }else{
         throw Exception('Failed to refresh access token');
       }
@@ -215,9 +208,9 @@ class NetworkApiServices extends BaseApServices {
         return responseJson;
       /*case 401:
         throw InvalidUrlException();*/
-      /*case 401:
+      case 401:
      print("object unAuthorize");
-       return regenerateToken();*/
+       return regenerateToken();
       case 400:
         throw InvalidUrlException;
       default:

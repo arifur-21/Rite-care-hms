@@ -13,6 +13,7 @@ import '../../model/lab_test_model/simple_list_models.dart';
 import '../../model/lab_test_model/status_model.dart';
 import '../../model/ot_management_model/ot_list_model.dart';
 import '../../model/patinet_list_model/patient_list_model.dart';
+import '../../model/register/rank_model.dart';
 import '../../model/user_profile_model/user_profile_model.dart';
 import '../../view_model/serch_view_mode/SearchViewModel.dart';
 
@@ -51,8 +52,8 @@ class SearchRepository{
   }
 
   /// get patient list
-  Future<PatientListModel> getPatientList()async{
-    dynamic response = await _apiServices.getApiData(AppUrl.patientListUrl);
+  Future<PatientListModel> getPatientList(dynamic startDate, dynamic endDate)async{
+    dynamic response = await _apiServices.getApiData(AppUrl.base_url+"/Patient/GetPatientList?pageNumber=1&pageSize=25&startDate=undefined&endDate=undefined&unitId=null&bloodGroupId=null");
     return PatientListModel.fromJson(response);
   }
 
@@ -72,7 +73,6 @@ class SearchRepository{
 
   List<SearchModel> searchDataOfficial =[];
   Future<List<SearchModel>> getPateintByCellNO(String id)async{
-
     dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetPatientByPhone?phoneNumber=${id}');
     searchDataOfficial.clear();
     for(Map i in response){
@@ -87,12 +87,13 @@ class SearchRepository{
   Future<List<SearchModel>> getPateintByName(String id)async{
 
     dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/SearchPatientByPartialName?name=${id}&partialFullSearch=true');
-    searchDataOfficial.clear();
+    searchDataByName.clear();
     for(Map i in response){
       SearchModel data =  SearchModel.fromJson(i);
-      searchDataOfficial.add(data);
+      searchDataByName.add(data);
     }
-    return searchDataOfficial;
+    return searchDataByName;
   }
+
 
 }

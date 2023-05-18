@@ -19,6 +19,9 @@ class ResuableTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controllerValue,
+        onChanged: (value){
+
+        },
         validator: (value){
         if(value!.isEmpty || value == null){
           return errorMsg;

@@ -9,6 +9,7 @@ import 'package:ritecare_hms/resources/app_url/app_url.dart';
 import '../../data/response/status.dart';
 import '../../model/register/blood_group_model/BloodGroupModel.dart';
 import '../../model/register/gender_model.dart';
+import '../../model/register/rank_model.dart';
 import '../../repository/repository.dart';
 import '../../shere_preference/login_preference.dart';
 import '../../utils/utils.dart';
@@ -42,6 +43,9 @@ class PatientRegisterViewModel extends GetxController{
 
 
   final rxRequestStatus = Status.LOADING.obs;
+  final rankListItem = <RankModel>[].obs;
+  final unitListItem = <RankModel>[].obs;
+
   RxString error = ''.obs;
 
   dynamic bloodGroupList = BloodGroupModel().obs;
@@ -49,6 +53,8 @@ class PatientRegisterViewModel extends GetxController{
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void setPatientBlood(BloodGroupModel _value) => bloodGroupList.value = _value;
+  void setRankList(List<RankModel> _value) => rankListItem.value = _value;
+  void setUnitList(List<RankModel> _value) => unitListItem.value = _value;
   void setGender(GenderModel _value) => genderList.value = _value;
   void setError(String _value) => error.value = _value;
 
@@ -70,7 +76,7 @@ class PatientRegisterViewModel extends GetxController{
   }
       ){
 
-
+print("sf${prefix}");
     Map data =
     {
       "FirstName": "Rizwan",
@@ -295,10 +301,11 @@ class PatientRegisterViewModel extends GetxController{
 
 
 
-  Future bloodGroup()async{
-    print("blood group vm");
+
+  /// get blood group
+  void bloodGroup() async{
     setRxRequestStatus(Status.LOADING);
-   await _api.getBloodGroup().then((value) {
+    await _api.getBloodGroup().then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatientBlood(value);
       print("blood group ${value.data}");
@@ -320,6 +327,37 @@ class PatientRegisterViewModel extends GetxController{
       setError(error.toString());
       print("viewModel error ${error.toString()}");
     });
+  }
+
+  //get rank data
+  Future<List<RankModel>> getRankData()async{
+    setRxRequestStatus(Status.LOADING);
+   await _api.getRankListData().then((value) {
+      setRxRequestStatus(Status.SUCCESS);
+
+      setRankList(value);
+    }).onError((error, stackTrace){
+      setRxRequestStatus(Status.ERROR);
+      setError(error.toString());
+      print("viewModel error  ${error.toString()}");
+    });
+
+    return rankListItem;
+  }
+
+  //get unit data
+  Future<List<RankModel>> getUnitData()async{
+    setRxRequestStatus(Status.LOADING);
+   await _api.getUnitListData().then((value) {
+      setRxRequestStatus(Status.SUCCESS);
+      setUnitList(value);
+    }).onError((error, stackTrace){
+      setRxRequestStatus(Status.ERROR);
+      setError(error.toString());
+      print("viewModel error cell ${error.toString()}");
+    });
+
+    return unitListItem;
   }
 
   Future<List<dynamic>> getPatientPrefix()async {

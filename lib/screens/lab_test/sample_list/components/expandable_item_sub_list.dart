@@ -5,16 +5,18 @@ import 'package:ritecare_hms/screens/lab_test/summery/components/lab12_screen.da
 import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/widgets/reusable_icon_containter.dart';
 
+import '../../../../model/lab_test_model/simple_list_models.dart';
+
 class ExpandableItemSubList extends StatefulWidget {
 
   final String? title;
   final String? category;
   final String? name;
-  final List<dynamic>? sampleList;
-  final VoidCallback? onPressed;
+  final VoidCallback? onTap;
+  final dynamic barCode;
+  List<PatientServices>? sampleList;
 
-
-  ExpandableItemSubList({this.title, this.category, this.name, this.onPressed, required this.sampleList});
+  ExpandableItemSubList({this.title, this.category, this.name, this.onTap, this.sampleList, this.barCode});
 
   @override
   State<ExpandableItemSubList> createState() => _ExpandableItemSubListState();
@@ -26,7 +28,7 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
     return   Container(
       height: 220,
       child:  ListView.builder(
-          itemCount: 2,
+          itemCount: widget.sampleList?.length ,
           itemBuilder: (context, index){
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -43,8 +45,8 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.title.toString(), style: Styles.poppinsFontBlack12_500),
-                          Text(widget.category.toString(),style: Styles.poppinsFontBlack12_300),
+                          Text("CBC", style: Styles.poppinsFontBlack12_500),
+                          Text(widget.sampleList![index].doctorName,style: Styles.poppinsFontBlack12_300),
                           Text(widget.name.toString(),style: Styles.poppinsFontBlack12_300)
                         ],),
                       SizedBox(height: 20,),
@@ -53,7 +55,7 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
 
-                          Text("3588005-33", style: Styles.poppinsFontBlack12_600),
+                          Text("${widget.barCode}", style: Styles.poppinsFontBlack12_600),
 
                           Container(
                               height: 25,
@@ -77,11 +79,8 @@ class _ExpandableItemSubListState extends State<ExpandableItemSubList> {
                           ),
                           Row(
                             children: [
-
                               InkWell(
-                                onTap: (){
-
-                                },
+                                onTap: widget.onTap,
                                 child: Container(
                                   height: 25,
                                   width: 25,

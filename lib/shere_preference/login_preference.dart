@@ -16,6 +16,7 @@ class LoginPreference {
     return true;
   }
 
+
   Future<LoginTokenModel> getToken() async{
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token =  sp.getString('access_token');
@@ -34,6 +35,8 @@ class LoginPreference {
 
 
   }
+
+
 
   Future<bool> removeLoginToken() async{
     SharedPreferences sp = await SharedPreferences.getInstance();

@@ -1,321 +1,4 @@
 
-class PatientServices {
-  dynamic? patientID;
-  dynamic? itemId;
-  dynamic? invoiceID;
-  dynamic? receiptId;
-  dynamic? patientAdmissionId;
-  dynamic? nurseStationId;
-  dynamic? serviceListPrice;
-  dynamic? serviceActualPrice;
-  dynamic? serviceQuantity;
-  dynamic? serviceDate;
-  dynamic? referralPaidDate;
-  dynamic? modifiedDate;
-  dynamic? checkoutTime;
-  dynamic? serviceProviderId;
-  dynamic? doctorId;
-  dynamic? doctorName;
-  dynamic? returnQantity;
-  dynamic? returnPrice;
-  dynamic? returnPaid;
-  dynamic? referrerPaidUserId;
-  dynamic? referrerPaidUser;
-  dynamic? discount;
-  bool? discountAfterInvoice;
-  bool? isBothSideDiscount;
-  dynamic? discountPercentage;
-  bool? refund;
-  dynamic? refundApprovedBy;
-  dynamic? refundStatus;
-  bool? refundApproval;
-  bool? isReturn;
-  dynamic? refundNote;
-  bool? billed;
-  dynamic? referralFee;
-  bool? referralFeePaid;
-  dynamic? referralFeeActual;
-  dynamic? deliveryDate;
-  dynamic? deliveryTime;
-  dynamic? reportFormatName;
-  dynamic? labStatusId;
-  dynamic? inventoryId;
-  dynamic? modifiedBy;
-  dynamic? prescriptionItemId;
-  dynamic? sampleId;
-  dynamic? sl;
-  Item? item;
-  Patient? patient;
-  dynamic? patientInvoice;
-  dynamic? prescriptionItem;
-  dynamic? nurseStation;
-  dynamic? receiptPayment;
-  dynamic? patientAdmission;
-  List<dynamic>? imagingDetails;
-  dynamic? patientServicePayments;
-  int? signContactId;
-  bool? isgroup;
-  dynamic? patientServiceIds;
-  dynamic? groupItemIds;
-  dynamic? medicalTypeId;
-  dynamic? beforeReturnPrice;
-  dynamic? returnBackupPrice;
-  dynamic? fullReturnServiceListPrice;
-  dynamic? amount;
-  dynamic? medicalTypeName;
-  dynamic? previousDoctorName;
-  bool? hasImage;
-  dynamic? branchId;
-  dynamic? branch;
-  dynamic? tenantId;
-  dynamic? tenant;
-  dynamic? id;
-  bool? active;
-  dynamic? userId;
-  bool? hasErrors;
-  dynamic? errorCount;
-  bool? noErrors;
-
-  PatientServices(
-      {this.patientID,
-        this.itemId,
-        this.invoiceID,
-        this.receiptId,
-        this.patientAdmissionId,
-        this.nurseStationId,
-        this.serviceListPrice,
-        this.serviceActualPrice,
-        this.serviceQuantity,
-        this.serviceDate,
-        this.referralPaidDate,
-        this.modifiedDate,
-        this.checkoutTime,
-        this.serviceProviderId,
-        this.doctorId,
-        this.doctorName,
-        this.returnQantity,
-        this.returnPrice,
-        this.returnPaid,
-        this.referrerPaidUserId,
-        this.referrerPaidUser,
-        this.discount,
-        this.discountAfterInvoice,
-        this.isBothSideDiscount,
-        this.discountPercentage,
-        this.refund,
-        this.refundApprovedBy,
-        this.refundStatus,
-        this.refundApproval,
-        this.isReturn,
-        this.refundNote,
-        this.billed,
-        this.referralFee,
-        this.referralFeePaid,
-        this.referralFeeActual,
-        this.deliveryDate,
-        this.deliveryTime,
-        this.reportFormatName,
-        this.labStatusId,
-        this.inventoryId,
-        this.modifiedBy,
-        this.prescriptionItemId,
-        this.sampleId,
-        this.sl,
-        this.patient,
-        this.patientInvoice,
-        this.prescriptionItem,
-        this.nurseStation,
-        this.receiptPayment,
-        this.patientAdmission,
-        this.imagingDetails,
-        this.patientServicePayments,
-        this.signContactId,
-        this.isgroup,
-        this.patientServiceIds,
-        this.groupItemIds,
-        this.medicalTypeId,
-        this.beforeReturnPrice,
-        this.returnBackupPrice,
-        this.fullReturnServiceListPrice,
-        this.amount,
-        this.medicalTypeName,
-        this.previousDoctorName,
-        this.hasImage,
-        this.branchId,
-        this.branch,
-        this.tenantId,
-        this.tenant,
-        this.id,
-        this.active,
-        this.userId,
-        this.hasErrors,
-        this.errorCount,
-        this.noErrors});
-
-  PatientServices.fromJson(Map<String, dynamic> json) {
-    patientID = json['PatientID'];
-    itemId = json['ItemId'];
-    invoiceID = json['InvoiceID'];
-    receiptId = json['ReceiptId'];
-    patientAdmissionId = json['PatientAdmissionId'];
-    nurseStationId = json['NurseStationId'];
-    serviceListPrice = json['ServiceListPrice'];
-    serviceActualPrice = json['ServiceActualPrice'];
-    serviceQuantity = json['ServiceQuantity'];
-    serviceDate = json['ServiceDate'];
-    referralPaidDate = json['ReferralPaidDate'];
-    modifiedDate = json['ModifiedDate'];
-    checkoutTime = json['CheckoutTime'];
-    serviceProviderId = json['ServiceProviderId'];
-    doctorId = json['DoctorId'];
-    doctorName = json['DoctorName'];
-    returnQantity = json['ReturnQantity'];
-    returnPrice = json['ReturnPrice'];
-    returnPaid = json['ReturnPaid'];
-    referrerPaidUserId = json['ReferrerPaidUserId'];
-    referrerPaidUser = json['ReferrerPaidUser'];
-    discount = json['Discount'];
-    discountAfterInvoice = json['DiscountAfterInvoice'];
-    isBothSideDiscount = json['IsBothSideDiscount'];
-    discountPercentage = json['DiscountPercentage'];
-    refund = json['Refund'];
-    refundApprovedBy = json['RefundApprovedBy'];
-    refundStatus = json['RefundStatus'];
-    refundApproval = json['RefundApproval'];
-    isReturn = json['IsReturn'];
-    refundNote = json['RefundNote'];
-    billed = json['Billed'];
-    referralFee = json['ReferralFee'];
-    referralFeePaid = json['ReferralFeePaid'];
-    referralFeeActual = json['ReferralFeeActual'];
-    deliveryDate = json['DeliveryDate'];
-    deliveryTime = json['DeliveryTime'];
-    reportFormatName = json['ReportFormatName'];
-    labStatusId = json['LabStatusId'];
-    inventoryId = json['InventoryId'];
-    modifiedBy = json['ModifiedBy'];
-    prescriptionItemId = json['PrescriptionItemId'];
-    sampleId = json['SampleId'];
-    sl = json['Sl'];
-    patient =
-    json['Patient'] != null ? new Patient.fromJson(json['Patient']) : null;
-    patientInvoice = json['PatientInvoice'];
-    nurseStation = json['NurseStation'];
-    receiptPayment = json['ReceiptPayment'];
-    patientAdmission = json['PatientAdmission'];
-    /* if (json['ImagingDetails'] != null) {
-      imagingDetails = <Null>[];
-      json['ImagingDetails'].forEach((v) {
-        imagingDetails!.add(new Null.fromJson(v));
-      });
-    }*/
-    patientServicePayments = json['PatientServicePayments'];
-    signContactId = json['SignContactId'];
-    isgroup = json['Isgroup'];
-    patientServiceIds = json['PatientServiceIds'];
-    groupItemIds = json['GroupItemIds'];
-    medicalTypeId = json['MedicalTypeId'];
-    beforeReturnPrice = json['BeforeReturnPrice'];
-    returnBackupPrice = json['ReturnBackupPrice'];
-    fullReturnServiceListPrice = json['FullReturnServiceListPrice'];
-    amount = json['Amount'];
-    medicalTypeName = json['MedicalTypeName'];
-    previousDoctorName = json['PreviousDoctorName'];
-    hasImage = json['HasImage'];
-    branchId = json['BranchId'];
-    branch = json['Branch'];
-    tenantId = json['TenantId'];
-    tenant = json['Tenant'];
-    id = json['Id'];
-    active = json['Active'];
-    userId = json['UserId'];
-    hasErrors = json['HasErrors'];
-    errorCount = json['ErrorCount'];
-    noErrors = json['NoErrors'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['PatientID'] = this.patientID;
-    data['ItemId'] = this.itemId;
-    data['InvoiceID'] = this.invoiceID;
-    data['ReceiptId'] = this.receiptId;
-    data['PatientAdmissionId'] = this.patientAdmissionId;
-    data['NurseStationId'] = this.nurseStationId;
-    data['ServiceListPrice'] = this.serviceListPrice;
-    data['ServiceActualPrice'] = this.serviceActualPrice;
-    data['ServiceQuantity'] = this.serviceQuantity;
-    data['ServiceDate'] = this.serviceDate;
-    data['ReferralPaidDate'] = this.referralPaidDate;
-    data['ModifiedDate'] = this.modifiedDate;
-    data['CheckoutTime'] = this.checkoutTime;
-    data['ServiceProviderId'] = this.serviceProviderId;
-    data['DoctorId'] = this.doctorId;
-    data['DoctorName'] = this.doctorName;
-    data['ReturnQantity'] = this.returnQantity;
-    data['ReturnPrice'] = this.returnPrice;
-    data['ReturnPaid'] = this.returnPaid;
-    data['ReferrerPaidUserId'] = this.referrerPaidUserId;
-    data['ReferrerPaidUser'] = this.referrerPaidUser;
-    data['Discount'] = this.discount;
-    data['DiscountAfterInvoice'] = this.discountAfterInvoice;
-    data['IsBothSideDiscount'] = this.isBothSideDiscount;
-    data['DiscountPercentage'] = this.discountPercentage;
-    data['Refund'] = this.refund;
-    data['RefundApprovedBy'] = this.refundApprovedBy;
-    data['RefundStatus'] = this.refundStatus;
-    data['RefundApproval'] = this.refundApproval;
-    data['IsReturn'] = this.isReturn;
-    data['RefundNote'] = this.refundNote;
-    data['Billed'] = this.billed;
-    data['ReferralFee'] = this.referralFee;
-    data['ReferralFeePaid'] = this.referralFeePaid;
-    data['ReferralFeeActual'] = this.referralFeeActual;
-    data['DeliveryDate'] = this.deliveryDate;
-    data['DeliveryTime'] = this.deliveryTime;
-    data['ReportFormatName'] = this.reportFormatName;
-    data['LabStatusId'] = this.labStatusId;
-    data['InventoryId'] = this.inventoryId;
-    data['ModifiedBy'] = this.modifiedBy;
-    data['PrescriptionItemId'] = this.prescriptionItemId;
-    data['SampleId'] = this.sampleId;
-    data['Sl'] = this.sl;
-    if (this.patient != null) {
-      data['Patient'] = this.patient!.toJson();
-    }
-    data['NurseStation'] = this.nurseStation;
-    data['ReceiptPayment'] = this.receiptPayment;
-    data['PatientAdmission'] = this.patientAdmission;
-    /*if (this.imagingDetails != null) {
-      data['ImagingDetails'] =
-          this.imagingDetails!.map((v) => v.toJson()).toList();
-    }*/
-    data['PatientServicePayments'] = this.patientServicePayments;
-    data['SignContactId'] = this.signContactId;
-    data['Isgroup'] = this.isgroup;
-    data['PatientServiceIds'] = this.patientServiceIds;
-    data['GroupItemIds'] = this.groupItemIds;
-    data['MedicalTypeId'] = this.medicalTypeId;
-    data['BeforeReturnPrice'] = this.beforeReturnPrice;
-    data['ReturnBackupPrice'] = this.returnBackupPrice;
-    data['FullReturnServiceListPrice'] = this.fullReturnServiceListPrice;
-    data['Amount'] = this.amount;
-    data['MedicalTypeName'] = this.medicalTypeName;
-    data['PreviousDoctorName'] = this.previousDoctorName;
-    data['HasImage'] = this.hasImage;
-    data['BranchId'] = this.branchId;
-    data['Branch'] = this.branch;
-    data['TenantId'] = this.tenantId;
-    data['Tenant'] = this.tenant;
-    data['Id'] = this.id;
-    data['Active'] = this.active;
-    data['UserId'] = this.userId;
-    data['HasErrors'] = this.hasErrors;
-    data['ErrorCount'] = this.errorCount;
-    data['NoErrors'] = this.noErrors;
-    return data;
-  }
-}
 class SummeryModel {
   List<Items>? items;
   int? totalItems;
@@ -776,6 +459,324 @@ class Patient {
   }
 }
 
+class PatientServices {
+  dynamic? patientID;
+  dynamic? itemId;
+  dynamic? invoiceID;
+  dynamic? receiptId;
+  dynamic? patientAdmissionId;
+  dynamic? nurseStationId;
+  dynamic? serviceListPrice;
+  dynamic? serviceActualPrice;
+  dynamic? serviceQuantity;
+  dynamic? serviceDate;
+  dynamic? referralPaidDate;
+  dynamic? modifiedDate;
+  dynamic? checkoutTime;
+  dynamic? serviceProviderId;
+  dynamic? doctorId;
+  dynamic? doctorName;
+  dynamic? returnQantity;
+  dynamic? returnPrice;
+  dynamic? returnPaid;
+  dynamic? referrerPaidUserId;
+  dynamic? referrerPaidUser;
+  dynamic? discount;
+  bool? discountAfterInvoice;
+  bool? isBothSideDiscount;
+  dynamic? discountPercentage;
+  bool? refund;
+  dynamic? refundApprovedBy;
+  dynamic? refundStatus;
+  bool? refundApproval;
+  bool? isReturn;
+  dynamic? refundNote;
+  bool? billed;
+  dynamic? referralFee;
+  bool? referralFeePaid;
+  dynamic? referralFeeActual;
+  dynamic? deliveryDate;
+  dynamic? deliveryTime;
+  dynamic? reportFormatName;
+  dynamic? labStatusId;
+  dynamic? inventoryId;
+  dynamic? modifiedBy;
+  dynamic? prescriptionItemId;
+  dynamic? sampleId;
+  dynamic? sl;
+  Item? item;
+  Patient? patient;
+  dynamic? patientInvoice;
+  dynamic? prescriptionItem;
+  dynamic? nurseStation;
+  dynamic? receiptPayment;
+  dynamic? patientAdmission;
+  List<dynamic>? imagingDetails;
+  dynamic? patientServicePayments;
+  int? signContactId;
+  bool? isgroup;
+  dynamic? patientServiceIds;
+  dynamic? groupItemIds;
+  dynamic? medicalTypeId;
+  dynamic? beforeReturnPrice;
+  dynamic? returnBackupPrice;
+  dynamic? fullReturnServiceListPrice;
+  dynamic? amount;
+  dynamic? medicalTypeName;
+  dynamic? previousDoctorName;
+  bool? hasImage;
+  dynamic? branchId;
+  dynamic? branch;
+  dynamic? tenantId;
+  dynamic? tenant;
+  dynamic? id;
+  bool? active;
+  dynamic? userId;
+  bool? hasErrors;
+  dynamic? errorCount;
+  bool? noErrors;
+
+  PatientServices(
+      {this.patientID,
+        this.itemId,
+        this.invoiceID,
+        this.receiptId,
+        this.patientAdmissionId,
+        this.nurseStationId,
+        this.serviceListPrice,
+        this.serviceActualPrice,
+        this.serviceQuantity,
+        this.serviceDate,
+        this.referralPaidDate,
+        this.modifiedDate,
+        this.checkoutTime,
+        this.serviceProviderId,
+        this.doctorId,
+        this.doctorName,
+        this.returnQantity,
+        this.returnPrice,
+        this.returnPaid,
+        this.referrerPaidUserId,
+        this.referrerPaidUser,
+        this.discount,
+        this.discountAfterInvoice,
+        this.isBothSideDiscount,
+        this.discountPercentage,
+        this.refund,
+        this.refundApprovedBy,
+        this.refundStatus,
+        this.refundApproval,
+        this.isReturn,
+        this.refundNote,
+        this.billed,
+        this.referralFee,
+        this.referralFeePaid,
+        this.referralFeeActual,
+        this.deliveryDate,
+        this.deliveryTime,
+        this.reportFormatName,
+        this.labStatusId,
+        this.inventoryId,
+        this.modifiedBy,
+        this.prescriptionItemId,
+        this.sampleId,
+        this.sl,
+        this.patient,
+        this.patientInvoice,
+        this.prescriptionItem,
+        this.nurseStation,
+        this.receiptPayment,
+        this.patientAdmission,
+        this.imagingDetails,
+        this.patientServicePayments,
+        this.signContactId,
+        this.isgroup,
+        this.patientServiceIds,
+        this.groupItemIds,
+        this.medicalTypeId,
+        this.beforeReturnPrice,
+        this.returnBackupPrice,
+        this.fullReturnServiceListPrice,
+        this.amount,
+        this.medicalTypeName,
+        this.previousDoctorName,
+        this.hasImage,
+        this.branchId,
+        this.branch,
+        this.tenantId,
+        this.tenant,
+        this.id,
+        this.active,
+        this.userId,
+        this.hasErrors,
+        this.errorCount,
+        this.noErrors});
+
+  PatientServices.fromJson(Map<String, dynamic> json) {
+    patientID = json['PatientID'];
+    itemId = json['ItemId'];
+    invoiceID = json['InvoiceID'];
+    receiptId = json['ReceiptId'];
+    patientAdmissionId = json['PatientAdmissionId'];
+    nurseStationId = json['NurseStationId'];
+    serviceListPrice = json['ServiceListPrice'];
+    serviceActualPrice = json['ServiceActualPrice'];
+    serviceQuantity = json['ServiceQuantity'];
+    serviceDate = json['ServiceDate'];
+    referralPaidDate = json['ReferralPaidDate'];
+    modifiedDate = json['ModifiedDate'];
+    checkoutTime = json['CheckoutTime'];
+    serviceProviderId = json['ServiceProviderId'];
+    doctorId = json['DoctorId'];
+    doctorName = json['DoctorName'];
+    returnQantity = json['ReturnQantity'];
+    returnPrice = json['ReturnPrice'];
+    returnPaid = json['ReturnPaid'];
+    referrerPaidUserId = json['ReferrerPaidUserId'];
+    referrerPaidUser = json['ReferrerPaidUser'];
+    discount = json['Discount'];
+    discountAfterInvoice = json['DiscountAfterInvoice'];
+    isBothSideDiscount = json['IsBothSideDiscount'];
+    discountPercentage = json['DiscountPercentage'];
+    refund = json['Refund'];
+    refundApprovedBy = json['RefundApprovedBy'];
+    refundStatus = json['RefundStatus'];
+    refundApproval = json['RefundApproval'];
+    isReturn = json['IsReturn'];
+    refundNote = json['RefundNote'];
+    billed = json['Billed'];
+    referralFee = json['ReferralFee'];
+    referralFeePaid = json['ReferralFeePaid'];
+    referralFeeActual = json['ReferralFeeActual'];
+    deliveryDate = json['DeliveryDate'];
+    deliveryTime = json['DeliveryTime'];
+    reportFormatName = json['ReportFormatName'];
+    labStatusId = json['LabStatusId'];
+    inventoryId = json['InventoryId'];
+    modifiedBy = json['ModifiedBy'];
+    prescriptionItemId = json['PrescriptionItemId'];
+    sampleId = json['SampleId'];
+    sl = json['Sl'];
+    patient =
+    json['Patient'] != null ? new Patient.fromJson(json['Patient']) : null;
+    patientInvoice = json['PatientInvoice'];
+    nurseStation = json['NurseStation'];
+    receiptPayment = json['ReceiptPayment'];
+    patientAdmission = json['PatientAdmission'];
+    /* if (json['ImagingDetails'] != null) {
+      imagingDetails = <Null>[];
+      json['ImagingDetails'].forEach((v) {
+        imagingDetails!.add(new Null.fromJson(v));
+      });
+    }*/
+    patientServicePayments = json['PatientServicePayments'];
+    signContactId = json['SignContactId'];
+    isgroup = json['Isgroup'];
+    patientServiceIds = json['PatientServiceIds'];
+    groupItemIds = json['GroupItemIds'];
+    medicalTypeId = json['MedicalTypeId'];
+    beforeReturnPrice = json['BeforeReturnPrice'];
+    returnBackupPrice = json['ReturnBackupPrice'];
+    fullReturnServiceListPrice = json['FullReturnServiceListPrice'];
+    amount = json['Amount'];
+    medicalTypeName = json['MedicalTypeName'];
+    previousDoctorName = json['PreviousDoctorName'];
+    hasImage = json['HasImage'];
+    branchId = json['BranchId'];
+    branch = json['Branch'];
+    tenantId = json['TenantId'];
+    tenant = json['Tenant'];
+    id = json['Id'];
+    active = json['Active'];
+    userId = json['UserId'];
+    hasErrors = json['HasErrors'];
+    errorCount = json['ErrorCount'];
+    noErrors = json['NoErrors'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['PatientID'] = this.patientID;
+    data['ItemId'] = this.itemId;
+    data['InvoiceID'] = this.invoiceID;
+    data['ReceiptId'] = this.receiptId;
+    data['PatientAdmissionId'] = this.patientAdmissionId;
+    data['NurseStationId'] = this.nurseStationId;
+    data['ServiceListPrice'] = this.serviceListPrice;
+    data['ServiceActualPrice'] = this.serviceActualPrice;
+    data['ServiceQuantity'] = this.serviceQuantity;
+    data['ServiceDate'] = this.serviceDate;
+    data['ReferralPaidDate'] = this.referralPaidDate;
+    data['ModifiedDate'] = this.modifiedDate;
+    data['CheckoutTime'] = this.checkoutTime;
+    data['ServiceProviderId'] = this.serviceProviderId;
+    data['DoctorId'] = this.doctorId;
+    data['DoctorName'] = this.doctorName;
+    data['ReturnQantity'] = this.returnQantity;
+    data['ReturnPrice'] = this.returnPrice;
+    data['ReturnPaid'] = this.returnPaid;
+    data['ReferrerPaidUserId'] = this.referrerPaidUserId;
+    data['ReferrerPaidUser'] = this.referrerPaidUser;
+    data['Discount'] = this.discount;
+    data['DiscountAfterInvoice'] = this.discountAfterInvoice;
+    data['IsBothSideDiscount'] = this.isBothSideDiscount;
+    data['DiscountPercentage'] = this.discountPercentage;
+    data['Refund'] = this.refund;
+    data['RefundApprovedBy'] = this.refundApprovedBy;
+    data['RefundStatus'] = this.refundStatus;
+    data['RefundApproval'] = this.refundApproval;
+    data['IsReturn'] = this.isReturn;
+    data['RefundNote'] = this.refundNote;
+    data['Billed'] = this.billed;
+    data['ReferralFee'] = this.referralFee;
+    data['ReferralFeePaid'] = this.referralFeePaid;
+    data['ReferralFeeActual'] = this.referralFeeActual;
+    data['DeliveryDate'] = this.deliveryDate;
+    data['DeliveryTime'] = this.deliveryTime;
+    data['ReportFormatName'] = this.reportFormatName;
+    data['LabStatusId'] = this.labStatusId;
+    data['InventoryId'] = this.inventoryId;
+    data['ModifiedBy'] = this.modifiedBy;
+    data['PrescriptionItemId'] = this.prescriptionItemId;
+    data['SampleId'] = this.sampleId;
+    data['Sl'] = this.sl;
+    if (this.patient != null) {
+      data['Patient'] = this.patient!.toJson();
+    }
+    data['NurseStation'] = this.nurseStation;
+    data['ReceiptPayment'] = this.receiptPayment;
+    data['PatientAdmission'] = this.patientAdmission;
+    /*if (this.imagingDetails != null) {
+      data['ImagingDetails'] =
+          this.imagingDetails!.map((v) => v.toJson()).toList();
+    }*/
+    data['PatientServicePayments'] = this.patientServicePayments;
+    data['SignContactId'] = this.signContactId;
+    data['Isgroup'] = this.isgroup;
+    data['PatientServiceIds'] = this.patientServiceIds;
+    data['GroupItemIds'] = this.groupItemIds;
+    data['MedicalTypeId'] = this.medicalTypeId;
+    data['BeforeReturnPrice'] = this.beforeReturnPrice;
+    data['ReturnBackupPrice'] = this.returnBackupPrice;
+    data['FullReturnServiceListPrice'] = this.fullReturnServiceListPrice;
+    data['Amount'] = this.amount;
+    data['MedicalTypeName'] = this.medicalTypeName;
+    data['PreviousDoctorName'] = this.previousDoctorName;
+    data['HasImage'] = this.hasImage;
+    data['BranchId'] = this.branchId;
+    data['Branch'] = this.branch;
+    data['TenantId'] = this.tenantId;
+    data['Tenant'] = this.tenant;
+    data['Id'] = this.id;
+    data['Active'] = this.active;
+    data['UserId'] = this.userId;
+    data['HasErrors'] = this.hasErrors;
+    data['ErrorCount'] = this.errorCount;
+    data['NoErrors'] = this.noErrors;
+    return data;
+  }
+}
+
 class Gender {
   dynamic? name;
   dynamic? code;
@@ -884,440 +885,6 @@ class Relationship {
     return data;
   }
 }
-
-class User {
-  dynamic? contactId;
-  dynamic? userName;
-  dynamic? password;
-  dynamic? roleId;
-  bool? isConsolidateReport;
-  bool? isHrmUser;
-  dynamic? createdDate;
-  dynamic? languageCode;
-  dynamic? loginId;
-  dynamic? patientStatusId;
-  Contact? contact;
-  List<UserPatientStatusList>? userPatientStatusList;
-  dynamic? importTenantId;
-  dynamic? importBranchId;
-  List<UserItemCategories>? userItemCategories;
-  bool? inActive;
-  dynamic? branchId;
-  dynamic? branch;
-  dynamic? tenantId;
-  dynamic? tenant;
-  dynamic? id;
-  bool? active;
-  dynamic? userId;
-  bool? hasErrors;
-  dynamic? errorCount;
-  bool? noErrors;
-
-  User(
-      {this.contactId,
-        this.userName,
-        this.password,
-        this.roleId,
-        this.isConsolidateReport,
-        this.isHrmUser,
-        this.createdDate,
-        this.languageCode,
-        this.loginId,
-        this.patientStatusId,
-        this.userPatientStatusList,
-        this.importTenantId,
-        this.importBranchId,
-        this.userItemCategories,
-        this.inActive,
-        this.branchId,
-        this.branch,
-        this.tenantId,
-        this.tenant,
-        this.id,
-        this.active,
-        this.userId,
-        this.hasErrors,
-        this.errorCount,
-        this.noErrors});
-
-  User.fromJson(Map<String, dynamic> json) {
-    contactId = json['ContactId'];
-    userName = json['UserName'];
-    password = json['Password'];
-    roleId = json['RoleId'];
-    isConsolidateReport = json['IsConsolidateReport'];
-    isHrmUser = json['IsHrmUser'];
-    createdDate = json['CreatedDate'];
-    languageCode = json['LanguageCode'];
-    loginId = json['LoginId'];
-    patientStatusId = json['PatientStatusId'];
-    if (json['UserPatientStatusList'] != null) {
-      userPatientStatusList = <UserPatientStatusList>[];
-      json['UserPatientStatusList'].forEach((v) {
-        userPatientStatusList!.add(new UserPatientStatusList.fromJson(v));
-      });
-    }
-    importTenantId = json['ImportTenantId'];
-    importBranchId = json['ImportBranchId'];
-    if (json['UserItemCategories'] != null) {
-      userItemCategories = <UserItemCategories>[];
-      json['UserItemCategories'].forEach((v) {
-        userItemCategories!.add(new UserItemCategories.fromJson(v));
-      });
-    }
-    inActive = json['InActive'];
-    branchId = json['BranchId'];
-    branch = json['Branch'];
-    tenantId = json['TenantId'];
-    tenant = json['Tenant'];
-    id = json['Id'];
-    active = json['Active'];
-    userId = json['UserId'];
-    hasErrors = json['HasErrors'];
-    errorCount = json['ErrorCount'];
-    noErrors = json['NoErrors'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ContactId'] = this.contactId;
-    data['UserName'] = this.userName;
-    data['Password'] = this.password;
-    data['RoleId'] = this.roleId;
-    data['IsConsolidateReport'] = this.isConsolidateReport;
-    data['IsHrmUser'] = this.isHrmUser;
-    data['CreatedDate'] = this.createdDate;
-    data['LanguageCode'] = this.languageCode;
-    data['LoginId'] = this.loginId;
-    data['PatientStatusId'] = this.patientStatusId;
-    if (this.userPatientStatusList != null) {
-      data['UserPatientStatusList'] =
-          this.userPatientStatusList!.map((v) => v.toJson()).toList();
-    }
-    data['ImportTenantId'] = this.importTenantId;
-    data['ImportBranchId'] = this.importBranchId;
-    if (this.userItemCategories != null) {
-      data['UserItemCategories'] =
-          this.userItemCategories!.map((v) => v.toJson()).toList();
-    }
-    data['InActive'] = this.inActive;
-    data['BranchId'] = this.branchId;
-    data['Branch'] = this.branch;
-    data['TenantId'] = this.tenantId;
-    data['Tenant'] = this.tenant;
-    data['Id'] = this.id;
-    data['Active'] = this.active;
-    data['UserId'] = this.userId;
-    data['HasErrors'] = this.hasErrors;
-    data['ErrorCount'] = this.errorCount;
-    data['NoErrors'] = this.noErrors;
-    return data;
-  }
-}
-
-class Contact {
-  dynamic? firstName;
-  dynamic? lastName;
-  dynamic? phoneNumber;
-  dynamic? genderId;
-  dynamic? street;
-  dynamic? city;
-  dynamic? zip;
-  dynamic? country;
-  dynamic? email;
-  dynamic? fax;
-  dynamic? webSite;
-  dynamic? photo;
-  dynamic? isCompany;
-  List<dynamic>? serviceProviders;
-  dynamic? serviceProviderType;
-  Gender? gender;
-  dynamic? tenantId;
-  dynamic? tenant;
-  dynamic? id;
-  bool? active;
-  dynamic? userId;
-  bool? hasErrors;
-  dynamic? errorCount;
-  bool? noErrors;
-
-  Contact(
-      {this.firstName,
-        this.lastName,
-        this.phoneNumber,
-        this.genderId,
-        this.street,
-        this.city,
-        this.zip,
-        this.country,
-        this.email,
-        this.fax,
-        this.webSite,
-        this.photo,
-        this.isCompany,
-        this.serviceProviders,
-        this.serviceProviderType,
-        this.gender,
-        this.tenantId,
-        this.tenant,
-        this.id,
-        this.active,
-        this.userId,
-        this.hasErrors,
-        this.errorCount,
-        this.noErrors});
-
-  Contact.fromJson(Map<String, dynamic> json) {
-    firstName = json['FirstName'];
-    lastName = json['LastName'];
-    phoneNumber = json['PhoneNumber'];
-    genderId = json['GenderId'];
-    street = json['Street'];
-    city = json['City'];
-    zip = json['Zip'];
-    country = json['Country'];
-    email = json['Email'];
-    fax = json['Fax'];
-    webSite = json['WebSite'];
-    photo = json['Photo'];
-    isCompany = json['IsCompany'];
-    /*  if (json['ServiceProviders'] != null) {
-      serviceProviders = <Null>[];
-      json['ServiceProviders'].forEach((v) {
-        serviceProviders!.add(new Null.fromJson(v));
-      });
-    }*/
-    serviceProviderType = json['ServiceProviderType'];
-    gender =
-    json['Gender'] != null ? new Gender.fromJson(json['Gender']) : null;
-    tenantId = json['TenantId'];
-    tenant = json['Tenant'];
-    id = json['Id'];
-    active = json['Active'];
-    userId = json['UserId'];
-    hasErrors = json['HasErrors'];
-    errorCount = json['ErrorCount'];
-    noErrors = json['NoErrors'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['FirstName'] = this.firstName;
-    data['LastName'] = this.lastName;
-    data['PhoneNumber'] = this.phoneNumber;
-    data['GenderId'] = this.genderId;
-    data['Street'] = this.street;
-    data['City'] = this.city;
-    data['Zip'] = this.zip;
-    data['Country'] = this.country;
-    data['Email'] = this.email;
-    data['Fax'] = this.fax;
-    data['WebSite'] = this.webSite;
-    data['Photo'] = this.photo;
-    data['IsCompany'] = this.isCompany;
-    /*  if (this.serviceProviders != null) {
-      data['ServiceProviders'] =
-          this.serviceProviders!.map((v) => v.toJson()).toList();
-    }*/
-    data['ServiceProviderType'] = this.serviceProviderType;
-    if (this.gender != null) {
-      data['Gender'] = this.gender!.toJson();
-    }
-    data['TenantId'] = this.tenantId;
-    data['Tenant'] = this.tenant;
-    data['Id'] = this.id;
-    data['Active'] = this.active;
-    data['UserId'] = this.userId;
-    data['HasErrors'] = this.hasErrors;
-    data['ErrorCount'] = this.errorCount;
-    data['NoErrors'] = this.noErrors;
-    return data;
-  }
-}
-
-class UserPatientStatusList {
-  dynamic? patientStatusId;
-  dynamic? userId;
-  bool? isSelected;
-  dynamic? createdDate;
-  dynamic? user;
-  PatientStatus? patientStatus;
-  dynamic? tenantId;
-  dynamic? tenant;
-  dynamic? id;
-  bool? active;
-  bool? hasErrors;
-  dynamic? errorCount;
-  bool? noErrors;
-
-  UserPatientStatusList(
-      {this.patientStatusId,
-        this.userId,
-        this.isSelected,
-        this.createdDate,
-        this.user,
-        this.patientStatus,
-        this.tenantId,
-        this.tenant,
-        this.id,
-        this.active,
-        this.hasErrors,
-        this.errorCount,
-        this.noErrors});
-
-  UserPatientStatusList.fromJson(Map<String, dynamic> json) {
-    patientStatusId = json['PatientStatusId'];
-    userId = json['UserId'];
-    isSelected = json['IsSelected'];
-    createdDate = json['CreatedDate'];
-    user = json['User'];
-    patientStatus = json['PatientStatus'] != null
-        ? new PatientStatus.fromJson(json['PatientStatus'])
-        : null;
-    tenantId = json['TenantId'];
-    tenant = json['Tenant'];
-    id = json['Id'];
-    active = json['Active'];
-    hasErrors = json['HasErrors'];
-    errorCount = json['ErrorCount'];
-    noErrors = json['NoErrors'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['PatientStatusId'] = this.patientStatusId;
-    data['UserId'] = this.userId;
-    data['IsSelected'] = this.isSelected;
-    data['CreatedDate'] = this.createdDate;
-    data['User'] = this.user;
-    if (this.patientStatus != null) {
-      data['PatientStatus'] = this.patientStatus!.toJson();
-    }
-    data['TenantId'] = this.tenantId;
-    data['Tenant'] = this.tenant;
-    data['Id'] = this.id;
-    data['Active'] = this.active;
-    data['HasErrors'] = this.hasErrors;
-    data['ErrorCount'] = this.errorCount;
-    data['NoErrors'] = this.noErrors;
-    return data;
-  }
-}
-
-class PatientStatus {
-  dynamic? name;
-  dynamic? prefix;
-  dynamic? languageCode;
-  dynamic? id;
-  bool? active;
-  dynamic? userId;
-  bool? hasErrors;
-  dynamic? errorCount;
-  bool? noErrors;
-
-  PatientStatus(
-      {this.name,
-        this.prefix,
-        this.languageCode,
-        this.id,
-        this.active,
-        this.userId,
-        this.hasErrors,
-        this.errorCount,
-        this.noErrors});
-
-  PatientStatus.fromJson(Map<String, dynamic> json) {
-    name = json['Name'];
-    prefix = json['Prefix'];
-    languageCode = json['LanguageCode'];
-    id = json['Id'];
-    active = json['Active'];
-    userId = json['UserId'];
-    hasErrors = json['HasErrors'];
-    errorCount = json['ErrorCount'];
-    noErrors = json['NoErrors'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Name'] = this.name;
-    data['Prefix'] = this.prefix;
-    data['LanguageCode'] = this.languageCode;
-    data['Id'] = this.id;
-    data['Active'] = this.active;
-    data['UserId'] = this.userId;
-    data['HasErrors'] = this.hasErrors;
-    data['ErrorCount'] = this.errorCount;
-    data['NoErrors'] = this.noErrors;
-    return data;
-  }
-}
-
-class UserItemCategories {
-  dynamic? itemCategoryId;
-  dynamic? userId;
-  bool? isSelected;
-  dynamic? createdDate;
-  dynamic? user;
-  dynamic? itemCategory;
-  dynamic? tenantId;
-  dynamic? tenant;
-  dynamic? id;
-  bool? active;
-  bool? hasErrors;
-  dynamic? errorCount;
-  bool? noErrors;
-
-  UserItemCategories(
-      {this.itemCategoryId,
-        this.userId,
-        this.isSelected,
-        this.createdDate,
-        this.user,
-        this.itemCategory,
-        this.tenantId,
-        this.tenant,
-        this.id,
-        this.active,
-        this.hasErrors,
-        this.errorCount,
-        this.noErrors});
-
-  UserItemCategories.fromJson(Map<String, dynamic> json) {
-    itemCategoryId = json['ItemCategoryId'];
-    userId = json['UserId'];
-    isSelected = json['IsSelected'];
-    createdDate = json['CreatedDate'];
-    user = json['User'];
-    itemCategory = json['ItemCategory'];
-    tenantId = json['TenantId'];
-    tenant = json['Tenant'];
-    id = json['Id'];
-    active = json['Active'];
-    hasErrors = json['HasErrors'];
-    errorCount = json['ErrorCount'];
-    noErrors = json['NoErrors'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ItemCategoryId'] = this.itemCategoryId;
-    data['UserId'] = this.userId;
-    data['IsSelected'] = this.isSelected;
-    data['CreatedDate'] = this.createdDate;
-    data['User'] = this.user;
-    data['ItemCategory'] = this.itemCategory;
-    data['TenantId'] = this.tenantId;
-    data['Tenant'] = this.tenant;
-    data['Id'] = this.id;
-    data['Active'] = this.active;
-    data['HasErrors'] = this.hasErrors;
-    data['ErrorCount'] = this.errorCount;
-    data['NoErrors'] = this.noErrors;
-    return data;
-  }
-}
-
 
 class Item {
   dynamic? name;
@@ -1772,6 +1339,440 @@ class Item {
     return data;
   }
 }
+
+class User {
+  dynamic? contactId;
+  dynamic? userName;
+  dynamic? password;
+  dynamic? roleId;
+  bool? isConsolidateReport;
+  bool? isHrmUser;
+  dynamic? createdDate;
+  dynamic? languageCode;
+  dynamic? loginId;
+  dynamic? patientStatusId;
+  Contact? contact;
+  List<UserPatientStatusList>? userPatientStatusList;
+  dynamic? importTenantId;
+  dynamic? importBranchId;
+  List<UserItemCategories>? userItemCategories;
+  bool? inActive;
+  dynamic? branchId;
+  dynamic? branch;
+  dynamic? tenantId;
+  dynamic? tenant;
+  dynamic? id;
+  bool? active;
+  dynamic? userId;
+  bool? hasErrors;
+  dynamic? errorCount;
+  bool? noErrors;
+
+  User(
+      {this.contactId,
+        this.userName,
+        this.password,
+        this.roleId,
+        this.isConsolidateReport,
+        this.isHrmUser,
+        this.createdDate,
+        this.languageCode,
+        this.loginId,
+        this.patientStatusId,
+        this.userPatientStatusList,
+        this.importTenantId,
+        this.importBranchId,
+        this.userItemCategories,
+        this.inActive,
+        this.branchId,
+        this.branch,
+        this.tenantId,
+        this.tenant,
+        this.id,
+        this.active,
+        this.userId,
+        this.hasErrors,
+        this.errorCount,
+        this.noErrors});
+
+  User.fromJson(Map<String, dynamic> json) {
+    contactId = json['ContactId'];
+    userName = json['UserName'];
+    password = json['Password'];
+    roleId = json['RoleId'];
+    isConsolidateReport = json['IsConsolidateReport'];
+    isHrmUser = json['IsHrmUser'];
+    createdDate = json['CreatedDate'];
+    languageCode = json['LanguageCode'];
+    loginId = json['LoginId'];
+    patientStatusId = json['PatientStatusId'];
+    if (json['UserPatientStatusList'] != null) {
+      userPatientStatusList = <UserPatientStatusList>[];
+      json['UserPatientStatusList'].forEach((v) {
+        userPatientStatusList!.add(new UserPatientStatusList.fromJson(v));
+      });
+    }
+    importTenantId = json['ImportTenantId'];
+    importBranchId = json['ImportBranchId'];
+    if (json['UserItemCategories'] != null) {
+      userItemCategories = <UserItemCategories>[];
+      json['UserItemCategories'].forEach((v) {
+        userItemCategories!.add(new UserItemCategories.fromJson(v));
+      });
+    }
+    inActive = json['InActive'];
+    branchId = json['BranchId'];
+    branch = json['Branch'];
+    tenantId = json['TenantId'];
+    tenant = json['Tenant'];
+    id = json['Id'];
+    active = json['Active'];
+    userId = json['UserId'];
+    hasErrors = json['HasErrors'];
+    errorCount = json['ErrorCount'];
+    noErrors = json['NoErrors'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ContactId'] = this.contactId;
+    data['UserName'] = this.userName;
+    data['Password'] = this.password;
+    data['RoleId'] = this.roleId;
+    data['IsConsolidateReport'] = this.isConsolidateReport;
+    data['IsHrmUser'] = this.isHrmUser;
+    data['CreatedDate'] = this.createdDate;
+    data['LanguageCode'] = this.languageCode;
+    data['LoginId'] = this.loginId;
+    data['PatientStatusId'] = this.patientStatusId;
+    if (this.userPatientStatusList != null) {
+      data['UserPatientStatusList'] =
+          this.userPatientStatusList!.map((v) => v.toJson()).toList();
+    }
+    data['ImportTenantId'] = this.importTenantId;
+    data['ImportBranchId'] = this.importBranchId;
+    if (this.userItemCategories != null) {
+      data['UserItemCategories'] =
+          this.userItemCategories!.map((v) => v.toJson()).toList();
+    }
+    data['InActive'] = this.inActive;
+    data['BranchId'] = this.branchId;
+    data['Branch'] = this.branch;
+    data['TenantId'] = this.tenantId;
+    data['Tenant'] = this.tenant;
+    data['Id'] = this.id;
+    data['Active'] = this.active;
+    data['UserId'] = this.userId;
+    data['HasErrors'] = this.hasErrors;
+    data['ErrorCount'] = this.errorCount;
+    data['NoErrors'] = this.noErrors;
+    return data;
+  }
+}
+
+class Contact {
+  dynamic? firstName;
+  dynamic? lastName;
+  dynamic? phoneNumber;
+  dynamic? genderId;
+  dynamic? street;
+  dynamic? city;
+  dynamic? zip;
+  dynamic? country;
+  dynamic? email;
+  dynamic? fax;
+  dynamic? webSite;
+  dynamic? photo;
+  dynamic? isCompany;
+  List<dynamic>? serviceProviders;
+  dynamic? serviceProviderType;
+  Gender? gender;
+  dynamic? tenantId;
+  dynamic? tenant;
+  dynamic? id;
+  bool? active;
+  dynamic? userId;
+  bool? hasErrors;
+  dynamic? errorCount;
+  bool? noErrors;
+
+  Contact(
+      {this.firstName,
+        this.lastName,
+        this.phoneNumber,
+        this.genderId,
+        this.street,
+        this.city,
+        this.zip,
+        this.country,
+        this.email,
+        this.fax,
+        this.webSite,
+        this.photo,
+        this.isCompany,
+        this.serviceProviders,
+        this.serviceProviderType,
+        this.gender,
+        this.tenantId,
+        this.tenant,
+        this.id,
+        this.active,
+        this.userId,
+        this.hasErrors,
+        this.errorCount,
+        this.noErrors});
+
+  Contact.fromJson(Map<String, dynamic> json) {
+    firstName = json['FirstName'];
+    lastName = json['LastName'];
+    phoneNumber = json['PhoneNumber'];
+    genderId = json['GenderId'];
+    street = json['Street'];
+    city = json['City'];
+    zip = json['Zip'];
+    country = json['Country'];
+    email = json['Email'];
+    fax = json['Fax'];
+    webSite = json['WebSite'];
+    photo = json['Photo'];
+    isCompany = json['IsCompany'];
+    /*  if (json['ServiceProviders'] != null) {
+      serviceProviders = <Null>[];
+      json['ServiceProviders'].forEach((v) {
+        serviceProviders!.add(new Null.fromJson(v));
+      });
+    }*/
+    serviceProviderType = json['ServiceProviderType'];
+    gender =
+    json['Gender'] != null ? new Gender.fromJson(json['Gender']) : null;
+    tenantId = json['TenantId'];
+    tenant = json['Tenant'];
+    id = json['Id'];
+    active = json['Active'];
+    userId = json['UserId'];
+    hasErrors = json['HasErrors'];
+    errorCount = json['ErrorCount'];
+    noErrors = json['NoErrors'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['FirstName'] = this.firstName;
+    data['LastName'] = this.lastName;
+    data['PhoneNumber'] = this.phoneNumber;
+    data['GenderId'] = this.genderId;
+    data['Street'] = this.street;
+    data['City'] = this.city;
+    data['Zip'] = this.zip;
+    data['Country'] = this.country;
+    data['Email'] = this.email;
+    data['Fax'] = this.fax;
+    data['WebSite'] = this.webSite;
+    data['Photo'] = this.photo;
+    data['IsCompany'] = this.isCompany;
+    /*  if (this.serviceProviders != null) {
+      data['ServiceProviders'] =
+          this.serviceProviders!.map((v) => v.toJson()).toList();
+    }*/
+    data['ServiceProviderType'] = this.serviceProviderType;
+    if (this.gender != null) {
+      data['Gender'] = this.gender!.toJson();
+    }
+    data['TenantId'] = this.tenantId;
+    data['Tenant'] = this.tenant;
+    data['Id'] = this.id;
+    data['Active'] = this.active;
+    data['UserId'] = this.userId;
+    data['HasErrors'] = this.hasErrors;
+    data['ErrorCount'] = this.errorCount;
+    data['NoErrors'] = this.noErrors;
+    return data;
+  }
+}
+
+class UserPatientStatusList {
+  dynamic? patientStatusId;
+  dynamic? userId;
+  bool? isSelected;
+  dynamic? createdDate;
+  dynamic? user;
+  PatientStatus? patientStatus;
+  dynamic? tenantId;
+  dynamic? tenant;
+  dynamic? id;
+  bool? active;
+  bool? hasErrors;
+  dynamic? errorCount;
+  bool? noErrors;
+
+  UserPatientStatusList(
+      {this.patientStatusId,
+        this.userId,
+        this.isSelected,
+        this.createdDate,
+        this.user,
+        this.patientStatus,
+        this.tenantId,
+        this.tenant,
+        this.id,
+        this.active,
+        this.hasErrors,
+        this.errorCount,
+        this.noErrors});
+
+  UserPatientStatusList.fromJson(Map<String, dynamic> json) {
+    patientStatusId = json['PatientStatusId'];
+    userId = json['UserId'];
+    isSelected = json['IsSelected'];
+    createdDate = json['CreatedDate'];
+    user = json['User'];
+    patientStatus = json['PatientStatus'] != null
+        ? new PatientStatus.fromJson(json['PatientStatus'])
+        : null;
+    tenantId = json['TenantId'];
+    tenant = json['Tenant'];
+    id = json['Id'];
+    active = json['Active'];
+    hasErrors = json['HasErrors'];
+    errorCount = json['ErrorCount'];
+    noErrors = json['NoErrors'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['PatientStatusId'] = this.patientStatusId;
+    data['UserId'] = this.userId;
+    data['IsSelected'] = this.isSelected;
+    data['CreatedDate'] = this.createdDate;
+    data['User'] = this.user;
+    if (this.patientStatus != null) {
+      data['PatientStatus'] = this.patientStatus!.toJson();
+    }
+    data['TenantId'] = this.tenantId;
+    data['Tenant'] = this.tenant;
+    data['Id'] = this.id;
+    data['Active'] = this.active;
+    data['HasErrors'] = this.hasErrors;
+    data['ErrorCount'] = this.errorCount;
+    data['NoErrors'] = this.noErrors;
+    return data;
+  }
+}
+
+class PatientStatus {
+  dynamic? name;
+  dynamic? prefix;
+  dynamic? languageCode;
+  dynamic? id;
+  bool? active;
+  dynamic? userId;
+  bool? hasErrors;
+  dynamic? errorCount;
+  bool? noErrors;
+
+  PatientStatus(
+      {this.name,
+        this.prefix,
+        this.languageCode,
+        this.id,
+        this.active,
+        this.userId,
+        this.hasErrors,
+        this.errorCount,
+        this.noErrors});
+
+  PatientStatus.fromJson(Map<String, dynamic> json) {
+    name = json['Name'];
+    prefix = json['Prefix'];
+    languageCode = json['LanguageCode'];
+    id = json['Id'];
+    active = json['Active'];
+    userId = json['UserId'];
+    hasErrors = json['HasErrors'];
+    errorCount = json['ErrorCount'];
+    noErrors = json['NoErrors'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Name'] = this.name;
+    data['Prefix'] = this.prefix;
+    data['LanguageCode'] = this.languageCode;
+    data['Id'] = this.id;
+    data['Active'] = this.active;
+    data['UserId'] = this.userId;
+    data['HasErrors'] = this.hasErrors;
+    data['ErrorCount'] = this.errorCount;
+    data['NoErrors'] = this.noErrors;
+    return data;
+  }
+}
+
+class UserItemCategories {
+  dynamic? itemCategoryId;
+  dynamic? userId;
+  bool? isSelected;
+  dynamic? createdDate;
+  dynamic? user;
+  dynamic? itemCategory;
+  dynamic? tenantId;
+  dynamic? tenant;
+  dynamic? id;
+  bool? active;
+  bool? hasErrors;
+  dynamic? errorCount;
+  bool? noErrors;
+
+  UserItemCategories(
+      {this.itemCategoryId,
+        this.userId,
+        this.isSelected,
+        this.createdDate,
+        this.user,
+        this.itemCategory,
+        this.tenantId,
+        this.tenant,
+        this.id,
+        this.active,
+        this.hasErrors,
+        this.errorCount,
+        this.noErrors});
+
+  UserItemCategories.fromJson(Map<String, dynamic> json) {
+    itemCategoryId = json['ItemCategoryId'];
+    userId = json['UserId'];
+    isSelected = json['IsSelected'];
+    createdDate = json['CreatedDate'];
+    user = json['User'];
+    itemCategory = json['ItemCategory'];
+    tenantId = json['TenantId'];
+    tenant = json['Tenant'];
+    id = json['Id'];
+    active = json['Active'];
+    hasErrors = json['HasErrors'];
+    errorCount = json['ErrorCount'];
+    noErrors = json['NoErrors'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ItemCategoryId'] = this.itemCategoryId;
+    data['UserId'] = this.userId;
+    data['IsSelected'] = this.isSelected;
+    data['CreatedDate'] = this.createdDate;
+    data['User'] = this.user;
+    data['ItemCategory'] = this.itemCategory;
+    data['TenantId'] = this.tenantId;
+    data['Tenant'] = this.tenant;
+    data['Id'] = this.id;
+    data['Active'] = this.active;
+    data['HasErrors'] = this.hasErrors;
+    data['ErrorCount'] = this.errorCount;
+    data['NoErrors'] = this.noErrors;
+    return data;
+  }
+}
+
 
 class ItemSpeciment {
   dynamic? name;

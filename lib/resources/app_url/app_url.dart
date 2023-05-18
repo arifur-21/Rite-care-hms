@@ -2,6 +2,7 @@
 class AppUrl{
    static const String base_url = 'https://mobileapp.rite-hms.com';
    static const String loginApi = '$base_url/auth/token';
+   static const String forgotPassword = '$base_url/Login/SendForgotPasswordURL';
 
    static const String registerPatientApi = '$base_url/Patient/CreatePatient';
    static const String registerUpdateApi = 'https://mobileapp.rite-hms.com/Patient/UpdatePatient';

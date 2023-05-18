@@ -77,7 +77,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
                         children: [
                           Text("Total Patient :"),
                           SizedBox(height: 6,),
-                          Text("${totalAmount}"),
+                          Text("${patinetListVM.patientList.value.total}"),
                         ],
                       )
                     ],
@@ -86,6 +86,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
               ),
             ),
             PatientListFilterWidget(),
+
           ],
         ),
             SizedBox(height: 20,),
@@ -106,8 +107,6 @@ class _PatientListScreenState extends State<PatientListScreen> {
                   shrinkWrap: true,
                   itemCount: patinetListVM.patientList.value.items!.length ,
                     itemBuilder: (context, index){
-                      totalAmount = patinetListVM.patientList.value.total;
-                    print("item ${patinetListVM.patientList.value.items![index].firstName}");
 
                     return
                       Column(

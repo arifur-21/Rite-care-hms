@@ -6,6 +6,8 @@ import 'package:ritecare_hms/screens/lab_test/summery/components/lab12_screen.da
 import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/widgets/reusable_icon_containter.dart';
 
+import '../../../report_screen/report_screen.dart';
+
 class ExpandableSummeryListItem extends StatefulWidget {
 
   final String? title;
@@ -15,18 +17,21 @@ class ExpandableSummeryListItem extends StatefulWidget {
   final dynamic? statusId;
   final String? status;
   bool btnVisibility = false;
-   dynamic? itemLength;
-
-   List<PatientServices>? summeryList;
+  List<PatientServices>? summeryList;
 
 
-  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed, this.statusId, this.status, this.itemLength, this.summeryList});
+
+  ExpandableSummeryListItem({this.title, this.category, this.name, this.onPressed, this.statusId, this.status, this.summeryList});
 
   @override
   State<ExpandableSummeryListItem> createState() => _ExpandableSummeryListItemState();
 }
 
 class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
+
+  String? status ='';
+  dynamic statusId;
+
   @override
   Widget build(BuildContext context) {
     return   Container(
@@ -34,6 +39,24 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
       child:  ListView.builder(
           itemCount: widget.summeryList?.length,
           itemBuilder: (context, index){
+            print("data ${widget.summeryList![index].item?.name}");
+
+            statusId = widget.summeryList![index].labStatusId;
+
+            if(statusId == 1){
+              status = "Pending";
+            }
+            else if(statusId == 2){
+              status = "Completed";
+            }
+            else if(statusId == 3){
+              status = "Delivered";
+            }
+            else if(statusId == 4){
+              status = "Collected";
+            }else{
+              status = "Printed";
+            }
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -52,6 +75,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                           Text("${widget.summeryList![index].item?.name}", style: Styles.poppinsFontBlack12_500),
                           Text("${widget.summeryList![index].doctorName}",style: Styles.poppinsFontBlack12_300),
                           Text("${widget.summeryList![index].item?.itemCategory?.name}",style: Styles.poppinsFontBlack12_300)
+
                         ],),
                       SizedBox(height: 20,),
 
@@ -75,7 +99,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                   ),
                                 ],
                               ),
-                              child: Center(child: Text("${widget.status}", style: Styles.poppinsFont12_600))
+                              child: Center(child: Text("$status", style: Styles.poppinsFont12_600))
 
                           ),
                           Row(
@@ -84,7 +108,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
 
                               InkWell(
                                 onTap: (){
-
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ReportScreen()));
                                 },
                                 child: Visibility(
                                   visible: (widget.statusId == 1) ? widget.btnVisibility = false : (widget.statusId == 4) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = true : widget.btnVisibility = false,

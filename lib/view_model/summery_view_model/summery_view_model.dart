@@ -54,9 +54,6 @@ class SummeryViewModel{
 
   /// get sample list data
   void getSampleListData({ dynamic statusId = 0})async {
-
-    print("test1");
-    print(" sample status id ${statusId}");
     setRxRequestStatus(Status.LOADING);
    await _api.getSampleListData(startDate, endDate, statusId).then((value) {
       setRxRequestStatus(Status.SUCCESS);
@@ -72,7 +69,6 @@ class SummeryViewModel{
 
   /// get summery list data
   void getSummeryListData({statusId = 0})async {
-    print(" summery status id vm ${statusId}");
     setRxRequestStatus(Status.LOADING);
     await _api.getSummeryListData(startDate, endDate, statusId).then((value) {
       setRxRequestStatus(Status.SUCCESS);

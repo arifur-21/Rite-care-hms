@@ -17,6 +17,7 @@ class LoginViewModel extends GetxController{
 
   final emailController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
+  final forgotPassEmail = TextEditingController().obs;
 
   final emailFocusNode = FocusNode().obs;
   final passwordFocusNode = FocusNode().obs;
@@ -61,4 +62,25 @@ class LoginViewModel extends GetxController{
   }
 
 
+  void forgotPassword(){
+    print(("forgot pass ${forgotPassEmail.value.text}"));
+    loading.value = true;
+    Map data ={
+      "userEmail": forgotPassEmail.value.text
+    };
+
+    _api.forgotPassword(data).then((value){
+      //Utils.snakBar("Forgot Password", "Send Email");
+      print("forgot ${value}");
+
+    }).onError((error, stackTrace) {
+      Utils.snakBar("Error", error.toString());
+      print("error occured : ${error.toString()}");
+    });
+
+  }
+
+
 }
+
+
