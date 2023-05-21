@@ -2,13 +2,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
+import 'package:ritecare_hms/resources/app_url/app_url.dart';
 
 import 'package:ritecare_hms/screens/login_screen/widgets/resueable_text_editable_widget.dart';
 import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
 import 'package:ritecare_hms/widgets/rounded_button.dart';
 
+import '../../model/login_model/send_email_model.dart';
 import '../../resources/routes/routes.dart';
+import '../../shere_preference/login_preference.dart';
 import '../../widgets/rite_image_container_widget.dart';
 import '../../widgets/rite_solutions_text_widget.dart';
 import '../languages/Widgets/language_toggle_btn_widget.dart';
@@ -23,7 +27,10 @@ class SendEmailScreen extends StatefulWidget {
 
 class _SendEmailScreenState extends State<SendEmailScreen> {
 
+  LoginPreference loginPreference = LoginPreference();
   TextEditingController sendEmailController = TextEditingController();
+  final appUrl = Get.put(AppUrl());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +93,13 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
                     title: "Submit".tr,
                     color: Styles.textGreen,
                     onTap: (){
+                 //   appUrl.sendEmail(sendEmailController.value.text);
+                      SendEmailModel  send = SendEmailModel(
+                        sendEamil: sendEmailController.value.text
+                      );
+                    loginPreference.seveSendEmail(send);
+                    print("send33 ${send}");
+
                       Get.toNamed(RoutesName.signInScreen);
                     }),
                 SizedBox(height: 30,),

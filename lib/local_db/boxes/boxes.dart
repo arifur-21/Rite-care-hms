@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../../model/local_db/search_user_model.dart';
+import '../search_user_model.dart';
 
 class Boxes{
   

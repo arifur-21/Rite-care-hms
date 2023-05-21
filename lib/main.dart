@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:ritecare_hms/model/local_db/search_user_model.dart';
+import 'package:ritecare_hms/local_db/search_user_model.dart';
 import 'package:ritecare_hms/resources/routes/routes_name.dart';
 import 'package:ritecare_hms/screens/home_screen.dart';
 import 'package:ritecare_hms/screens/languages/languages_screen.dart';

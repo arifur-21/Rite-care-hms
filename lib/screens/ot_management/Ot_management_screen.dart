@@ -66,41 +66,40 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
 
           ResuableHeader(leadingText: "Surgery", titleText: "Patient", tralingText: "Status"),
 
-      Expanded(
-        child: Obx((){
-          switch(otListVM.rxRequestStatus.value){
-            case Status.LOADING:
-              return Center(child:  CircularProgressIndicator(),);
+          Expanded(
+            child: Obx((){
+              switch(otListVM.rxRequestStatus.value){
+                case Status.LOADING:
+                  return Center(child:  CircularProgressIndicator(),);
 
-            case Status.ERROR:
-              print("error ${otListVM.error.value.toString()}");
-              return Center(child: Text(otListVM.error.value.toString()));
+                case Status.ERROR:
+                  print("error ${otListVM.error.value.toString()}");
+                  return Center(child: Text(otListVM.error.value.toString()));
 
-            case Status.SUCCESS:
-              if(otListVM.otScheduleList.value.items?.length == 0 || otListVM.otScheduleList.value.items?.length == "" || otListVM.otScheduleList.value.items?.length == null){
-                print("ot length ${otListVM.otScheduleList.value.items?.length}");
-                return Center(child: Text("Item not found, Please select date"));
-              }else{
-                return Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount:  otListVM.otScheduleList.value.items?.length,
-                      itemBuilder: (context, index){
-                        return  otListWidget(
-                            title: otListVM.otScheduleList.value.items?[index]?.item?.name,
-                            name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
-                            status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
-                            surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
-                            indexNum : index,
-                            noteId: otListVM.otScheduleList.value.items?[index]?.id
-                        );
-                      }),
-                );
+                case Status.SUCCESS:
+                  if(otListVM.otScheduleList.value.items?.length == 0 || otListVM.otScheduleList.value.items?.length == "" || otListVM.otScheduleList.value.items?.length == null){
+                    print("ot length ${otListVM.otScheduleList.value.items?.length}");
+                    return Center(child: Text("Item not found, Please select date"));
+                  }else{
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:  otListVM.otScheduleList.value.items?.length,
+                        itemBuilder: (context, index){
+                          return  otListWidget(
+                              title: otListVM.otScheduleList.value.items?[index]?.item?.name,
+                              name: otListVM.otScheduleList.value.items?[index]?.patient?.firstName,
+                              status: otListVM.otScheduleList.value.items?[index]?.surgeryStatus?.name,
+                              surgeryType:otListVM.otScheduleList.value.items?[index]?.surgeryType?.name,
+                              indexNum : index,
+                              noteId: otListVM.otScheduleList.value.items?[index]?.id,
+                             statusId:  otListVM.otScheduleList.value.items?[index].surgeryStatusId
+                          );
+                        });
+                  }
+
               }
-
-          }
-        }),
-      )
+            }),
+          )
 
 
         ],
@@ -108,40 +107,106 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
     );
   }
 
-  Widget otListWidget({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}){
+  Widget otListWidget({ dynamic statusId, dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}){
 
     return status == 'Pending' ? SizedBox()  :  Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-            height: 125,
-            width: double.infinity,
+      padding: const EdgeInsets.all(10),
+      child: Container(
+          height: 125,
+          width: double.infinity,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              border: Border.all(width: 2, color: (status == 'Started') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,),
+              borderRadius: BorderRadius.circular(6)
+
+          ),
+          child: Padding(
             padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                border: Border.all(width: 2, color: (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,),
-                borderRadius: BorderRadius.circular(6)
+            child: Column(
+              children: [
 
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(4),
-              child: Column(
-                children: [
+                SizedBox(height: 5,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(child: Text("${title}")),
+                    SizedBox(width: 10,),
+                    Expanded(child: Text("${name},")),
+                    SizedBox(width: 10,),
+                    Expanded(
+                      child: Container(
+                          height: 25,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color:  (status == 'Started') ? Colors.red : (status == 'Completed') ? Colors.green : (status == 'Pending') ? Colors.indigo : Colors.orange,
+                            border: Border(),
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 3,
+                                blurRadius: 7,
+                                offset: Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                              child: Text("${status}",
+                                  style: Styles.poppinsFont12_600))),
 
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(child: Text("${title}")),
-                      SizedBox(width: 10,),
-                      Expanded(child: Text("${name},")),
-                      SizedBox(width: 10,),
-                      Expanded(
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height:  10,
+                ),
+                Divider(height: 1, color: Colors.grey,),
+                SizedBox(
+                  height:  10,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("${surgeryType}"),
+
+                    InkWell(
+                      onTap: (){
+
+/*
+                        print("onclick");
+                        if(statusId == 101){
+                          statusId = 103;
+                          status = 'Started';
+                          print("init${statusId}");
+                          print("init${status}");
+                          dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
+                          aItem?.surgeryStatus?.name = "waite";
+                          print("items1 ${aItem}");
+                        }else if(statusId == 103){
+                          statusId = 104;
+                          status = 'Completed';
+                          print("init${statusId}");
+                          print("init${status}");
+                          dynamic aItem = otListVM.otScheduleList.value.items?[indexNum!];
+                          aItem?.surgeryStatus?.name = "Complet";
+                          print("items12 ${aItem}");
+                        }
+
+                        otListVM.operationScheduleStatus(statusId, status, noteId);*/
+
+                        _showDialog(status: status, title: title, name: name, surgeryType: surgeryType, indexNum: indexNum, noteId: noteId);
+                      },
+                      child: Visibility(
+                        visible: (status == 'Completed')? btnVisibility = false : btnVisibility = true,
                         child: Container(
-                            height: 25,
-                            width: 100,
+                            height: 30,
+                            width: 80,
                             decoration: BoxDecoration(
-                              color:  (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : (status == 'Pending') ? Colors.indigo : Colors.orange,
+                              color: (status == 'Started') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,
                               border: Border(),
-                              borderRadius: BorderRadius.circular(50),
+                              borderRadius: BorderRadius.circular(6),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
@@ -153,70 +218,27 @@ class _OtManagementScreenState extends State<OtManagementScreen> {
                               ],
                             ),
                             child: Center(
-                                child: Text("${status}",
-                                    style: Styles.poppinsFont12_600))),
-
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height:  10,
-                  ),
-                  Divider(height: 1, color: Colors.grey,),
-                  SizedBox(
-                    height:  10,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("${surgeryType}"),
-
-                      InkWell(
-                        onTap: (){
-                          _showDialog(status: status, title: title, name: name, surgeryType: surgeryType, indexNum: indexNum, noteId: noteId);
-                        },
-                        child: Visibility(
-                          visible: (status == 'Completed')? btnVisibility = false : btnVisibility = true,
-                          child: Container(
-                              height: 30,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                color: (status == 'In Progress') ? Colors.red : (status == 'Completed') ? Colors.green : Colors.orange,
-                                border: Border(),
-                                borderRadius: BorderRadius.circular(6),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 3,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                  child: Text("${(status == 'Initiated')? startBtn : (status == 'In Progress') ? endBtn : (status == 'Completed') ? btnVisibility : startBtn }",  style: TextStyle(color:Colors.white)))),
-                        ),
+                                child: Text("${(status == 'Waiting')? startBtn : (status == 'Started') ? endBtn : (status == 'Completed') ? btnVisibility : startBtn }",  style: TextStyle(color:Colors.white)))),
                       ),
+                    ),
 
-                      InkWell(
+                    InkWell(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>OtManagementDetailsScreen(
                             noteId: noteId,
                           )));
                         },
-                          child: Icon(Icons.file_copy_outlined, size: 30,))
-                    ],
-                  )
-                ],
-              ),
-            )
-        ),
-      );
+                        child: Icon(Icons.file_copy_outlined, size: 30,))
+                  ],
+                )
+              ],
+            ),
+          )
+      ),
+    );
   }
 
-Widget calanderDateWidget(){
+  Widget calanderDateWidget(){
     return Padding(
       padding: const EdgeInsets.all(6),
       child: Row(
@@ -327,9 +349,9 @@ Widget calanderDateWidget(){
         ],
       ),
     );
-}
+  }
 
-Widget otListHeaderWidget(){
+  Widget otListHeaderWidget(){
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
@@ -356,7 +378,7 @@ Widget otListHeaderWidget(){
         ),
       ),
     );
-}
+  }
 
   _showDialog  ({dynamic? title, dynamic? name, dynamic? status, dynamic? surgeryType,int? indexNum, dynamic noteId}) async {
     await showDialog(
@@ -382,35 +404,37 @@ Widget otListHeaderWidget(){
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                  Text("Do you want to change status"),
-                  SizedBox(height: 10,),
-                  Text(" ${status}", style: TextStyle(color: Colors.red,fontSize: 20, fontWeight: FontWeight.w800),),
-                ],),
+                    Text("Do you want to change status"),
+                    SizedBox(height: 10,),
+                    Text(" ${status}", style: TextStyle(color: Colors.red,fontSize: 20, fontWeight: FontWeight.w800),),
+                  ],),
               ),
 
               actions: [
                 InkWell (
-                  onTap: (){
-                    setState(() {
-                      if(status == 'Initiated'){
-                        statusId = 103;
-                        status = 'In Progress';
-                      }
-                      else if(status == 'In Progress'){
-                        statusId = 104;
-                        status = 'Completed';
+                    onTap: (){
+                      setState(() {
+                        if(status == 'Waiting'){
+                          statusId = 103;
+                          //status = 'Started';
+                          print("status Id ${statusId}");
+                        }
+                        else if(status == 'Started'){
+                          statusId = 104;
+                        //  status = 'Completed';
+                          print("status Id ${statusId}");
 
-                      }
-                      else {
-                        Text("item not found");
-                      }
+                        }
+                        else {
+                          Text("item not found");
+                        }
                         otListVM.operationScheduleStatus(statusId,status, noteId);
                         otListVM.getSchedule();
-                          });
+                      });
                       Navigator.pop(context);
 
 
-                  },
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text('Confrom', style: TextStyle(fontSize: 20),),

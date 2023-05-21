@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:ritecare_hms/model/local_db/search_user_model.dart';
+import 'package:ritecare_hms/local_db/search_user_model.dart';
 import 'package:ritecare_hms/screens/home_screen.dart';
 import 'package:ritecare_hms/screens/patient/patient_info/patient_details_update_screen.dart';
 import 'package:ritecare_hms/screens/patient_registration/register_update_screen.dart';

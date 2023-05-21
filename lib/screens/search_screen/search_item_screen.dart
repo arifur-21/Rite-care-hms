@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ritecare_hms/local_db/boxes/boxes.dart';
-import 'package:ritecare_hms/model/local_db/search_user_model.dart';
+import 'package:ritecare_hms/local_db/search_user_model.dart';
 import 'package:ritecare_hms/model/user_profile_model/user_profile_model.dart';
 import 'package:ritecare_hms/screens/patient_registration/short_form_register.dart';
 
@@ -33,8 +33,8 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
       body: Column(
         children: [
 
-          Expanded(
-            child: Obx((){
+          Expanded (
+            child: Obx ((){
               switch(searchVM.rxRequestStatus.value){
                 case Status.LOADING:
                   if(searchVM.patientListItem.value.isNotEmpty && searchVM.error.value.isNotEmpty){
@@ -70,7 +70,7 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
                     return Column(
                       children: [
                         Expanded(
-                          child: ListView.builder(
+                          child:  ListView.builder(
                               shrinkWrap: true,
                               itemCount: searchVM.patientListItem.value.length,
                               itemBuilder: (context, index){

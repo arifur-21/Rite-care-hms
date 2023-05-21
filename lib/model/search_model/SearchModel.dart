@@ -1150,6 +1150,8 @@ class SearchModel {
   dynamic? errorCount;
   dynamic? noErrors;
 
+
+
   SearchModel(
       {this.oldId,
         this.firstName,
@@ -1391,16 +1393,16 @@ class SearchModel {
 }
 
 class Gender {
-  String? name;
-  int? code;
-  String? typeName;
-  Null? user;
-  List<Null>? bloodDonors;
-  int? id;
+  dynamic? name;
+  dynamic? code;
+  dynamic? typeName;
+  dynamic? user;
+  List<dynamic>? bloodDonors;
+  dynamic? id;
   bool? active;
-  int? userId;
+  dynamic? userId;
   bool? hasErrors;
-  int? errorCount;
+  dynamic? errorCount;
   bool? noErrors;
 
   Gender(
@@ -1454,14 +1456,14 @@ class Gender {
 }
 
 class PatientPrefix {
-  String? name;
-  String? prefix;
-  String? languageCode;
-  int? id;
+  dynamic? name;
+  dynamic? prefix;
+  dynamic? languageCode;
+  dynamic? id;
   bool? active;
-  Null? userId;
+  dynamic? userId;
   bool? hasErrors;
-  int? errorCount;
+  dynamic? errorCount;
   bool? noErrors;
 
   PatientPrefix(
@@ -1503,13 +1505,13 @@ class PatientPrefix {
 }
 
 class Relationship {
-  String? name;
-  Null? languageCode;
-  int? id;
+  dynamic? name;
+  dynamic? languageCode;
+  dynamic? id;
   bool? active;
-  Null? userId;
+  dynamic? userId;
   bool? hasErrors;
-  int? errorCount;
+  dynamic? errorCount;
   bool? noErrors;
 
   Relationship(

@@ -41,13 +41,13 @@ class SearchRepository{
 
   //get sample list data
   Future<SampleTest> getSampleListData(startDate, endDate,statusId)async{
-    dynamic response = await _apiServices.getApiData('https://mobileapp.rite-hms.com/Item/GetInvoiceSampleIDByMedicalType?id=775925&statusid=${statusId}&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null');
+    dynamic response = await _apiServices.getApiData('${AppUrl.base_url}/Item/GetInvoiceSampleIDByMedicalType?id=775925&statusid=${statusId}&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null');
     return SampleTest.fromJson(response);
   }
 
   //get summery list data
   Future<SummeryModel> getSummeryListData(startDate, endDate,statusId)async{
-    dynamic response = await _apiServices.getApiData('https://mobileapp.rite-hms.com/Item/GetPatientInvoicebyMedicalType?id=0&statusid=$statusId&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null&itemId=undefined');
+    dynamic response = await _apiServices.getApiData('${AppUrl.base_url}/Item/GetPatientInvoicebyMedicalType?id=0&statusid=$statusId&medicalTypeID=62&DateStart=${startDate}&DateEnd=${endDate}&pageNumber=1&pageSize=25&invoiceId=undefined&sampleId=null&itemId=undefined');
     return SummeryModel.fromJson(response);
   }
 
@@ -61,7 +61,7 @@ class SearchRepository{
 
   List<SearchModel> searchData =[];
   Future<List<SearchModel>> getPatientByOccicialNo(String id)async{
-    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetPatientByServiceId?serviceNumber=${id}&oldData=false');
+    dynamic response = await _apiServices.getListOfApiData('${AppUrl.base_url}/Patient/GetPatientByServiceId?serviceNumber=${id}&oldData=false');
 
     searchData.clear();
     for(Map i in response){
@@ -73,7 +73,7 @@ class SearchRepository{
 
   List<SearchModel> searchDataOfficial =[];
   Future<List<SearchModel>> getPateintByCellNO(String id)async{
-    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetPatientByPhone?phoneNumber=${id}');
+    dynamic response = await _apiServices.getListOfApiData('${AppUrl.base_url}/Patient/GetPatientByPhone?phoneNumber=${id}');
     searchDataOfficial.clear();
     for(Map i in response){
       SearchModel data =  SearchModel.fromJson(i);
@@ -86,7 +86,7 @@ class SearchRepository{
   List<SearchModel> searchDataByName =[];
   Future<List<SearchModel>> getPateintByName(String id)async{
 
-    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/SearchPatientByPartialName?name=${id}&partialFullSearch=true');
+    dynamic response = await _apiServices.getListOfApiData('${AppUrl.base_url}/Patient/SearchPatientByPartialName?name=${id}&partialFullSearch=true');
     searchDataByName.clear();
     for(Map i in response){
       SearchModel data =  SearchModel.fromJson(i);

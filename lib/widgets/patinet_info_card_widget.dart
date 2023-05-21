@@ -17,6 +17,10 @@ class PatientInfoCardWidget extends StatefulWidget {
 }
 
 class _PatientInfoCardWidgetState extends State<PatientInfoCardWidget> {
+  List<String> data =[
+    'one',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -128,7 +132,7 @@ class _PatientInfoCardWidgetState extends State<PatientInfoCardWidget> {
                   InkWell(
                       onTap: (){
                         setState(() {
-                         // data.removeAt(index);
+                         data.removeAt(0);
                         });
                       },
                       child: Icon(Icons.cancel_presentation))

@@ -71,6 +71,9 @@ class _SampleListState extends State<SampleList> {
                     simpleVM.getSampleListData();
                     Navigator.pop(context);
                   },
+                  barCodeOnClick: () {
+                  //  scanQRCode();
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -214,7 +217,6 @@ class _SampleListState extends State<SampleList> {
                                     category: "Hematoloty",
                                     name: simpleVM.sampleListItem.value.items?[index].patient?.firstName,
                                       sampleList: simpleVM.sampleListItem.value.items?[index].patientServices,
-                                    barCode: getResult,
                                     onTap: (){
                                     //  scanQRCode();
                                     },

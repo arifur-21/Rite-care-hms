@@ -226,7 +226,6 @@ class _PatientSummeryScreenState extends State<PatientSummeryScreen> {
     );
   }
 
-
 }
 
 

@@ -14,10 +14,11 @@ class SampleListFilterWidget extends StatefulWidget {
   String textField1HintText;
   String textField2HintText;
   final VoidCallback  onClick;
+  final VoidCallback  barCodeOnClick;
 
 
 
-  SampleListFilterWidget({required this.textField1HintText, required this.textField2HintText, required this.onClick});
+  SampleListFilterWidget({required this.textField1HintText, required this.textField2HintText, required this.onClick, required this.barCodeOnClick});
 
   @override
   State<SampleListFilterWidget> createState() => _SampleListFilterWidgetState();
@@ -78,13 +79,16 @@ class _SampleListFilterWidgetState extends State<SampleListFilterWidget> {
                               topRight: Radius.circular(6),
                               bottomRight: Radius.circular(6))
                       ),
-                      child: Container(
-                        height: 22,
-                        width: 22,
-                        decoration: BoxDecoration(
+                      child: InkWell(
+                        onTap: widget.barCodeOnClick,
+                        child: Container(
+                          height: 22,
+                          width: 22,
+                          decoration: BoxDecoration(
 
-                          image: DecorationImage(
-                              image: AssetImage('assets/icons/qrcode.png')
+                            image: DecorationImage(
+                                image: AssetImage('assets/icons/qrcode.png')
+                            ),
                           ),
                         ),
                       )

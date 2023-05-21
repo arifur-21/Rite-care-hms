@@ -8,10 +8,9 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:ritecare_hms/screens/home_screen.dart';
 import 'package:ritecare_hms/screens/patient/patient_info/patien_info_screen.dart';
-import 'package:ritecare_hms/screens/search_screen/patient_list_id_screen.dart';
+
 import 'package:ritecare_hms/screens/search_screen/search_item_screen.dart';
-import 'package:ritecare_hms/screens/search_screen/search_patient_by_name.dart';
-import 'package:ritecare_hms/screens/search_screen/search_patient_by_offical_num.dart';
+
 import 'package:ritecare_hms/utils/screen_main_padding.dart';
 import 'package:ritecare_hms/utils/utils.dart';
 import 'package:ritecare_hms/widgets/reuseable_text_filed.dart';
@@ -20,7 +19,7 @@ import 'package:ritecare_hms/widgets/rounded_button.dart';
 import '../../data/app_exceptions.dart';
 import '../../data/response/status.dart';
 import '../../model/search_model/SearchModel.dart';
-import 'search_patient_by_cell_no.dart';
+
 import '../../shere_preference/login_preference.dart';
 import '../../utils/color_styles.dart';
 import '../../view_model/serch_view_mode/SearchViewModel.dart';
@@ -41,9 +40,7 @@ class PatientSearch extends StatefulWidget {
 }
 
 class _PatientSearchState extends State<PatientSearch> {
-  TextEditingController patientOfficialNumController = TextEditingController();
-  TextEditingController patientCellNOController = TextEditingController();
-  TextEditingController patientByNameController = TextEditingController();
+
 
  bool isCheck = false;
 
@@ -152,16 +149,16 @@ class _PatientSearchState extends State<PatientSearch> {
                 height: 15,
               ),
 
-              Form(
+              Form (
                 key: _formKey,
                   child: Column(
                     children: [
 
                       ResuableTextField(
-                          onTap: (){
+                          onTap: ()async{
 
-                            if(_formKey.currentState!.validate()){
-                              searchVM.searchPatientCellNum();
+                            if(_formKey.currentState!.validate()) {
+                            await searchVM.searchPatientCellNum();
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchItemScreen()));
                             }
                             searchVM.patienidController.value.clear();
@@ -212,10 +209,10 @@ class _PatientSearchState extends State<PatientSearch> {
                   child: Column(
                     children: [
                       ResuableTextField(
-                          onTap: (){
+                          onTap: () async{
                             if(_formKey3.currentState!.validate()){
                               searchVM.searchPatientOfficalNo();
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchItemScreen()));
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchItemScreen()));
                             }
                              searchVM.patientNameController.value.clear();
                             searchVM.patienidController.value.clear();
@@ -224,7 +221,7 @@ class _PatientSearchState extends State<PatientSearch> {
 
                           },
                           errorMsg: "Please Enter your Official Number",
-                          controllerValue: searchVM.patientOfficialNumberController.value,
+                            controllerValue: searchVM.patientOfficialNumberController.value,
                           icon: Icons.search_outlined,
                           hintText: "Patient Official Number"),
 

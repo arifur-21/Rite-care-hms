@@ -14,6 +14,7 @@ import '../model/register/rank_model.dart';
 class Repository{
 
   final _apiServices = NetworkApiServices();
+  final appUrl = AppUrl();
 
   ////////////////// post api start ////////////
   Future<dynamic> loginApi(var data)async{
@@ -61,6 +62,12 @@ class Repository{
     return response;
   }
 
+  ///  UpdatePatientServiceMarkAsPrint
+  Future<dynamic> updatePatientServiceMarkAsPrintStatus(data)async{
+    dynamic response = await _apiServices.postApiData(data, AppUrl.updatePatientServiceMarkAsPrintUrl);
+    return response;
+  }
+
   // post api  end //
 
   //////get object list data start /////////
@@ -76,13 +83,13 @@ class Repository{
   }
   /// get ot schdule
   Future<OtScheduleModel> getOtSchedule(dynamic startDate, dynamic endDate)async{
-    dynamic response = await _apiServices.getApiData("https://mobileapp.rite-hms.com/OT/GetOperationScheduleList?pageNumber=1&pageSize=150&startDate=${startDate}&endDate=${endDate}&patientId=0&isMobileApp=true");
+    dynamic response = await _apiServices.getApiData("${AppUrl.base_url}/OT/GetOperationScheduleList?pageNumber=1&pageSize=150&startDate=${startDate}&endDate=${endDate}&patientId=0&isMobileApp=true");
     return OtScheduleModel.fromJson(response);
   }
 
   //get lab test list data
   Future<LabTestListModel> getLabTestListApi(dynamic labStatus)async{
-    dynamic response = await _apiServices.getApiData('https://mobileapp.rite-hms.com/Item/GetLabItemsByMedicalType?medicalTypeID=62&pageNumber=1&pageSize=25&categoryId=${labStatus}&searchTerm=&allData=undefined&ItemId=0&isLabItemSerialNo=false');
+    dynamic response = await _apiServices.getApiData('${AppUrl.base_url}/Item/GetLabItemsByMedicalType?medicalTypeID=62&pageNumber=1&pageSize=25&categoryId=${labStatus}&searchTerm=&allData=undefined&ItemId=0&isLabItemSerialNo=false');
     return LabTestListModel.fromJson(response);
   }
 
@@ -98,7 +105,7 @@ class Repository{
    List<SurgeryNoteModel> getSurgeryNoteData = [];
   Future<List<SurgeryNoteModel>> getSurgeryNote(dynamic id)async{
 
-    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/OT/GetSurgeryNotes?surgeryId=${id}');
+    dynamic response = await _apiServices.getListOfApiData('${AppUrl.base_url}/OT/GetSurgeryNotes?surgeryId=${id}');
        getSurgeryNoteData.clear();
     for(Map i in response){
       SurgeryNoteModel data =  SurgeryNoteModel.fromJson(i);
@@ -136,7 +143,7 @@ class Repository{
   /// register rank
   List<RankModel> rankList =[];
   Future<List<RankModel>> getRankListData()async{
-    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetAllRankList?search=ma');
+    dynamic response = await _apiServices.getListOfApiData('${AppUrl.base_url}/Patient/GetAllRankList?search=ma');
     rankList.clear();
     for(Map i in response){
       RankModel data =  RankModel.fromJson(i);
@@ -148,7 +155,7 @@ class Repository{
   /// register unit
   List<RankModel> unitList =[];
   Future<List<RankModel>> getUnitListData()async{
-    dynamic response = await _apiServices.getListOfApiData('https://mobileapp.rite-hms.com/Patient/GetAllUnitList?search=am');
+    dynamic response = await _apiServices.getListOfApiData('${AppUrl.base_url}/Patient/GetAllUnitList?search=am');
     unitList.clear();
     for(Map i in response){
       RankModel data =  RankModel.fromJson(i);

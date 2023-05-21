@@ -6,6 +6,7 @@ import 'package:ritecare_hms/screens/lab_test/summery/components/lab12_screen.da
 import 'package:ritecare_hms/utils/color_styles.dart';
 import 'package:ritecare_hms/widgets/reusable_icon_containter.dart';
 
+import '../../../../view_model/summery_view_model/summery_view_model.dart';
 import '../../../report_screen/report_screen.dart';
 
 class ExpandableSummeryListItem extends StatefulWidget {
@@ -29,8 +30,11 @@ class ExpandableSummeryListItem extends StatefulWidget {
 
 class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
 
-  String? status ='';
+  final summeryVm = SummeryViewModel();
+  String? status;
   dynamic statusId;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
             }
             else if(statusId == 4){
               status = "Collected";
-            }else{
+            }else if(statusId == 5){
               status = "Printed";
             }
 
@@ -102,10 +106,35 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                               child: Center(child: Text("$status", style: Styles.poppinsFont12_600))
 
                           ),
+
                           Row(
 
                             children: [
+                              InkWell(
+                                onTap: (){
+                                 /*   _showDialog(
+                                      status1: status,
+                                      statusId1: statusId
+                                    );*/
 
+                                  setState(() {
+                                    if(statusId == 2){
+                                      statusId = 5;
+                                      status = "Printed";
+                                    }else{
+                                      status = "not found";
+                                    }
+                                  });
+
+
+                                },
+                                child: Visibility(
+                                  visible: (widget.statusId == 3) ? widget.btnVisibility = false : (widget.statusId == 2) ? widget.btnVisibility = true : (widget.statusId == 5) ? widget.btnVisibility = false : widget.btnVisibility = false,
+                                  child: Text("Mark as Printed"),
+                                ),
+                              ),
+
+                              SizedBox(width: 10,),
                               InkWell(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=> ReportScreen()));
@@ -150,9 +179,10 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                               InkWell(
                                 onTap: (){
 
+                                  _showDialog();
                                 },
                                 child: Visibility(
-                                  visible:(widget.statusId == 1) ? widget.btnVisibility = false : (widget.statusId == 2) ? widget.btnVisibility = true :  widget.btnVisibility = false,
+                                  visible:(widget.statusId == 1) ? widget.btnVisibility = false : (widget.statusId == 2) ? widget.btnVisibility = true : (widget.statusId == 5) ? widget.btnVisibility = true : widget.btnVisibility = false,
                                   child: Container(
                                     height: 25,
                                     width: 25,
@@ -172,7 +202,7 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
 
                                 },
                                 child: Visibility(
-                                  visible: (widget.statusId == 3) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = false : widget.btnVisibility = false,
+                                  visible: (widget.statusId == 3) ? widget.btnVisibility = true : (widget.statusId == 2) ? widget.btnVisibility = false : (widget.statusId == 5) ? widget.btnVisibility = true : widget.btnVisibility = false,
                                   child: Container(
                                     height: 25,
                                     width: 25,
@@ -185,9 +215,21 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
                                   ),
                                 ),
                               ),
+                              SizedBox(width: 12,),
+
+                              InkWell(
+                                onTap: (){
+                                  _showDialog();
+                                },
+                                child: Visibility(
+                                  visible: (widget.statusId == 3) ? widget.btnVisibility = false : (widget.statusId == 2) ? widget.btnVisibility = false : (widget.statusId == 5) ? widget.btnVisibility = true : widget.btnVisibility = false,
+                                  child: Text("Mark as Delivered"),
+                                ),
+                              ),
+
 
                             ],
-                          )
+                          ),
 
                         ],
                       )
@@ -198,5 +240,68 @@ class _ExpandableSummeryListItemState extends State<ExpandableSummeryListItem> {
             );
           }, ),
     );
+  }
+
+
+  _showDialog  ({ dynamic? name, dynamic? status1, dynamic? statusId1,int? indexNum, dynamic noteId}) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+
+            builder: (context, setState) => AlertDialog(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                      onTap:(){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.cancel_presentation, size: 30, color: Colors.red,)),
+                ],
+              ),
+
+              content: Container(
+                height: 120,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Do you want to change status"),
+                    SizedBox(height: 10,),
+                    Text(" ${status}", style: TextStyle(color: Colors.red,fontSize: 20, fontWeight: FontWeight.w800),),
+                  ],),
+              ),
+
+              actions: [
+                InkWell (
+                    onTap: (){
+                      setState(() {
+                        if(status1 == 'Completed'){
+                          statusId = 5;
+                          status = 'Printed';
+                          print("status ${status}");
+                        }
+
+                        else {
+                          Text("item not found");
+                        }
+                     //  summeryVm.updatePatientServiceMarkAsPrintStatus(statusId, status);
+                        //otListVM.operationScheduleStatus(statusId,status, noteId);
+                        //   otListVM.getSchedule();
+                      });
+                    //  Navigator.pop(context);
+
+
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Confrom', style: TextStyle(fontSize: 20),),
+                    )),
+
+              ],
+            ),
+          );
+        });
   }
 }

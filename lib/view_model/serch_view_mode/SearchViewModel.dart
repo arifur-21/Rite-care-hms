@@ -23,6 +23,8 @@ class SearchViewModel extends GetxController{
   final patientList = SearchModel().obs;
   final patientListItem = <SearchModel>[].obs;
 
+
+
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
@@ -53,7 +55,7 @@ class SearchViewModel extends GetxController{
 
   Future<List<SearchModel>> searchPatientCellNum()async{
     setRxRequestStatus(Status.LOADING);
-    _api.getPateintByCellNO(patientCellNoController.value.text).then((value) {
+     await _api.getPateintByCellNO(patientCellNoController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatient(value);
     }).onError((error, stackTrace){
@@ -65,9 +67,9 @@ class SearchViewModel extends GetxController{
     return patientListItem;
   }
 
-  Future<List<SearchModel>> searchPatientOfficalNo()async{
+  void searchPatientOfficalNo()async{
      setRxRequestStatus(Status.LOADING);
-   await _api.getPatientByOccicialNo(patientOfficialNumberController.value.text).then((value) {
+    await _api.getPatientByOccicialNo(patientOfficialNumberController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatient(value);
     }).onError((error, stackTrace){
@@ -76,11 +78,10 @@ class SearchViewModel extends GetxController{
       print("viewModel error cell ${error.toString()}");
     });
 
-    return patientListItem;
   }
   Future<List<SearchModel>> searchPatientByName()async{
     setRxRequestStatus(Status.LOADING);
-    _api.getPateintByName(patientNameController.value.text).then((value) {
+  await  _api.getPateintByName(patientNameController.value.text).then((value) {
       setRxRequestStatus(Status.SUCCESS);
       setPatient(value);
     }).onError((error, stackTrace){

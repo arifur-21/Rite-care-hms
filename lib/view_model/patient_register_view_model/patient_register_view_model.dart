@@ -76,7 +76,6 @@ class PatientRegisterViewModel extends GetxController{
   }
       ){
 
-print("sf${prefix}");
     Map data =
     {
       "FirstName": "Rizwan",

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:ritecare_hms/model/login_model/login_token_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/login_model/send_email_model.dart';
+
 class LoginPreference {
 
   Future<bool> saveToken(LoginTokenModel responseModel) async{
@@ -14,6 +16,27 @@ class LoginPreference {
     sp.setString('token_type', responseModel.expiresIn.toString());
 
     return true;
+  }
+
+  Future<bool> seveSendEmail(SendEmailModel sendEmailModel) async{
+
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.setString('send_email', sendEmailModel.sendEamil.toString());
+
+    return true;
+  }
+
+  Future<SendEmailModel> getSendEmail() async{
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? email =  sp.getString('send_email');
+
+    print("send email ${email}");
+
+    return SendEmailModel(
+        sendEamil: email,
+
+    );
+
   }
 
 
@@ -32,7 +55,6 @@ class LoginPreference {
         expiresIn: expire,
         tokenType: type
     );
-
 
   }
 
